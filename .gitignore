@@ -1,9 +1,9 @@
 .DS_Store
 .idea/
-.vscode/
+# .vscode/
 generated/ 
-!.vscode/extensions.json
-!.vscode/openapi.code-snippets
+# !.vscode/extensions.json
+# !.vscode/openapi.code-snippets
 node_modules/
 newman/
 newman-results.json
