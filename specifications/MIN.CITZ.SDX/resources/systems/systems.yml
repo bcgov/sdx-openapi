@@ -32,5 +32,5 @@ get:
       $ref: '../../shared/responses/unexpected_error.yml'
 
   security:
-    - openId:
+    - bearer_auth:
       - 'sdx-systems:read'
