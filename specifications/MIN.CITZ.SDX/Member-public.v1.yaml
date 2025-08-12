@@ -464,14 +464,14 @@ paths:
           $ref: 'shared/responses/unexpected_error.yml'
 
       security:
-        - openId:
+        - BearerAuth:
           - 'sdx-systems:read'
 
 components:
   securitySchemes:
-    openId:
-      type: openIdConnect
-      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+    BearerAuth:
+      type: http
+      scheme: bearer
 
 security:
-  - openId: []
+  - BearerAuth: []
