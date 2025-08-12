@@ -36,7 +36,10 @@ jobs:
       - name: Bundle
         run: |
           npm i
-          npx openapi bundle specifications/MIN.CITZ.SDX/Member-public.v1.yaml -o tests/Member-public.v1.yaml
+          for file in specifications/*/*.yaml; do
+            out="tests/$(basename "$file")"
+            npx openapi bundle "$file" -o "$out"
+          done
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
