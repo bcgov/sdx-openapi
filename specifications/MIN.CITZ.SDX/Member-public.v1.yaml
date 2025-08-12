@@ -420,8 +420,8 @@ info:
     url: https://chat.developer.gov.bc.ca/channel/aps-ops
 
 servers:
-  - url: "/"
-    description: production
+  - url: "/LAB/MIN/CITZ/SDX/MEMBER-API"
+    description: Lab environment
 
 tags:
   - name: Prototype
