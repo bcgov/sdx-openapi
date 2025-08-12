@@ -52,7 +52,7 @@ paths:
           $ref: 'shared/responses/unauthorized.yml'
 
         '404':
-          description: Resource not found
+          $ref: 'shared/responses/not_found.yml'
 
         '500':
           $ref: 'shared/responses/server_error.yml'
