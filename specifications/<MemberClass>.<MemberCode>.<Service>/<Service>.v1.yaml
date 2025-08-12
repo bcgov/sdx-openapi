@@ -15,7 +15,7 @@ info:
     url: https://chat.developer.gov.bc.ca/channel/aps-ops
 
 servers:
-  - url: "/LAB/<MemberClass>/<MemberCode>/<Service>"
+  - url: "/LAB/[MemberClass]/[MemberCode]/[Service]"
     description: Lab environment
 
 tags:
