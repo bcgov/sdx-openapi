@@ -23,4 +23,25 @@ tags:
     description: |-
       Prototype APIs are used to test new ideas and concepts. They are not intended for production use and may change frequently.
 
-paths: {}
+paths:
+  /v1/[resource_type]:
+    get:
+      tags:
+        - Prototype
+      summary: Get a resource
+      operationId: resource_type_list
+      description: |-
+        This endpoint retrieves a resource.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Resource data"
+        '404':
+          description: Resource not found
