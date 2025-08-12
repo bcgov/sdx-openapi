@@ -1,0 +1,26 @@
+openapi: 3.1.1
+
+info:
+  title: <Service Name>
+  version: "1.0"
+  description: |-
+    <Description here>
+
+  license:
+    name: Apache 2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+
+  contact:
+    name: API Programme Services Team
+    url: https://chat.developer.gov.bc.ca/channel/aps-ops
+
+servers:
+  - url: "/LAB/<MemberClass>/<MemberCode>/<Service>"
+    description: Lab environment
+
+tags:
+  - name: Prototype
+    description: |-
+      Prototype APIs are used to test new ideas and concepts. They are not intended for production use and may change frequently.
+
+paths: {}

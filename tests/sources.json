@@ -5,6 +5,11 @@
     "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
   },
   {
+    "title": "Template",
+    "slug": "template",
+    "url": "https://bcgov.github.io/sdx-openapi/<Service>.v1.yaml"
+  },
+  {
     "title": "Public Bodies Registry",
     "slug": "public-bodies",
     "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
