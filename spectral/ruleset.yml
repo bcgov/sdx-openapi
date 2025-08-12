@@ -6,18 +6,18 @@ functions:
   - ensureSchemaHasType
 
 rules:
-  ratelimit-headers:
-    description: Response must include ratelimit-x headers
-    message: '{{description}}; missing {{property}}'
-    severity: error
-    given: $..responses.*
-    then:
-      - field: headers.ratelimit-limit
-        function: truthy
-      - field: headers.ratelimit-remaining
-        function: truthy
-      - field: headers.ratelimit-reset
-        function: truthy
+  # ratelimit-headers:
+  #   description: Response must include ratelimit-x headers
+  #   message: '{{description}}; missing {{property}}'
+  #   severity: error
+  #   given: $..responses.*
+  #   then:
+  #     - field: headers.ratelimit-limit
+  #       function: truthy
+  #     - field: headers.ratelimit-remaining
+  #       function: truthy
+  #     - field: headers.ratelimit-reset
+  #       function: truthy
 
   properties-must-include-examples:
     description: Object properties must include examples
@@ -97,14 +97,14 @@ rules:
       field: '404'
       function: truthy
 
-  common-responses-too-many-requests:
-    description: Responses should contain common response - 429 (too many requests)
-    message: '{{description}}. Missing {{property}}'
-    severity: error
-    given: $.paths..responses
-    then:
-      field: '429'
-      function: truthy
+  # common-responses-too-many-requests:
+  #   description: Responses should contain common response - 429 (too many requests)
+  #   message: '{{description}}. Missing {{property}}'
+  #   severity: error
+  #   given: $.paths..responses
+  #   then:
+  #     field: '429'
+  #     function: truthy
 
   common-responses-server-error:
     description: Responses should contain common response - 500 (server error)

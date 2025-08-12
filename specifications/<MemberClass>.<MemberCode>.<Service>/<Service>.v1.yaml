@@ -24,12 +24,16 @@ tags:
       Prototype APIs are used to test new ideas and concepts. They are not intended for production use and may change frequently.
 
 paths:
-  /v1/[resource_type]:
+  /v1/[resourcetype]:
     get:
       tags:
         - Prototype
       summary: Get a resource
-      operationId: resource_type_list
+      operationId: resourcetype_list
+      security:
+        - bearer_auth:
+          - '[resourcetype]:read'
+
       description: |-
         This endpoint retrieves a resource.
       responses:
@@ -43,5 +47,15 @@ paths:
                   data:
                     type: string
                     example: "Resource data"
+
+        '401':
+          $ref: 'shared/responses/unauthorized.yml'
+
         '404':
           description: Resource not found
+
+        '500':
+          $ref: 'shared/responses/server_error.yml'
+
+        default:
+          $ref: 'shared/responses/unexpected_error.yml'
