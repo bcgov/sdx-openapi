@@ -8,35 +8,5 @@
     "title": "Template",
     "slug": "template",
     "url": "https://bcgov.github.io/sdx-openapi/<Service>.v1.yaml"
-  },
-  {
-    "title": "Public Bodies Registry",
-    "slug": "public-bodies",
-    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
-  },
-  {
-    "title": "Vehicle Registration API",
-    "slug": "vehicle-registration",
-    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
-  },
-  {
-    "title": "Property Ownership API",
-    "slug": "property-ownership",
-    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
-  },
-  {
-    "title": "MSP Status and Deps API",
-    "slug": "msp-status-and-deps",
-    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
-  },
-  {
-    "title": "Means Testing API",
-    "slug": "means-testing",
-    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
-  },
-  {
-    "title": "Income Assistance API",
-    "slug": "income-assistance",
-    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
   }
 ]
