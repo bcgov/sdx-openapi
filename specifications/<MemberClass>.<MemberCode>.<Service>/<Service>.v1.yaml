@@ -59,3 +59,9 @@ paths:
 
         default:
           $ref: 'shared/responses/unexpected_error.yml'
+
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
