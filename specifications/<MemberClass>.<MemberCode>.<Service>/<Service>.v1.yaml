@@ -3,6 +3,8 @@ openapi: 3.1.1
 info:
   title: <Service Name>
   version: "1.0"
+  summary: |-
+    This is a prototype API for the <Service Name> service. It is intended for testing and development purposes only.
   description: |-
     Description about the service and its purpose.
 
