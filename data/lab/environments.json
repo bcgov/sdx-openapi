@@ -1,0 +1,22 @@
+[
+  {
+    "code": "LAB",
+    "name": "Lab Environment"
+  },
+  {
+    "code": "SBX",
+    "name": "Sandbox Environment"
+  },
+  {
+    "code": "DEV",
+    "name": "Development Environment"
+  },
+  {
+    "code": "TST",
+    "name": "Test Environment"
+  },
+  {
+    "code": "PRD",
+    "name": "Production Environment"
+  }
+]

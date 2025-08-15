@@ -1,0 +1,44 @@
+[
+  {
+    "id": "MIN/CITZ",
+    "title": "Ministry of Citizens Services",
+    "member_class": "MIN",
+    "member_id": "CITZ"
+  },
+  {
+    "id": "PUB/ICBC",
+    "title": "Insurance Corporation of British Columbia",
+    "member_class": "PUB",
+    "member_id": "ICBC"
+  },
+  {
+    "id": "MIN/FIN",
+    "title": "Ministry of Finance",
+    "member_class": "MIN",
+    "member_id": "FIN"
+  },
+  {
+    "id": "BUS/LTSA",
+    "title": "Land Title and Survey Authority",
+    "member_class": "BUS",
+    "member_id": "LTSA"
+  },
+  {
+    "id": "BUS/HIBC",
+    "title": "Health Insurance BC",
+    "member_class": "BUS",
+    "member_id": "HIBC"
+  },
+  {
+    "id": "MIN/SDPR",
+    "title": "Ministry of Social Development and Poverty Reduction",
+    "member_class": "MIN",
+    "member_id": "SDPR"
+  },
+  {
+    "id": "TBC/ANON",
+    "title": "For Lab only - anonymous member",
+    "member_class": "TBC",
+    "member_id": "ANON"
+  }  
+]

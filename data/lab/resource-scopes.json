@@ -1,0 +1,10 @@
+[
+  {
+    "scope": "patient/Observation.r",
+    "domain": "fhir"
+  },
+  {
+    "scope": "user/VehicleOwnership.s",
+    "domain": "bcgov"
+  }
+]

@@ -51,6 +51,10 @@ jobs:
             npx openapi bundle "$file" -o "$out"
           done
 
+      - name: Copy data folder
+        run: |
+          cp -r data tests/.
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

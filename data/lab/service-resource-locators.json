@@ -1,0 +1,15 @@
+[
+  {
+    "id": "MIN/CITZ/SDX/MEMBER-API",
+    "description": "SDX Member API",
+    "type": "api",
+    "spec": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml",
+    "owner_member": "MIN/CITZ"
+  },
+  {
+    "id": "MIN/CITZ/SDX/CONSOLE",
+    "description": "SDX Console for viewing API Catalog and trying APIs",
+    "type": "app",
+    "owner_member": "MIN/CITZ"
+  }
+]

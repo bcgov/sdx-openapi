@@ -1,0 +1,42 @@
+[
+  {
+    "data_requirement": "Basic person data from BC Services Card",
+    "business_process": "Apply for Income Assistance",
+    "service_candidate": "MIN/CITZ/IIS"
+  },
+  {
+    "data_requirement": "Means testing data from FIN (threshold questions, not data access)",
+    "business_process": "Apply for Income Assistance",
+    "service_candidate": "MIN/FIN/..."
+  },
+  {
+    "data_requirement": "Property ownership data from Land Title Survey Authority (LTSA)",
+    "business_process": "Apply for Income Assistance",
+    "service_candidate": "PUB/LTSA/..."
+  },
+  {
+    "data_requirement": "Dependent relationships and MSP status from Medical Services Plan",
+    "business_process": "Apply for Income Assistance",
+    "service_candidate": "PUB/HIBC/..."
+  },
+  {
+    "data_requirement": "Vehicle ownership data from ICBC",
+    "business_process": "Apply for Income Assistance",
+    "service_candidate": "PUB/ICBC/..."
+  },
+  {
+    "data_requirement": "Income assistance data from SDPR",
+    "business_process": "Apply for Income Assistance",
+    "service_candidate": "MIN/SDPR/..."
+  },
+  {
+    "data_requirement": "Public Bodies",
+    "business_process": "SDX Onboarding",
+    "service_candidate": "MIN/CITZ/SDX"
+  },
+  {
+    "data_requirement": "Resource Scopes",
+    "business_process": "SDX Onboarding",
+    "service_candidate": "MIN/CITZ/SDX"
+  }
+]
