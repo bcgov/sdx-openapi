@@ -3,8 +3,6 @@
     "id": "0000-0000-0000-0001",
     "name": "SDX-MEMBER-API",
     "description": "SDX Member API",
-    "org": "MIN/CITZ",
-    "org_label": "Ministry of Citizens Services",
     "type": "api",
     "owner_member": "MIN/CITZ"
   },
@@ -12,8 +10,6 @@
     "id": "0000-0000-0000-0002",
     "name": "SDX-CONSOLE",
     "description": "SDX Console for viewing API Catalog and trying APIs",
-    "org": "MIN/CITZ",
-    "org_label": "Ministry of Citizens Services",
     "type": "app",
     "owner_member": "MIN/CITZ"
   }  
