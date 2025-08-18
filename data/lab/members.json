@@ -36,6 +36,12 @@
     "member_id": "SDPR"
   },
   {
+    "id": "MIN/PUKI",
+    "title": "Ministry of Puppies and Kittens",
+    "member_class": "MIN",
+    "member_id": "PUKI"
+  },
+  {
     "id": "TBC/ANON",
     "title": "For Lab only - anonymous member",
     "member_class": "TBC",

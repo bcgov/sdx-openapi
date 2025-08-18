@@ -1,10 +1,16 @@
 [
   {
     "scope": "patient/Observation.r",
-    "domain": "fhir"
+    "domain": "fhir",
+    "audiences": [
+      "MIN/MOH/HEALTH-GATEWAY-API"
+    ]
   },
   {
     "scope": "user/VehicleOwnership.s",
-    "domain": "bcgov"
+    "domain": "bcgov",
+    "audiences": [
+      "PUB/ICBC/SYSTEM"
+    ]
   }
 ]
