@@ -1,7 +1,8 @@
 [
   {
     "gatewayId": "gw-8aa16",
-    "displayName": "Puppy and Kitten APIs",
-    "sdxMember": "MIN/CITZ"
+    "displayName": "SDX Operator",
+    "sdxMember": "MIN/CITZ",
+    "sdxAccessPoint": "sdx-ap-03"
   }
 ]
