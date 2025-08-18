@@ -1,17 +1,15 @@
 [
   {
-    "id": "MIN/CITZ/SDX-MEMBER-API",
+    "id": "/LAB/MIN/CITZ/SDX-MEMBER-API",
+    "service_id": "0000-0000-0000-0001",
     "description": "SDX Member API",
-    "type": "api",
     "spec": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml",
-    "owner_member": "MIN/CITZ",
     "gateway_template": "api-service.r0",
     "upstream_url": "https://sdx-member-api-mock-api-gov-bc-ca-lab.dev.api.gov.bc.ca"
   },
   {
-    "id": "MIN/CITZ/SDX/CONSOLE",
-    "description": "SDX Console for viewing API Catalog and trying APIs",
-    "type": "app",
+    "id": "/LAB/MIN/CITZ/SDX/CONSOLE",
+    "service_id": "0000-0000-0000-0002",
     "owner_member": "MIN/CITZ",
     "gateway_template": "app-service.r0",
     "upstream_url": "http://demo-ui.1d4461-prod.src"

@@ -1,10 +1,10 @@
 [
   {
-    "comment": "Aidan has SDX Admin role for Ministry of Puppies and Kittens",
+    "comment": "Aidan has SDX Admin role for Ministry of Citizens Services",
     "sub": "lightweight-553e6eba-f4dc-48e6-96ad-5406b10cf9b2",
     "sub_label": "Aidan Cope",
     "org": "PUCA",
-    "org_label": "Ministry of Puppies and Kittens",
+    "org_label": "Ministry of Citizens Services",
     "role": "Data Custodian"
   }
 ]

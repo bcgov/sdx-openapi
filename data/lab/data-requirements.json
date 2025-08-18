@@ -32,11 +32,11 @@
   {
     "data_requirement": "Public Bodies",
     "business_process": "SDX Onboarding",
-    "service_candidate": "MIN/CITZ/SDX"
+    "service_candidate": "MIN/CITZ/SDX-MEMBER-API"
   },
   {
     "data_requirement": "Resource Scopes",
     "business_process": "SDX Onboarding",
-    "service_candidate": "MIN/CITZ/SDX"
+    "service_candidate": "MIN/CITZ/SDX-MEMBER-API"
   }
 ]
