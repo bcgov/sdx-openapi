@@ -1,8 +1,9 @@
 [
   {
-    "gatewayId": "gw-8aa16",
-    "displayName": "SDX Operator",
-    "sdxMember": "MIN/CITZ",
-    "sdxAccessPoint": "sdx-ap-03"
+    "gateway_id": "gw-8aa16",
+    "display_name": "SDX Operator",
+    "org": "MIN/CITZ",
+    "org_label": "Ministry of Citizens Services",
+    "data_plane": "sdx-ap-03"
   }
 ]
