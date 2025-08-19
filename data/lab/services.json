@@ -3,34 +3,19 @@
     "id": "0000-0000-0000-0001",
     "name": "SDX-MEMBER-API",
     "description": "SDX Member API",
+    "gateway_id": "gw-8aa16",
     "type": "api",
     "member_id": "F69D12CB0C8B48C1",
     "environments": [
       {
         "name": "LAB",
         "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml",
+        "upstream_url": "https://sdx-member-api-mock-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
         "gateway_template": "api-service.r0",
         "data_requirements": [
           "DR-00AB"
         ]
       }
     ]
-  },
-  {
-    "id": "0000-0000-0000-0002",
-    "name": "SDX-CONSOLE",
-    "description": "SDX Console for viewing API Catalog and trying APIs",
-    "type": "app",
-    "member_id": "F69D12CB0C8B48C1",
-    "environments": [
-      {
-        "name": "LAB",
-        "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml",
-        "gateway_template": "app-service.r0",
-        "data_requirements": [
-          "DR-00AB"
-        ]
-      }
-    ]
-  }  
+  }
 ]
