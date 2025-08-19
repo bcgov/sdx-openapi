@@ -2,11 +2,11 @@
   {
     "id": "DR-00AB",
     "environment": "LAB",
-    "service_id": "0000-0000-0000-0001",
+    "service_id": "0000-0000-0000-0002",
     "data_requirements": [
       "Public Bodies"
     ],
     "business_process": "SDX Onboarding",
-    "service_candidate": "0000-0000-0000-0002"
+    "service_candidate": "0000-0000-0000-0001"
   }
 ]
