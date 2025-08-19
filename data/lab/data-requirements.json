@@ -1,18 +1,18 @@
 [
   {
     "id": "DR-00AB",
-    "service_id": "0000-0000-0000-0002",
+    "service_locator": "/LAB/MIN/CITZ/SDX-CONSOLE",
     "data_requirements": [
       "Public Bodies"
     ],
     "business_process": "SDX Onboarding",
-    "service_candidate": "0000-0000-0000-0001"
+    "service_candidate": "/LAB/MIN/CITZ/SDX-MEMBER-API"
   },
   {
     "id": "DR-00AA",
-    "service_id": "0000-0000-0000-0002",
+    "service_locator": "/LAB/MIN/CITZ/SDX-MEMBER-API",
     "data_requirement": "Resource Scopes",
     "business_process": "SDX Onboarding",
-    "service_candidate": "0000-0000-0000-0001"
+    "service_candidate": "/LAB/MIN/CITZ/SDX-MEMBER-API"
   }
 ]
