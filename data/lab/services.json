@@ -17,5 +17,19 @@
         ]
       }
     ]
+  },
+  {
+    "id": "0000-0000-0000-0002",
+    "name": "SDX-CONSOLE",
+    "description": "SDX Console",
+    "gateway_id": "gw-8aa16",
+    "type": "app",
+    "member_id": "F69D12CB0C8B48C1",
+    "environments": [
+      {
+        "name": "LAB",
+        "gateway_template": "app-service.r0"
+      }
+    ]
   }
 ]
