@@ -2,19 +2,19 @@
   {
     "id": "sdx-ap-01",
     "url": "https://sdx-min-citz-sap-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
-    "owner_member": "MIN/CITZ",
+    "member_id": "F69D12CB0C8B48C1",
     "cn": "sdx-min-citz-sap.api.gov.bc.ca"
   },
   {
     "id": "sdx-ap-02",
     "url": "https://sdx-pub-icbc-sap-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
-    "owner_member": "BUS/ICBC",
+    "member_id": "F69D12CB0C8B48C1",
     "cn": "sdx-pub-icbc-sap.api.gov.bc.ca"
   },
   {
     "id": "sdx-ap-03",
     "url": "https://sdx-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
-    "owner_member": "MIN/CITZ",
+    "member_id": "F69D12CB0C8B48C1",
     "cn": "*.data.gov.bc.ca"
   }
 ]

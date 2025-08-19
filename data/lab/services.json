@@ -4,13 +4,13 @@
     "name": "SDX-MEMBER-API",
     "description": "SDX Member API",
     "type": "api",
-    "owner_member": "MIN/CITZ"
+    "member_id": "F69D12CB0C8B48C1"
   },
   {
     "id": "0000-0000-0000-0002",
     "name": "SDX-CONSOLE",
     "description": "SDX Console for viewing API Catalog and trying APIs",
     "type": "app",
-    "owner_member": "MIN/CITZ"
+    "member_id": "F69D12CB0C8B48C1"
   }  
 ]
