@@ -5,7 +5,7 @@
     "description": "SDX Member API",
     "gateway_id": "gw-8aa16",
     "type": "api",
-    "member_id": "F69D12CB0C8B48C1",
+    "member_id": "ministry-of-citizens-services",
     "environments": [
       {
         "name": "LAB",
@@ -21,7 +21,7 @@
     "description": "SDX Console",
     "gateway_id": "gw-8aa16",
     "type": "app",
-    "member_id": "F69D12CB0C8B48C1",
+    "member_id": "ministry-of-citizens-services",
     "environments": [
       {
         "name": "LAB",
