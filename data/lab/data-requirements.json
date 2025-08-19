@@ -7,6 +7,7 @@
       "Public Bodies"
     ],
     "business_process": "SDX Onboarding",
-    "service_candidate": "0000-0000-0000-0001"
+    "service_candidate": "0000-0000-0000-0001",
+    "service_candidate_approved": false
   }
 ]

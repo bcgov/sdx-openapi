@@ -11,10 +11,7 @@
         "name": "LAB",
         "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml",
         "upstream_url": "https://sdx-member-api-mock-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
-        "gateway_template": "api-service.r0",
-        "data_requirements": [
-          "DR-00AB"
-        ]
+        "gateway_template": "api-service.r0"
       }
     ]
   },
