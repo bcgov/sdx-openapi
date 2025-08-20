@@ -1,10 +1,5 @@
 [
   {
-    "title": "SDX Member API",
-    "slug": "template",
-    "url": "https://bcgov.github.io/sdx-openapi/directory-api-openapi.yaml"
-  },
-  {
     "title": "Template",
     "slug": "template",
     "url": "https://bcgov.github.io/sdx-openapi/<Service>.v1.yaml"
