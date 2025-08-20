@@ -1,12 +1,17 @@
 [
   {
     "title": "SDX Member API",
-    "slug": "sdx-lab",
-    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
+    "slug": "template",
+    "url": "https://bcgov.github.io/sdx-openapi/directory-api-openapi.yaml"
   },
   {
     "title": "Template",
     "slug": "template",
     "url": "https://bcgov.github.io/sdx-openapi/<Service>.v1.yaml"
+  },
+  {
+    "title": "SDX Member API",
+    "slug": "sdx-lab",
+    "url": "https://bcgov.github.io/sdx-openapi/Member-public.v1.yaml"
   }
 ]
