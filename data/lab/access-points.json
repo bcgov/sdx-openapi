@@ -1,0 +1,26 @@
+[
+  {
+    "id": "sdx-ap-01",
+    "url": "https://sdx-min-citz-sap-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
+    "member_id": "ministry-of-citizens-services",
+    "dn": "CN=sdx-min-citz-sap.api.gov.bc.ca"
+  },
+  {
+    "id": "sdx-ap-02",
+    "url": "https://sdx-pub-icbc-sap-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
+    "member_id": "ministry-of-citizens-services",
+    "dn": "CN=sdx-pub-icbc-sap.api.gov.bc.ca"
+  },
+  {
+    "id": "sdx-ap-03",
+    "url": "https://sdx-api-gov-bc-ca-lab.dev.api.gov.bc.ca",
+    "member_id": "ministry-of-citizens-services",
+    "dn": "CN=*.data.gov.bc.ca,O=Government of the Province of British Columbia,L=Victoria,ST=British Columbia,C=CA"
+  },
+  {
+    "id": "sdx-ap-04",
+    "url": "https://ministryofpuppiesandkittens.xyz",
+    "member_id": "ministry-of-puppies-and-kittens",
+    "dn": "CN=ministryofpuppiesandkittens.xyz"
+  },  
+]
