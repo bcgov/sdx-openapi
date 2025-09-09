@@ -24,6 +24,12 @@
     "member_id": "LTSA"
   },
   {
+    "id": "insurance-corporation-of-bc",
+    "title": "Insuration Corporation of BC",
+    "member_class": "BUS",
+    "member_id": "ICBC"
+  },
+  {
     "id": "7A626FAE14A8403A",
     "title": "For Lab only - anonymous member",
     "member_class": "TBC",
