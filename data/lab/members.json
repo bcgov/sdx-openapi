@@ -18,9 +18,15 @@
     "member_id": "PUKI"
   },
   {
+    "id": "land-title-survey-authority",
+    "title": "Land Title and Survey Authority",
+    "member_class": "BUS",
+    "member_id": "LTSA"
+  },
+  {
     "id": "7A626FAE14A8403A",
     "title": "For Lab only - anonymous member",
     "member_class": "TBC",
     "member_id": "ANON"
-  }  
+  }
 ]
