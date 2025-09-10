@@ -1,0 +1,44 @@
+[
+  {
+    "id": "PT001",
+    "name": "Squeaky Rubber Ball",
+    "category": "Interactive",
+    "pet_type": "Dog",
+    "price": 12.99,
+    "material": "Natural Rubber"
+  },
+  {
+    "id": "PT002",
+    "name": "Feather Wand Teaser",
+    "category": "Interactive",
+    "pet_type": "Cat",
+    "price": 8.50,
+    "material": "Bamboo Handle with Real Feathers"
+  },
+  {
+    "id": "PT003",
+    "name": "Rope Tug Toy",
+    "category": "Chew",
+    "pet_type": "Dog",
+    "price": 15.75,
+    "material": "Cotton Rope",
+    "size": "Large"
+  },
+  {
+    "id": "PT004",
+    "name": "Catnip Mouse",
+    "category": "Plush",
+    "pet_type": "Cat",
+    "price": 6.25,
+    "material": "Soft Fabric with Organic Catnip"
+  },
+  {
+    "id": "PT005",
+    "name": "Puzzle Treat Dispenser",
+    "category": "Mental Stimulation",
+    "pet_type": "Dog",
+    "price": 22.99,
+    "material": "BPA-Free Plastic",
+    "difficulty_level": "Intermediate"
+  }
+]
