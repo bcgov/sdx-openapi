@@ -4,9 +4,9 @@ info:
   title: Vehicle Registration
   version: "1.0"
   summary: |-
-    This is a prototype API for the ICBC Vehical Registration service. It is intended for testing and development purposes only.
+    This is a prototype API for the ICBC Vehicle Registration service. It is intended for testing and development purposes only.
   description: |-
-    Description about the service and its purpose.
+    Detailed explanation of the API for getting vehicle details.
 
   license:
     name: Apache 2.0
