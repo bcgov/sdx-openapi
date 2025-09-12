@@ -1,0 +1,59 @@
+type: object
+properties:
+  person:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "123456789"
+      name:
+        type: string
+        example: "Jane Doe"
+      address:
+        type: object
+        properties:
+          street:
+            type: string
+            example: "123 Main St"
+          city:
+            type: string
+            example: "Vancouver"
+          province:
+            type: string
+            example: "BC"
+          postalCode:
+            type: string
+            example: "V5K0A1"
+  vehicles:
+    type: array
+    items:
+      type: object
+      properties:
+        plateNumber:
+          type: string
+          example: "ABC123"
+        vin:
+          type: string
+          example: "1HGCM82633A004352"
+        make:
+          type: string
+          example: "Honda"
+        model:
+          type: string
+          example: "Accord"
+        year:
+          type: integer
+          example: 2020
+        registrationStatus:
+          type: string
+          example: "Active"
+        insurancePolicy:
+          type: object
+          properties:
+            policyNumber:
+              type: string
+              example: "ICBC-987654321"
+            effectiveDate:
+              type: string
+              format: date
+              example: "2025-01-01"

@@ -1,0 +1,67 @@
+openapi: 3.1.1
+
+info:
+  title: Vehicle Registration
+  version: "1.0"
+  summary: |-
+    This is a prototype API for the ICBC Vehical Registration service. It is intended for testing and development purposes only.
+  description: |-
+    Description about the service and its purpose.
+
+  license:
+    name: Apache 2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+
+  contact:
+    name: API Programme Services Team
+    url: https://chat.developer.gov.bc.ca/channel/aps-ops
+
+servers:
+  - url: "/DEV/BUS/ICBC/VEHICLE-REGISTRATION"
+    description: DEV environment
+
+tags:
+  - name: Vehicles
+    description: |-
+      All about Vehicle Ownership
+
+paths:
+  /v1/registration:
+    get:
+      tags:
+        - Vehicles
+      summary: Get a list of registered vehicles
+      operationId: vehicle_list
+      security:
+        - bearer_auth:
+          - 'user/VehicleOwnership.r'
+
+      description: |-
+        This endpoint retrieves a list of vehicles registered to you.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './models/vehicle-reg.yaml'
+
+        '401':
+          $ref: 'shared/responses/unauthorized.yml'
+
+        '404':
+          $ref: 'shared/responses/not_found.yml'
+
+        '500':
+          $ref: 'shared/responses/server_error.yml'
+
+        default:
+          $ref: 'shared/responses/unexpected_error.yml'
+
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
