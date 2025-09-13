@@ -61,7 +61,7 @@ paths:
     get:
       tags:
         - Prototype
-      summary: Get client IP
+      summary: Get anything back
       operationId: anything_get
       security:
         - bearer_auth:
