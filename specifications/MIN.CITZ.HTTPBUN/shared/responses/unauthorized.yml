@@ -1,0 +1,9 @@
+description: Authentication failed due to invalid credentials.
+
+content:
+  application/json:
+    schema:
+      $ref: '../models/error.yml'
+    example:
+      id: unauthorized
+      message: Unable to authenticate you.

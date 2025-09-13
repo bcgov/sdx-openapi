@@ -1,0 +1,9 @@
+description: The resource was not found.
+
+content:
+  application/json:
+    schema:
+      $ref: '../models/error.yml'
+    example:
+      id: not_found
+      message: The resource you requested could not be found.

@@ -1,0 +1,95 @@
+openapi: 3.1.1
+
+info:
+  title: HTTPBUN
+  version: "1.0"
+  summary: |-
+    Some basic HTTPBIN-type commands, like 'ip', 'headers', and 'anything'
+  description: |-
+    This API provides a set of endpoints for testing HTTP requests and responses.
+
+  license:
+    name: Apache 2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+
+  contact:
+    name: API Programme Services Team
+    url: https://chat.developer.gov.bc.ca/channel/aps-ops
+
+servers:
+  - url: "/LAB/[MemberClass]/[MemberCode]/[Service]"
+    description: Lab environment
+
+tags:
+  - name: Prototype
+    description: |-
+      Prototype APIs are used to test new ideas and concepts. They are not intended for production use and may change frequently.
+
+paths:
+  /v1/ip:
+    get:
+      tags:
+        - Prototype
+      summary: Get client IP
+      operationId: ip_get
+      security:
+        - bearer_auth:
+          - 'sdx'
+
+      description: |-
+        This endpoint retrieves a resource.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: 'shared/responses/unauthorized.yml'
+
+        '404':
+          $ref: 'shared/responses/not_found.yml'
+
+        '500':
+          $ref: 'shared/responses/server_error.yml'
+
+        default:
+          $ref: 'shared/responses/unexpected_error.yml'
+
+  /v1/anything:
+    get:
+      tags:
+        - Prototype
+      summary: Get client IP
+      operationId: anything_get
+      security:
+        - bearer_auth:
+          - 'sdx'
+
+      description: |-
+        This endpoint retrieves a resource.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: 'shared/responses/unauthorized.yml'
+
+        '404':
+          $ref: 'shared/responses/not_found.yml'
+
+        '500':
+          $ref: 'shared/responses/server_error.yml'
+
+        default:
+          $ref: 'shared/responses/unexpected_error.yml'
+
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
