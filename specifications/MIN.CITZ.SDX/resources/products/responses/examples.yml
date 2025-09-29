@@ -6,7 +6,7 @@ products_all:
         name: insurance-corporation-of-bc
       environments:
         - name: dev
-          appId: FDA8A444
+          appId: 1234ABCD
           resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
           spec:
             title: Vehicle Registration
@@ -29,3 +29,12 @@ products_all:
         permDomains:
           - sdx-pub-icbc-sap.api.gov.bc.ca
           - sdx.api.gov.bc.ca
+
+    - name: SINGLE-DIGITAL-GW
+      type: Application
+      organization:
+        name: ministry-of-citizens-services
+      environments:
+        - name: dev
+          appId: FDA8A444
+          resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
