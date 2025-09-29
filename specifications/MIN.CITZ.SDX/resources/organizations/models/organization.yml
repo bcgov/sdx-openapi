@@ -1,14 +1,6 @@
 type: object
 
 properties:
-  
-  id:
-    type: integer
-    description: >-
-      A unique number that can be used to identify and reference a specific
-      organization.
-    example: 123456
-    readOnly: true
 
   name:
     type: string
@@ -16,13 +8,35 @@ properties:
       The unique name of the organization
     example: ministry-of-citizens-services
 
+  memberClass:
+    type: string
+    description: >-
+      The member class of the organization, typically a three-letter code
+      representing the type of organization (e.g., MIN for Ministry).
+    enum:
+      - MIN
+      - BUS
+      - NGO
+      - EDU
+      - FED
+      - LCL
+      - ABT
+      - TRB
+    example: MIN
+
+  memberId:
+    type: string
+    description: >-
+      The member ID of the organization within a member class.
+    example: CITZ
+
   title:
     type: string
     description: >-
       The human-friendly title of the organization.
     example: Ministry of Citizens' Services
 
-  org_units:
+  orgUnits:
     type: array
     description: >-
       A list of the organization units (departments, teams, etc.) that are part
