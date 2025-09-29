@@ -1,11 +1,16 @@
 connections_all:
   value:
-    - consumerAppId: FDA8A444
-      providerAppId: 1234ABCD
-      status: PendingApproval
-    - consumerAppId: ABCD1234
-      providerAppId: 1234ABCD
+    - consumer:
+        appId: ABCD1234
+        resourceLocator: DEV.GOV.CITZ.SINGLE-DIGITAL-GW
+      provider:
+        appId: 1234ABCD
+        resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
       status: Active
-    - consumerAppId: 321DCBAA
-      providerAppId: 1234ABCD
-      status: Draft
+    - consumer:
+        appId: 456EFGHA
+        resourceLocator: DEV.GOV.CITZ.SINGLE-DIGITAL-GW
+      provider:
+        appId: CC32EFGH
+        resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
+      status: PendingApproval

@@ -1,12 +1,24 @@
 type: object
 
 properties:
-  consumerAppId:
-    type: string
-    example: FDA8A444
-  providerAppId:
-    type: string
-    example: 1234ABCD
+  consumer:
+    type: object
+    properties:
+      appId:
+        type: string
+        example: FDA8A444
+      resourceLocator:
+        type: string
+        example: DEV.GOV.CITZ.SINGLE-DIGITAL-GW
+  provider:
+    type: object
+    properties:
+      appId:
+        type: string
+        example: 1234ABCD
+      resourceLocator:
+        type: string
+        example: DEV.BUS.ICBC.VEHICLE-REGISTRATION
   status:
     type: string
     enum:
