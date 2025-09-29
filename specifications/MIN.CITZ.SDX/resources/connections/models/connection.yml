@@ -1,0 +1,16 @@
+type: object
+
+properties:
+  consumerAppId:
+    type: string
+    example: FDA8A444
+  providerAppId:
+    type: string
+    example: 1234ABCD
+  status:
+    type: string
+    enum:
+      - PendingApproval
+      - Active
+      - Draft
+    example: PendingApproval

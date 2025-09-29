@@ -1,0 +1,11 @@
+connections_all:
+  value:
+    - consumerAppId: FDA8A444
+      providerAppId: 1234ABCD
+      status: PendingApproval
+    - consumerAppId: ABCD1234
+      providerAppId: 1234ABCD
+      status: Active
+    - consumerAppId: 321DCBAA
+      providerAppId: 1234ABCD
+      status: Draft

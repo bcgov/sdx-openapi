@@ -1,0 +1,14 @@
+description: >-
+  The response will be an array of connection objects, each of which will contain the standard connection attributes.
+
+headers: []
+
+content:
+  application/json:
+    schema:
+      type: array
+      items:
+        $ref: '../models/connection.yml'
+    examples:
+      All:
+        $ref: 'examples.yml#/connections_all'

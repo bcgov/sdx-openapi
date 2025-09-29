@@ -1,0 +1,14 @@
+description: >-
+  The response will be an array of product objects, each of which will contain the standard product attributes.
+
+headers: []
+
+content:
+  application/json:
+    schema:
+      type: array
+      items:
+        $ref: '../models/product.yml'
+    examples:
+      All:
+        $ref: 'examples.yml#/products_all'

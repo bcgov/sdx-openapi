@@ -1,0 +1,31 @@
+products_all:
+  value:
+    - name: VEHICLE-REGISTRATION
+      type: Service
+      organization:
+        name: insurance-corporation-of-bc
+      environments:
+        - name: dev
+          appId: FDA8A444
+          resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
+          spec:
+            title: Vehicle Registration
+            version: "1.0"
+            summary: This is a prototype API for the ICBC Vehicle Registration service. It is intended for testing and development purposes only.
+            description: Detailed explanation of the API for getting vehicle details.
+            operations:
+              - operationId: vehicle_list
+                method: GET
+                path: /v1/registration
+                summary: Get a list of registered vehicles
+                scopes:
+                  - user/VehicleOwnership.r
+      gateway:
+        id: gw-bb86c
+        displayName: BB86C Gateway
+        orgUnit: digital-division
+        permDataPlane:
+          - sdx-ap
+        permDomains:
+          - sdx-pub-icbc-sap.api.gov.bc.ca
+          - sdx.api.gov.bc.ca

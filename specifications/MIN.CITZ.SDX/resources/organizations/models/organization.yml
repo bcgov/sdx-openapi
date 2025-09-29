@@ -1,0 +1,75 @@
+type: object
+
+properties:
+  
+  id:
+    type: integer
+    description: >-
+      A unique number that can be used to identify and reference a specific
+      organization.
+    example: 123456
+    readOnly: true
+
+  name:
+    type: string
+    description: >-
+      The unique name of the organization
+    example: ministry-of-citizens-services
+
+  title:
+    type: string
+    description: >-
+      The human-friendly title of the organization.
+    example: Ministry of Citizens' Services
+
+  org_units:
+    type: array
+    description: >-
+      A list of the organization units (departments, teams, etc.) that are part
+      of this organization.
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+          description: >-
+            The unique name of the organization unit within the organization.
+          example: bc-data-services
+        title:
+          type: string
+          description: >-
+            The human-friendly title of the organization unit.
+          example: BC Data Services
+      required:
+        - name
+        - title
+    example:
+      - name: bc-data-services
+        title: BC Data Services
+
+  contacts:
+    type: array
+    description: >-
+      A list of contacts for this organization, including their name, email,
+      and role.
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The full name of the contact.
+          example: Aidan Cope
+        email:
+          type: string
+          format: email
+          description: The email address of the contact.
+          example: aidan.cope@gov.bc.ca
+        role:
+          type: string
+          description: The role of the contact within the organization.
+          example: TechnicalLead
+          enum:
+            - TechnicalLead
+            - ProductOwner
+            - SecurityContact
+            - AdminContact

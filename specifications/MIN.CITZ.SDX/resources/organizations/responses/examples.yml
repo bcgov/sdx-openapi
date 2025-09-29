@@ -1,0 +1,16 @@
+organizations_all:
+  value:
+    - name: ministry-of-citizens-services
+      title: Ministry of Citizens' Services
+      member_class: MIN
+      member_id: CITZ
+      org_units:
+        - name: bc-data-services
+          title: BC Data Services
+      contacts:
+        - name: Aidan Cope
+          email: aidan.cope@gov.bc.ca
+          role: TechnicalLead
+        - name: Drew Stainton
+          email: drew.stainton@gov.bc.ca
+          role: ProductOwner
