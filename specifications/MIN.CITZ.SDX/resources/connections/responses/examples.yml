@@ -10,11 +10,11 @@ connections_all:
         - user/VehicleOwnership.r
       status: Active
     - consumer:
-        appId: 456EFGHA
+        appId: ABCD1234
         resourceLocator: DEV.GOV.CITZ.SINGLE-DIGITAL-GW
       provider:
         appId: CC32EFGH
-        resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
+        resourceLocator: DEV.MIN.SDPR.BENEFITS-SYSTEM
       scopes: 
-        - user/VehicleOwnership.r
+        - user/BenefitsProfile.r
       status: PendingApproval
