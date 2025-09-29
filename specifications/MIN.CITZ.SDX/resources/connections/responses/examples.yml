@@ -6,6 +6,8 @@ connections_all:
       provider:
         appId: 1234ABCD
         resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
+      scopes: 
+        - user/VehicleOwnership.r
       status: Active
     - consumer:
         appId: 456EFGHA
@@ -13,4 +15,6 @@ connections_all:
       provider:
         appId: CC32EFGH
         resourceLocator: DEV.BUS.ICBC.VEHICLE-REGISTRATION
+      scopes: 
+        - user/VehicleOwnership.r
       status: PendingApproval

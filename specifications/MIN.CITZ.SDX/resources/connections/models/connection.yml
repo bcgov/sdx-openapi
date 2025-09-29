@@ -10,6 +10,12 @@ properties:
       resourceLocator:
         type: string
         example: DEV.GOV.CITZ.SINGLE-DIGITAL-GW
+      scopes:
+        type: array
+        items:
+          type: string
+        example:
+          - user/VehicleOwnership.r
   provider:
     type: object
     properties:
@@ -19,6 +25,12 @@ properties:
       resourceLocator:
         type: string
         example: DEV.BUS.ICBC.VEHICLE-REGISTRATION
+      scopes:
+        type: array
+        items:
+          type: string
+        example:
+          - user/VehicleOwnership.r
   status:
     type: string
     enum:
