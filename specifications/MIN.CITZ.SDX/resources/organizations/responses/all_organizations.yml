@@ -2,8 +2,6 @@
 description: >-
   The response will be an array of organization objects, each of which will contain the standard organization attributes.
 
-headers: []
-
 content:
   application/json:
     schema:
