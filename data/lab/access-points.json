@@ -18,5 +18,11 @@
     "host": "ministryofpuppiesandkittens.xyz",
     "member_id": "ministry-of-puppies-and-kittens",
     "dn": "CN=ministryofpuppiesandkittens-xyz.clients.sdx"
+  },
+  {
+    "id": "sdx-ap-04",
+    "host": "sdx.gov.bc.ca",
+    "member_id": "ministry-of-citizens-services",
+    "dn": "CN=sdx.gov.bc.ca, O=Government of the Province of British Columbia, L=Victoria, ST=British Columbia, C=CA"
   }
 ]
