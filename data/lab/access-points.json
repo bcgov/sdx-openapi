@@ -9,6 +9,6 @@
     "id": "sdxgov",
     "host": "sdx.gov.bc.ca",
     "member_id": "ministry-of-citizens-services",
-    "dn": "CN=sdx.gov.bc.ca, O=Government of the Province of British Columbia, L=Victoria, ST=British Columbia, C=CA"
+    "dn": "CN=sdxgov.edge.sdx"
   }
 ]
