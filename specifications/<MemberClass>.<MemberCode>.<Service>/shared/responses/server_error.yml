@@ -1,9 +1,0 @@
-description: There was a server error.
-
-content:
-  application/json:
-    schema:
-      $ref: '../models/error.yml'
-    example:
-      id: server_error
-      message: Unexpected server-side error

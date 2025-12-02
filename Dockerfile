@@ -12,7 +12,7 @@ RUN npm install -g @stoplight/spectral-cli
 
 # Copy your rules (already in repo)
 WORKDIR /spectral-rules
-COPY spectral-level-1.yaml spectral-level-2.yaml spectral-level-3.yaml ./
+COPY spectral-level-1.yaml ./
 
 # Make it the default ruleset
 ENV SPECTRAL_RULESET=/spectral-rules/spectral-level-1.yaml

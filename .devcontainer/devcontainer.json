@@ -14,9 +14,7 @@
     },
     "codespaces": {
       "devcontainers": [
-        ".devcontainer/levels/level-1.json",
-        ".devcontainer/levels/level-2.json",
-        ".devcontainer/levels/level-3.json"
+        ".devcontainer/levels/level-1.json"
       ]
     }
   }
