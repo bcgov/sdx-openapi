@@ -1,0 +1,113 @@
+openapi: 3.0.3
+info:
+  title: Spectral Level Tester API
+  version: 1.2.3
+  description: This API is intentionally full of graduated violations
+  # Level-2 & Level-3 will complain: no contact, no license
+
+servers:
+  - url: https://api.example.com   # Level-3 will complain: no /v1, /v2, etc.
+
+tags:
+  - name: users
+    description: User management endpoints
+
+paths:
+  /users:
+    get:
+      summary: List users
+      # Level-1: OK (summary is optional there)
+      # Level-2 & Level-3: missing summary → error
+      operationId: listUsers
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+              example:                     # Level-3 requires valid examples
+                - id: 123
+                  name: John Doe
+                  email: john@example.com
+        '400':
+          description: Bad request
+
+  /user/{id}:          # ← not kebab-case and singular → Level-3 naming violation
+    get:
+      tags:
+        - users
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+                example: {}                 # ← intentionally empty → Level-3 error
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /admin/legacy-endpoint:
+    post:
+      deprecated: true
+      # Level-3 will require a sunset date in description
+      description: Old endpoint – will be removed eventually
+      operationId: createLegacyThing
+      responses:
+        '201':
+          description: Created
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - email
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        createdAt:
+          type: string
+          format: date-time
+      # Intentionally missing example → Level-3 will complain
+
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+
+  securitySchemes: {}      # ← empty → Level-3 will fail “must define at least one”
+
+security: []             # ← no security defined at all → Level-2 hint, Level-3 error

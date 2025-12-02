@@ -1,0 +1,12 @@
+{
+  "name": "CSIT API Governance Level 1 OAS Validation Rules",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "spectral.rulesetFile": "/workspaces/sdx-openapi/spectral-level-1.yaml",
+        "spectral.severity": "error"
+      }
+    }
+  },
+  "initializeCommand": "echo 'CSIT API Governance Level 1 OAS Validation ruleset'"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Spectral Rules - Test Chooser",
+  "build": {
+    "dockerfile": "../Dockerfile",   // ← points to Dockerfile in repo root
+    "context": ".."                  // ← gives Docker access to the whole repo
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "postCreateCommand": "npm install -g @stoplight/spectral-cli",
+  "customizations": {
+    "vscode": {
+      "extensions": ["stoplight.spectral"]
+    },
+    "codespaces": {
+      "devcontainers": [
+        ".devcontainer/levels/level-1.json",
+        ".devcontainer/levels/level-2.json",
+        ".devcontainer/levels/level-3.json"
+      ]
+    }
+  }
+}

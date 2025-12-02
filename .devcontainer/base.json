@@ -1,0 +1,14 @@
+{
+    "name": "API Service Base",
+    "image": "ghcr.io/bcgov/csit-api-governance-spectral-rules:latest",
+    "features": {
+        
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "stoplight.spectral"
+            ]
+        }
+    }
+}
