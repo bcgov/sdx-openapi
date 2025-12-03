@@ -10,5 +10,11 @@
     "host": "sdx.gov.bc.ca",
     "member_id": "ministry-of-citizens-services",
     "dn": "CN=sdxgov.edge.sdx"
+  },
+  {
+    "id": "sdpredge",
+    "host": "sdpr.min.servers.sdx",
+    "member_id": "ministry-of-social-development-and-poverty-reduction",
+    "dn": "CN=sdpr.min.servers.sdx"
   }
 ]
