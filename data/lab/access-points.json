@@ -4,20 +4,23 @@
     "host": "ministryofpuppiesandkittens.xyz",
     "member_id": "ministry-of-puppies-and-kittens",
     "dn": "CN=ministryofpuppiesandkittens-xyz.clients.sdx",
-    "endpoint_uri": "https://ministryofpuppiesandkittens.xyz"
+    "endpoint": "ministryofpuppiesandkittens.xyz",
+    "internal_endpoint": "ministryofpuppiesandkittens.xyz"
   },
   {
     "id": "sdxgov",
     "host": "sdx.gov.bc.ca",
     "member_id": "ministry-of-citizens-services",
     "dn": "CN=sdxgov.edge.sdx",
-    "endpoint_uri": "https://sdx.gov.bc.ca"
+    "endpoint": "sdx.gov.bc.ca",
+    "internal_endpoint": "sdx.gov.bc.ca"
   },
   {
     "id": "sdpredge",
     "host": "sdpr.min.servers.sdx",
     "member_id": "ministry-of-social-development-and-poverty-reduction",
     "dn": "CN=sdpr.min.servers.sdx",
-    "endpoint_uri": "https://10.99.10.15:8443"
+    "endpoint": "10.99.10.15:8443",
+    "internal_endpoint": "sdx-edge-sdpredge.cc9a8a-tools.svc.cluster.local"
   }
 ]
