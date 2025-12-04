@@ -3,18 +3,21 @@
     "id": "puppykitten",
     "host": "ministryofpuppiesandkittens.xyz",
     "member_id": "ministry-of-puppies-and-kittens",
-    "dn": "CN=ministryofpuppiesandkittens-xyz.clients.sdx"
+    "dn": "CN=ministryofpuppiesandkittens-xyz.clients.sdx",
+    "endpoint_url": "https://ministryofpuppiesandkittens.xyz"
   },
   {
     "id": "sdxgov",
     "host": "sdx.gov.bc.ca",
     "member_id": "ministry-of-citizens-services",
-    "dn": "CN=sdxgov.edge.sdx"
+    "dn": "CN=sdxgov.edge.sdx",
+    "endpoint_url": "https://sdx.gov.bc.ca"
   },
   {
     "id": "sdpredge",
     "host": "sdpr.min.servers.sdx",
     "member_id": "ministry-of-social-development-and-poverty-reduction",
-    "dn": "CN=sdpr.min.servers.sdx"
+    "dn": "CN=sdpr.min.servers.sdx",
+    "endpoint_url": "https://10.99.10.15:8443"
   }
 ]
