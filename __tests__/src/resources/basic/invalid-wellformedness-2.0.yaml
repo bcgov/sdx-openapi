@@ -1,0 +1,143 @@
+swagger: "2.0"
+# info-description
+info:
+  # no-eval-in-markdown
+  # no-script-tags-in-markdown
+  title: Example API with wellformdness violations <script>alert("You are Hacked");</script> eval(
+  version: "1.0.0"
+
+# openapi-tags-alphabetical
+tags:
+  - name: "Badger"
+  - name: "Aardvark"
+  - name: "Moose"
+  # openapi-tags-uniqueness
+  - name: "Moose"
+
+paths:
+  # path-not-include-query
+  # path-params 1. The status parameter must be defined.
+  /users?status={status}: 
+    # operation-description
+    get:
+      operationId: get-users
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+              # no-$ref-siblings
+              example:                
+                id: 123
+                status: ACTIVE
+      tags:
+        - Badger
+
+    post:
+      # operation-operationId-unique
+      operationId: get-users   
+      description: Create a User   
+      consumes:
+        - application/json
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/CreateUserRequest"
+        # operation-parameters 3. Operation must have only one in: body parameter. (OpenAPI v2.0)
+        - in: body 
+          name: other-body
+          required: true
+          schema:
+            $ref: "#/definitions/CreateUserRequest"
+        # operation-parameters 2. Operation cannot have both in: body and in: formData parameters. (OpenAPI v2.0)
+        - in: formData 
+          name: status
+          required: true
+          type: string
+          enum: [ACTIVE, INACTIVE]
+      # operation-success-response This is only triggered if there is at lease on response defined, hence the 418
+      responses:
+        "418":
+          description: teapot
+      tags:
+        - Badger
+
+  # path-declarations-must-exist
+  # path-params 2. Parameter must be used in the path string.
+  # path-keys-no-trailing-slash
+  /users/{}/: 
+    get:
+      # operation-operationId-valid-in-url
+      operationId: get user
+      description: Get a User by ID    
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          format: int64
+          minimum: 1
+        # operation-parameters 1. Operation must have unique name + in parameters.
+        - name: id                
+          in: path
+          required: true
+          type: integer
+          format: int64
+          minimum: 1
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: "#/definitions/User"
+      tags:
+        - Badger
+    # operation-operationId
+    delete:
+      description: Delete a User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '201':
+
+definitions:
+  User:
+    type: object
+    required:
+      - id
+      - status
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      created:
+        # oas2-anyOf
+        anyOf:
+          - type: string
+            format: date-time
+          - type: integer
+      status:
+        type: string
+        enum:
+          - ACTIVE
+          - INACTIVE
+          # duplicated-entry-in-enum
+          - ACTIVE 
+          # Enum values should respect the type specifier.
+          - 1
+      roles:
+        # array-items
+        type: array

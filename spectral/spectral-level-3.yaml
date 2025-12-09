@@ -1,0 +1,60 @@
+extends: [[spectral:oas, all]]           # absolutely everything turned on
+
+rules:
+  # Make the already-strict rules even stricter
+  info-contact: error
+  info-license: error
+  info-description: error
+  operation-description: error
+  operation-summary: error
+  operation-operationId-unique:
+    description: operationId must be unique across the entire API
+    given: $
+    severity: error
+    then:
+      field: operationId
+      function: unique
+
+  # Versioning & deprecation
+  version-bump-required:
+    description: APIs must be versioned in the form /v{number} or info.version must follow SemVer
+    given: $.servers[*].url
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: /v[0-9]+/
+
+  operation-deprecated:
+    description: Deprecated operations must have a sunset date in description
+    given: $.paths[*].*.deprecated
+    severity: error
+    when:
+      function: truthy
+    then:
+      field: ../description
+      function: pattern
+      functionOptions:
+        match: (?i)sunset|removal|eol|deprecated.*20[0-9]{2}
+
+  # Security hardening
+  security-schemes-defined:
+    description: Must define at least one OAuth2 or API-key security scheme
+    given: $.components.securitySchemes
+    severity: error
+    then:
+      function: truthy
+
+  # Response examples for every media type
+  oas3-valid-media-example: error
+  oas3-valid-schema-example: error
+
+  # No $ref siblings (common source of confusion)
+  no-$ref-siblings:
+    description: Properties next to $ref are ignored – forbidden
+    given: $..[?(@.$ref)]
+    severity: error
+    then:
+      function: ref-siblings
+      functionOptions:
+        disallow: true

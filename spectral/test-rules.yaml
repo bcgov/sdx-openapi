@@ -1,0 +1,23 @@
+extends: spectral:oas
+
+rules:
+  info-description-present:
+    description: API Info block should have a description.
+    message: API `info.description` is missing.
+    given: '$.info'
+    severity: error
+    formats: [oas3]
+    then:
+      field: description
+      function: truthy
+
+  operation-id-kebab-case:
+    description: Operation IDs should be kebab-case.
+    message: "Operation ID `{{value}}` is not kebab-case. Example: `list-pets`."
+    given: $..operationId
+    severity: error
+    formats: [oas3]
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-z0-9-]*$'

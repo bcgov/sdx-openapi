@@ -1,0 +1,107 @@
+extends: spectral:oas
+
+rules:
+# Well-formedness rules
+  # Each value of an enum must be different from one another.
+  duplicated-entry-in-enum: error
+  # $ref siblings are ignored before 3.1.0
+  no-$ref-siblings: error
+  # Every operation must have a unique operationId.
+  operation-operationId-unique: error
+  # Operation ID must avoid non-URL-safe characters
+  operation-operationId-valid-in-url: error
+  # Operation parameters are unique and non-repeating
+  # 1. Operation must have unique name + in parameters.
+  # 2. Operation cannot have both in: body and in: formData parameters. (OpenAPI v2.0)
+  # 3. Operation must have only one in: body parameter. (OpenAPI v2.0)
+  operation-parameters: error
+  # Path parameter declarations cannot be empty, ex./given/{} is invalid.
+  path-declarations-must-exist: error
+  # Don't put query string items in the path, they belong in parameters.
+  path-not-include-query: error
+  # Path parameters are correct and valid.
+  # 1. For every parameter referenced in the path string (i.e: /users/{userId}), the parameter must be defined in either path.parameters, 
+  #    or operation.parameters objects (non-standard HTTP operations will be silently ignored.)
+  # 2. Every path.parameters and operation.parameters parameter must be used in the path string.
+  path-params: error
+  # Enum values should respect the type specifier.
+  typed-enum: error
+  # OpenAPI v3 keyword anyOf detected in OpenAPI v2 document.
+  oas2-anyOf: error
+  
+# Required Content
+
+# Recommended Content
+  # OpenAPI object info description must be present and non-empty string.
+  info-description: warn 
+  # No injecting eval() JavaScript statements
+  no-eval-in-markdown: warn 
+  # No injecting script tags
+  no-script-tags-in-markdown: warn 
+  # OpenAPI object should have alphabetical tags. 
+  openapi-tags-alphabetical: warn
+  # OpenAPI object must not have duplicated tag names (identifiers).
+  openapi-tags-uniqueness: warn
+  # Operation must have a description
+  operation-description: warn 
+  # Operation must have an operationId
+  operation-operationId: warn 
+  # Operation must have at least one 2xx or 3xx response.
+  operation-success-response: warn 
+  # Keep trailing slashes off of paths, as it can causes ambiguity.
+  path-keys-no-trailing-slash: warn
+  # Schemas with type: array, require a sibling items field.
+  array-items: warn
+
+# Optional Content
+  # Info object should contain contact object.
+  info-contact: off
+  # The info object should have a license key.
+  info-license: off 
+  # Mentioning a license is only useful if people know what the license means, so add a link to the full text for those who need it.
+  license-url: off 
+  # OpenAPI object should have non-empty tags array.
+  openapi-tags: off 
+  # Use just one tag for an operation
+  operation-singular-tag: off 
+  # Operation should have non-empty tags array.
+  operation-tag-defined: off 
+  # Operation tags should be defined in global tags.
+  operation-tags: off 
+  # A tag should have a description.
+  tag-description: off
+
+  # Unclassified
+  contact-properties: off
+  
+  
+  
+ 
+  oas2-api-host: off
+  oas2-api-schemes: off
+  oas2-discriminator: off
+  oas2-host-not-example: off
+  oas2-host-trailing-slash: off
+  oas2-oneOf: off
+  oas2-operation-formData-consume-check: off
+  oas2-operation-security-defined: off
+  oas2-parameter-description: off
+  oas2-schema: off
+  oas2-unused-definition: off
+  oas2-valid-media-example: off
+  oas2-valid-schema-example: off
+  oas3-api-servers: off
+  oas3-callbacks-in-callbacks: off
+  oas3-examples-value-or-externalValue: off
+  oas3-operation-security-defined: off
+  oas3-parameter-description: off
+  oas3-schema: off
+  oas3-server-not-example.com: off
+  oas3-server-trailing-slash: off
+  oas3-server-variables: off
+  oas3-unused-component: off
+  oas3-valid-media-example: off
+  oas3-valid-schema-example: off
+  oas3_1-callbacks-in-webhook: off
+  oas3_1-servers-in-webhook: off
+  
