@@ -22,5 +22,13 @@
     "dn": "CN=sdpr.min.servers.sdx",
     "endpoint": "10.99.10.15:8443",
     "internal_endpoint": "sdx-edge-sdpredge.cc9a8a-tools.svc.cluster.local"
+  },
+  {
+    "id": "citzedge",
+    "host": "citz.min.servers.sdx",
+    "member_id": "ministry-of-citizens-services",
+    "dn": "CN=citz.min.servers.sdx",
+    "endpoint": "142.34.194.118:443",
+    "internal_endpoint": "sdx-edge-citzedge.264e6f-tools.svc.cluster.local"
   }
 ]
