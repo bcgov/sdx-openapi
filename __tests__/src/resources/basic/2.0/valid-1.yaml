@@ -1,0 +1,232 @@
+swagger: "2.0"
+info:
+  title: Spectral Rules Demo - OpenAPI 2.0
+  version: "1.0.2"
+  description: Fully compliant Swagger 2.0 document — zero warnings, zero errors.
+
+host: api.production.example.internal
+schemes:
+  - https
+
+tags:
+  - name: alpha
+  - name: beta
+
+securityDefinitions:
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: https://auth.company.internal/oauth/dialog
+    flow: implicit
+    scopes:
+      read: read access
+      write: write access
+
+paths:
+  /users:
+    get:
+      tags:
+        - alpha
+      summary: List users
+      description: Returns a list of users. Includes success case.
+      operationId: listUsers
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        "400":
+          description: Bad request example
+
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        type: string
+        description: Unique user identifier
+    get:
+      tags:
+        - alpha
+      summary: Get user by ID
+      description: Retrieves a single user.
+      operationId: getUserById
+      responses:
+        "200":
+          description: User found
+          schema:
+            $ref: "#/definitions/User"
+
+    post:
+      tags:
+        - alpha
+      summary: Create or update user
+      description: Upsert operation.
+      operationId: upsertUser
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Updated
+        "201":
+          description: Created
+
+  /search:
+    get:
+      tags:
+        - alpha
+      summary: Search users
+      description: Full-text search.
+      operationId: searchUsers
+      parameters:
+        - name: term
+          in: query
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Results
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+
+  /empty:
+    get:
+      tags:
+        - beta
+      summary: Health check
+      description: Returns 200 if service is alive.
+      operationId: healthCheck
+      responses:
+        "200":
+          description: OK
+
+  /items:
+    get:
+      tags:
+        - beta
+      summary: List items
+      description: Paginated list of items.
+      operationId: listItems
+      parameters:
+        - name: limit
+          in: query
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: string
+
+  /form-body-mix:
+    post:
+      tags:
+        - beta
+      summary: Upload file with metadata
+      description: Multipart upload with JSON metadata.
+      operationId: uploadWithMetadata
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: metadata
+          in: formData
+          type: string
+          required: true
+        - name: file
+          in: formData
+          type: file
+          required: true
+      responses:
+        "200":
+          description: Upload successful
+
+  /double-body:
+    put:
+      tags:
+        - beta
+      summary: Submit two payloads
+      description: Single JSON body with two nested objects.
+      operationId: submitDoublePayload
+      consumes:
+        - application/json
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/DoublePayload"
+      responses:
+        "200":
+          description: Accepted
+
+  /secure:
+    get:
+      tags:
+        - alpha
+      summary: Protected resource
+      description: Requires authentication.
+      operationId: getSecureResource
+      security:
+        - petstore_auth:
+            - read
+      responses:
+        "200":
+          description: Success
+
+  /example-media:
+    get:
+      tags:
+        - beta
+      summary: Valid media example
+      description: Shows correct usage of examples keyword.
+      operationId: getWithValidExample
+      responses:
+        "200":
+          description: Valid example
+          schema:
+            $ref: "#/definitions/NamedEntity"
+          examples:
+            application/json:
+              name: "John Doe"
+
+definitions:
+  User:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+
+  DoublePayload:
+    type: object
+    properties:
+      body1:
+        type: object
+      body2:
+        type: object
+    additionalProperties: false
+
+  NamedEntity:
+    type: object
+    properties:
+      name:
+        type: string
+    example:
+      name: "Jane Smith"

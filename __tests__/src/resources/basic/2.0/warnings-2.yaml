@@ -1,0 +1,34 @@
+swagger: "2.0"
+info:
+  title: Spectral Rules Demo
+  version: "1.0"                    # oas2-schema → error fixed (was missing key)
+  description: ""            # info-description → warn (present but empty — preserved)
+
+host: example.com/           # oas2-host-not-example → warn (preserved)
+                             # oas2-host-trailing-slash → warn (preserved)
+                             # oas2-schema → error fixed (host now matches pattern)
+schemes:
+  - https
+
+paths:
+  /:
+    get:
+      operationId: getRoot     # operation-operationId-valid-in-url → error fixed
+                               # removed space and !
+      responses:
+        "200":
+          description: OK
+
+  /upload:
+    post:
+      consumes:
+        - application/json     # intentionally does NOT include multipart/form-data or urlencoded
+      parameters:
+        - name: file
+          in: formData
+          type: file
+          required: true
+      responses:
+        "201":
+          description: Created
+      # oas2-operation-formData-consume-check → warn (still triggers — consumes missing correct MIME type)

@@ -1,0 +1,35 @@
+swagger: "2.0"
+info:
+  title: Spectral Rules Demo
+  version: "1.0"
+  description: # triggers:
+               # - oas2-schema → error (property must be string)
+               # - info-description → warn (must be present and non-empty string)
+host: example.com/        # triggers:
+                          # - oas2-schema → error (property must match pattern)
+                          # - oas2-host-not-example → warn (points to example.com)
+                          # - oas2-host-trailing-slash → warn (ends with /)
+schemes:
+  - https
+paths:
+  /:
+    get:
+      operationId: get root!   # operation-operationId-valid-in-url → error
+                               # contains space and ! → not URL-safe
+      responses:
+        "200":
+          description: OK
+
+  /upload:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          type: file
+          required: true
+      responses:
+        "201":
+          description: Created
+      # consumes is intentionally missing → triggers oas2-operation-formData-consume-check → warn

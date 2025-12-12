@@ -1,0 +1,192 @@
+openapi: 3.1.0
+info:
+  title: OAS 3.1.0 Violation Demo
+  version: 1.0.0
+  description: ''  # Triggers info-description: warn
+  invalidProp: true  # Contributes to oas3-schema: error (invalid structure)
+tags:
+  - name: Z
+  - name: A
+  - name: dup
+  - name: dup  # Triggers openapi-tags-uniqueness: warn and openapi-tags-alphabetical: warn (not sorted)
+servers:
+  - url: https://example.com/  # Triggers oas3-server-not-example.com: warn and oas3-server-trailing-slash: warn
+  - url: https://{var}.com
+    variables:
+      var: {}  # Triggers oas3-server-variables: warn (no default, invalid URL potential)
+      unused:
+        default: test  # Triggers oas3-server-variables: warn (unused variable)
+paths:
+  '/path?query=value':
+    get:
+      responses:
+        '200':
+          description: ok  # Triggers path-not-include-query: error
+  '/path/{}':
+    get:
+      responses:
+        '200':
+          description: ok  # Triggers path-declarations-must-exist: error
+  '/path/trailing/':
+    get:
+      responses:
+        '200':
+          description: ok  # Triggers path-keys-no-trailing-slash: warn
+  '/path/{id}':
+    get:
+      responses:
+        '200':
+          description: ok  # Triggers path-params: error (missing path param definition)
+  '/path/unused':
+    get:
+      parameters:
+        - name: unusedId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok  # Triggers path-params: error (unused path param)
+  '/duplicate-params':
+    get:
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok  # Triggers operation-parameters: error
+  '/no-description':
+    get:
+      responses:
+        '200':
+          description: ok  # Triggers operation-description: warn
+  '/no-operationId':
+    get:
+      responses:
+        '200':
+          description: ok  # Triggers operation-operationId: warn
+  '/no-success':
+    get:
+      responses:
+        '400':
+          description: bad  # Triggers operation-success-response: warn
+  '/sameId1':
+    get:
+      operationId: sameId
+      responses:
+        '200':
+          description: ok
+  '/sameId2':
+    get:
+      operationId: sameId
+      responses:
+        '200':
+          description: ok  # Triggers operation-operationId-unique: error
+  '/invalidId':
+    get:
+      operationId: invalid id with space  # Triggers operation-operationId-valid-in-url: error (space is not URL-safe)
+      responses:
+        '200':
+          description: ok
+  '/eval-md':
+    get:
+      description: "Use eval() in JS"  # Triggers no-eval-in-markdown: warn
+      responses:
+        '200':
+          description: ok
+  '/script-md':
+    get:
+      description: "<script>alert()</script>"  # Triggers no-script-tags-in-markdown: warn
+      responses:
+        '200':
+          description: ok
+  '/nested-cb':
+    get:
+      callbacks:
+        cb1:
+          '{$request.body#/cb}':
+            post:
+              callbacks:
+                cb2:
+                  '{$request.body#/cb}':
+                    post:
+                      responses:
+                        '200':
+                          description: ok
+      responses:
+        '200':
+          description: ok  # Triggers oas3-callbacks-in-callbacks: warn
+  '/invalid-security':
+    get:
+      security:
+        - fake: []
+      responses:
+        '200':
+          description: ok  # Triggers oas3-operation-security-defined: error
+  '/invalid-media-ex':
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: number
+              example: "not number"  # Triggers oas3-valid-media-example: warn
+  '/both-example':
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                ex1:
+                  value: 1
+                  externalValue: "http://ex.com"  # Triggers oas3-examples-value-or-externalValue: error
+webhooks:
+  webhook1:
+    post:
+      callbacks:
+        cb:
+          '{$request.body#/cb}':
+            post:
+              responses:
+                '200':
+                  description: ok  # Triggers oas3_1-callbacks-in-webhook: warn
+      responses:
+        '200':
+          description: ok
+  webhook2:
+    post:
+      servers:
+        - url: http://test  # Triggers oas3_1-servers-in-webhook: warn
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    DupeEnum:
+      type: number
+      enum:
+        - 1
+        - 1  # Triggers duplicated-entry-in-enum: error
+    TypedEnum:
+      type: number
+      enum:
+        - "string"  # Triggers typed-enum: error
+    ArrayNoItems:
+      type: array  # Triggers array-items: warn
+    UnusedComponent:
+      type: string  # Triggers oas3-unused-component: warn
+    InvalidSchemaEx:
+      type: number
+      example: "string"  # Triggers oas3-valid-schema-example: warn
+    RefSibling:
+      $ref: '#/components/schemas/UnusedComponent'
+      description: sibling  # Allowed in 3.1.0 — does not trigger no-$ref-siblings

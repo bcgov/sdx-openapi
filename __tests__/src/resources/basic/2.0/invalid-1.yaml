@@ -1,0 +1,169 @@
+swagger: "2.0"
+info:
+  title: Spectral Rules Demo - OpenAPI 2.0
+  version: "1.0.0"
+  # info-description: no description → warn
+# oas2-schema: version should be string (it is), but we keep it minimal
+
+# oas2-api-host: no host → warn
+# oas2-api-schemes: no schemes → warn
+
+tags:
+  - name: beta
+  - name: alpha   # openapi-tags-alphabetical: not alphabetical → warn
+  - name: alpha   # openapi-tags-uniqueness: duplicate tag name → warn
+
+paths:
+  /users/:          # path-keys-no-trailing-slash: trailing slash → warn
+    get:
+      # operation-description: missing → warn
+      # operation-operationId: missing → warn
+      responses:
+        "400":
+          description: Bad request
+          # operation-success-response: no 2xx/3xx response → warn
+
+  /users/{id}:      # path-params: {id} declared in path but never defined → error
+    get:
+      operationId: "getUser?"   # operation-operationId-valid-in-url: ? not URL-safe → error
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/User"
+            type: object            # no-$ref-siblings: sibling next to $ref → error (Spectral enforces this even in 2.0)
+
+  /users/{userId}:
+    get:
+      operationId: getUser        # operation-operationId-unique: duplicate (see below) → error
+      description: "<script>alert('xss')</script>"  # no-script-tags-in-markdown → warn
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: getUser        # ← duplicate of the GET above → error
+
+  /search?term={term}:          # path-not-include-query: query string in path → error
+    get:
+      operationId: search
+      description: eval("bad")     # no-eval-in-markdown → warn
+      responses:
+        "200":
+          description: OK
+
+  /empty/{}:                    # path-declarations-must-exist: empty {} → error
+    get:
+      operationId: empty
+      responses:
+        "200":
+          description: OK
+
+  /items:
+    parameters:
+      - name: unusedPath       # path-params: path param not used in path string → error
+        in: path
+        required: true
+        type: string
+      - name: limit
+        in: query
+        type: integer
+      - name: limit            # operation-parameters: duplicate name + in → error
+        in: query
+        type: integer
+    get:
+      operationId: listItems
+      responses:
+        "200":
+          description: OK
+
+  /form-body-mix:
+    post:
+      parameters:
+        - name: bodyParam
+          in: body                 # operation-parameters: body + formData together → error
+          schema:
+            type: object
+        - name: file
+          in: formData
+          type: file
+      # oas2-operation-formData-consume-check: formData present but no consumes with urlencoded/multipart → warn
+      responses:
+        "200":
+          description: OK
+
+  /double-body:
+    put:
+      parameters:
+        - name: body1
+          in: body                 # operation-parameters: multiple body parameters → error
+          schema: { type: object }
+        - name: body2
+          in: body
+          schema: { type: object }
+      responses:
+        "200":
+          description: OK
+
+  /secure:
+    get:
+      operationId: secureOp
+      security:
+        - petstore_auth: []       # oas2-operation-security-defined: undefined scheme → warn
+      responses:
+        "200":
+          description: OK
+
+  /example-media:
+    get:
+      responses:
+        "200":
+          description: Response with bad media example
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+          examples:
+            application/json:
+              name: 123             # oas2-valid-media-example: number instead of string → warn
+
+definitions:
+  EnumBad:
+    type: object
+    properties:
+      status:
+        type: string
+        enum: ["active", "active"]   # duplicated-entry-in-enum → error
+      code:
+        type: integer
+        enum: ["one", "two"]         # typed-enum: string instead of integer → error
+
+  ArrayNoItems:
+    type: array                     # array-items: missing items keyword → warn
+
+  DiscriminatorBad:
+    type: object
+    discriminator: kind             # oas2-discriminator: discriminator not in required → warn
+    properties:
+      kind:
+        type: string
+
+  AnyOfInV2:
+    anyOf:                          # oas2-anyOf: anyOf not allowed in OAS 2.0 → error
+      - type: string
+
+  OneOfInV2:
+    oneOf:                          # oas2-oneOf: oneOf not allowed in OAS 2.0 → error
+      - type: string
+
+  BadSchemaExample:
+    type: object
+    properties:
+      name:
+        type: string
+    example:
+      name: 123                       # oas2-valid-schema-example: number instead of string → warn
+
+  UnusedDefinition:
+    type: object                    # oas2-unused-definition → warn
+    properties: {}

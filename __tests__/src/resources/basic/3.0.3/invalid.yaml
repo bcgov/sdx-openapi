@@ -1,0 +1,213 @@
+openapi: 3.0.3
+info:
+  title: Spectral Hell - 100% Coverage (OpenAPI 3.0.3)
+  version: 1.0.0
+  description: ""                # info-description: warn
+  bogus: true                    # oas3-schema: error (invalid extra property)
+
+servers:
+  - url: https://example.com/    # oas3-server-not-example.com + oas3-server-trailing-slash: warn
+  - url: https://{env}.api.example.com/{unused}
+    variables:
+      env:
+        default: prod
+      unused:
+        default: ""              # oas3-server-variables: warn
+      bad:
+        default: [1,2]           # oas3-server-variables: warn (non-string default)
+
+tags:
+  - name: Zebra
+  - name: Banana
+  - name: Apple
+  - name: Apple                  # openapi-tags-uniqueness + openapi-tags-alphabetical: warn
+
+paths:
+  /trailing/:                     # path-keys-no-trailing-slash: warn
+    get:
+      operationId: ok
+      responses:
+        '200':
+          description: OK
+
+  /query{?q}:                    # path-not-include-query: error
+    get:
+      operationId: ok
+      responses:
+        '200':
+          description: OK
+
+  /{}/:                          # path-declarations-must-exist: error
+    get:
+      operationId: ok
+      responses:
+        '200':
+          description: OK
+
+  /path/{usedButNotDeclared}/{declaredButUnused}:
+    parameters:
+      - name: declaredButUnused  # path-params: error
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: ok
+      responses:
+        '200':
+          description: OK
+
+  /dup-opid:
+    get:
+      operationId: same           # operation-operationId-unique: error
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: same
+      responses:
+        '201':
+          description: OK
+
+  /bad-opid:
+    get:
+      operationId: bad id!@#      # operation-operationId-valid-in-url: error
+      responses:
+        '200':
+          description: OK
+
+  /no-meta:
+    get:                           # operation-description + operation-operationId + operation-success-response: warn
+      responses:
+        '400':
+          description: fail
+
+  /markdown:
+    get:
+      description: |
+        <script>alert(1)</script>
+        eval("very bad");
+      responses:
+        '200':
+          description: OK
+
+  /ref-siblings:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+                type: object         # no-$ref-siblings: error
+                description: bad
+      operationId: ok
+
+  /enum:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum: [active, inactive, active, 123]  # duplicated-entry-in-enum + typed-enum: error
+      responses:
+        '201':
+          description: OK
+
+  /dup-param:
+    get:
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: string
+        - name: filter               # operation-parameters: error
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+
+  /both-example-fields:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                bad:
+                  value: {}
+                  externalValue: "https://example.com"  # oas3-examples-value-or-externalValue: error
+
+  /security:
+    get:
+      security:
+        - noScheme: []            # oas3-operation-security-defined: error
+      responses:
+        '200':
+          description: OK
+
+  /nested-callbacks:
+    post:
+      callbacks:
+        outer:
+          '{$request.body#/url}':
+            post:
+              callbacks:
+                inner:                 # oas3-callbacks-in-callbacks: warn
+                  '{$request.body#/url2}':
+                    post:
+                      responses:
+                        '200':
+                          description: OK
+              responses:
+                '200':
+                  description: OK
+      responses:
+        '200':
+          description: OK
+
+  /invalid-examples:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Price'
+              examples:
+                badMedia:
+                  value: "not a number"                 # oas3-valid-media-example: warn
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+
+    Price:
+      type: number
+      example: "one hundred"                # oas3-valid-schema-example: warn (string instead of number)
+
+    ArrayNoItems:
+      type: array                           # array-items + oas3-unused-component: warn
+
+    Unused1:
+      type: object                          # oas3-unused-component: warn
+
+    Unused2:
+      type: string                          # oas3-unused-component: warn
+
+  examples:
+    UnusedExample:                          # oas3-unused-component: warn
+      value: {}
+
+  securitySchemes:
+    unusedScheme:                           # oas3-unused-component: warn
+      type: apiKey
+      in: header
+      name: X-Unused

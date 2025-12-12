@@ -52,8 +52,14 @@ rules:
   path-keys-no-trailing-slash: warn
   # Schemas with type: array, require a sibling items field.
   array-items: warn
+  # OpenAPI host must be present and non-empty string.
+  oas2-api-host: warn
+  # OpenAPI host schemes must be present and non-empty array.
+  oas2-api-schemes: warn
 
 # Optional Content
+  # A contact object is required, including name, url, and email.
+  contact-properties: off
   # Info object should contain contact object.
   info-contact: off
   # The info object should have a license key.
@@ -72,36 +78,125 @@ rules:
   tag-description: off
 
   # Unclassified
-  contact-properties: off
   
-  
-  
- 
-  oas2-api-host: off
-  oas2-api-schemes: off
-  oas2-discriminator: off
-  oas2-host-not-example: off
-  oas2-host-trailing-slash: off
-  oas2-oneOf: off
-  oas2-operation-formData-consume-check: off
-  oas2-operation-security-defined: off
+  # The discriminator property MUST be defined at this schema and it MUST be in the required property list.
+  oas2-discriminator: warn
+  # Server URL should not point to example.com.
+  oas2-host-not-example: warn
+  # Server URL should not have a trailing slash.
+  oas2-host-trailing-slash: warn
+  # OpenAPI v3 keyword oneOf detected in OpenAPI v2 document.
+  oas2-oneOf: error
+  # Operations with an in: formData parameter must include application/x-www-form-urlencoded or multipart/form-data in their consumes property.
+  oas2-operation-formData-consume-check: warn
+  # Operation security values must match a scheme defined in the securityDefinitions object.
+  oas2-operation-security-defined: warn
+  # Parameter objects should have a description.
   oas2-parameter-description: off
-  oas2-schema: off
-  oas2-unused-definition: off
-  oas2-valid-media-example: off
-  oas2-valid-schema-example: off
+  # Validate structure of OpenAPI v2 specification.
+  oas2-schema: error
+  # Potential unused reusable definition entry has been detected.
+  oas2-unused-definition: warn
+  # Examples must be valid against their defined schema.  This rule is applied to Media Type objects.
+  # Common reasons you may see errors are:
+  # The value used for property examples is not the same type indicated in the schema (string vs. integer, for example).
+  # Examples contain properties not included in the schema.
+  oas2-valid-media-example: warn
+  # Examples must be valid against their defined schema. This rule is applied to Schema objects.
+  oas2-valid-schema-example: warn
+
+  # OpenAPI servers must be present and non-empty array.
   oas3-api-servers: off
-  oas3-callbacks-in-callbacks: off
-  oas3-examples-value-or-externalValue: off
-  oas3-operation-security-defined: off
+  # A callback should not be defined within another callback.
+  oas3-callbacks-in-callbacks: warn
+  # Examples for requestBody or response examples can have an externalValue or a value, but they cannot have both.
+  oas3-examples-value-or-externalValue: error
+  # Operation security values must match a scheme defined in the components.securitySchemes object.
+  oas3-operation-security-defined: error
+  # Parameter objects should have a description.
   oas3-parameter-description: off
-  oas3-schema: off
-  oas3-server-not-example.com: off
-  oas3-server-trailing-slash: off
-  oas3-server-variables: off
-  oas3-unused-component: off
-  oas3-valid-media-example: off
-  oas3-valid-schema-example: off
-  oas3_1-callbacks-in-webhook: off
-  oas3_1-servers-in-webhook: off
+  # Validate structure of OpenAPI v3 specification.
+  oas3-schema: error
+  # Server URL should not point to example.com.
+  oas3-server-not-example.com: warn
+  # Server URL should not have a trailing slash.
+  oas3-server-trailing-slash: warn
+  # This rule ensures that server variables defined in OpenAPI Specification 3 (OAS3) and 3.1 are valid, not unused, and result in a valid URL. 
+  oas3-server-variables: warn
+  # Potential unused reusable components entry has been detected.
+  oas3-unused-component: warn
+  # Examples must be valid against their defined schema. This rule is applied to Media Type objects.
+  oas3-valid-media-example: warn
+  # Examples must be valid against their defined schema. This rule is applied to Schema objects.
+  oas3-valid-schema-example: warn
+  # Callbacks should not be defined in a webhook.
+  oas3_1-callbacks-in-webhook: warn
+  # Servers should not be defined in a webhook.
+  oas3_1-servers-in-webhook: warn
+  
+  # operationId: camelCase
+  # CamelCase is the most widely adopted convention for operationId across major API providers
+  # and SDK generators. It maps naturally to method names in JavaScript/TypeScript, Java, C#, etc.
+  # Starting with a lowercase letter avoids conflicts and follows the official OpenAPI Petstore examples.
+  operation-id-camel-case:
+    description: operationId should be camelCase (starts with lowercase letter, no separators)
+    severity: warn
+    given: $..operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z][a-zA-Z0-9]*$
+
+  # # Path segments: kebab-case (lowercase with hyphens)
+  # # Industry consensus (Google, Microsoft, Zalando, etc.) strongly recommends lowercase
+  # # hyphenated paths for readability, SEO-friendliness, and to avoid case-sensitivity issues in proxies/CDNs.
+  # # Path parameters in {} are excluded from this check as they typically use camelCase.
+  # path-segments-kebab-case:
+  #   description: Path segments should be kebab-case (lowercase letters, hyphens only)
+  #   severity: warn
+  #   given: $.paths.*
+  #   then:
+  #     function: pattern
+  #     functionOptions:
+  #       # Matches paths like /users, /user-orders, /users/{userId}/profile
+  #       # Allows lowercase letters, numbers, hyphens, and {param} placeholders
+  #       match: ^/([a-z0-9-]+(/|$|{[a-zA-Z0-9_]+}))*$
+
+  # # Path parameters: camelCase
+  # # Path parameter names appear in generated client code and URLs. camelCase aligns with
+  # # JSON payload properties and operationId, providing consistency across the API surface.
+  # path-param-camel-case:
+  #   description: Path parameter names should be camelCase
+  #   severity: warn
+  #   given: $.paths..parameters[?(@.in == 'path')].name
+  #   then:
+  #     function: pattern
+  #     functionOptions:
+  #       match: ^[a-z][a-zA-Z0-9]*$
+
+  # # Query parameters: camelCase
+  # # Consistency with path parameters, operationId, and payload properties is key for developer
+  # # experience. camelCase is the dominant choice in modern JavaScript/TypeScript ecosystems.
+  # query-param-camel-case:
+  #   description: Query parameter names should be camelCase
+  #   severity: warn
+  #   given: $.paths..parameters[?(@.in == 'query')].name
+  #   then:
+  #     function: pattern
+  #     functionOptions:
+  #       match: ^[a-z][a-zA-Z0-9]*$
+
+  # # Schema properties (JSON payload fields): camelCase
+  # # JSON payload field names become object properties in generated SDKs and client code.
+  # # camelCase is the most common convention in public APIs and avoids issues with languages that
+  # # don't support hyphens or underscores in identifiers.
+  # schema-property-camel-case:
+  #   description: Schema property names in request/response bodies should be camelCase
+  #   severity: warn
+  #   given: $..properties.*
+  #   then:
+  #     field: "@key"
+  #     function: pattern
+  #     functionOptions:
+  #       match: ^[a-z][a-zA-Z0-9]*$
   

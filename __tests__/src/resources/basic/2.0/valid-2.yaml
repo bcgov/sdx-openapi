@@ -1,0 +1,48 @@
+swagger: "2.0"
+info:
+  title: Spectral Rules Demo
+  version: "1.0"
+  description: A minimal, fully compliant Swagger 2.0 document with no warnings.
+
+host: api.production.example.internal
+schemes:
+  - https
+
+paths:
+  /:
+    get:
+      summary: Root endpoint
+      description: Returns a welcome message.
+      operationId: getRoot
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Welcome to the API"
+
+  /upload:
+    post:
+      summary: Upload a file
+      description: Accepts a file via multipart upload.
+      operationId: uploadFile
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: file
+          in: formData
+          description: The file to upload
+          required: true
+          type: file
+      responses:
+        "201":
+          description: File uploaded successfully
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid

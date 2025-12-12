@@ -1,0 +1,27 @@
+extends: ../../../../../spectral/basic-ruleset.yaml
+
+overrides:
+  - files: 
+      - "**#/components/responses/UniqueEnumResponse"
+    rules:
+      oas3-unused-component: off
+
+  - files: 
+      - "**#/components/responses/TypedEnumResponse"
+    rules:
+      oas3-unused-component: off
+
+  - files: 
+      - "**#/components/responses/ArrayResponse"
+    rules:
+      oas3-unused-component: off
+
+  - files: 
+      - "**#/components/responses/InvalidSchemaExResponse"
+    rules:
+      oas3-unused-component: off
+
+  - files: 
+      - "**#/components/responses/RefSiblingResponse"
+    rules:
+      oas3-unused-component: off

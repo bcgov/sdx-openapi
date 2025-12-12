@@ -1,0 +1,165 @@
+swagger: "2.0"
+info:
+  title: Spectral Rules Demo - OpenAPI 2.0
+  version: "1.0.1"
+  # ← info-description missing → warn (preserved)
+
+# oas2-api-host & oas2-api-schemes missing → warn (preserved)
+
+tags:
+  - name: beta
+  - name: alpha   # openapi-tags-alphabetical: not alphabetical → warn
+  - name: alpha   # openapi-tags-uniqueness: duplicate tag name → warn
+
+paths:
+  /users/:              # path-keys-no-trailing-slash → warn
+    get:
+      # operation-description & operation-operationId missing → warn
+      responses:
+        "400":
+          description: Bad request
+          # operation-success-response missing 2xx → warn
+
+  /users/{userId}:      # merged the two almost-identical paths to avoid path-params equivalent-paths error
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: getUserById          # valid chars only → fixes operation-operationId-valid-in-url
+      description: "<script>alert('xss')</script>"  # no-script-tags-in-markdown → warn
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/User"     # no siblings → fixes no-$ref-siblings
+
+    post:                                    # now correctly under the path object
+      operationId: createOrUpdateUser
+      responses:
+        "200":
+          description: OK
+
+  /search:
+    get:
+      operationId: search
+      description: eval("bad")                # no-eval-in-markdown → warn
+      parameters:
+        - name: term
+          in: query
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+
+  /empty:
+    get:
+      operationId: empty
+      responses:
+        "200":
+          description: OK
+
+  /items:
+    parameters:
+      - name: limit
+        in: query
+        type: integer
+    get:
+      operationId: listItems
+      responses:
+        "200":
+          description: OK
+
+  /form-body-mix:
+    post:
+      parameters:
+        - name: bodyParam
+          in: formData
+          type: string
+        - name: file
+          in: formData
+          type: file
+      # consumes intentionally missing → oas2-operation-formData-consume-check → warn
+      responses:
+        "200":
+          description: OK
+
+  /double-body:
+    put:
+      parameters:
+        - name: payload
+          in: body
+          schema:
+            type: object
+            properties:
+              body1: { type: object }
+              body2: { type: object }
+      responses:
+        "200":
+          description: OK
+
+  /secure:
+    get:
+      operationId: secureOp
+      security:
+        - petstore_auth: []                   # undefined scheme → oas2-operation-security-defined warn
+      responses:
+        "200":
+          description: OK
+
+  /example-media:
+    get:
+      responses:
+        "200":
+          description: Response with bad media example
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+          examples:
+            application/json:
+              name: 123                         # oas2-valid-media-example → warn
+
+definitions:
+  User:                                     # added so $ref is valid → fixes invalid-ref error
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+
+  EnumBad:
+    type: object
+    properties:
+      status:
+        type: string
+        enum: [active, inactive]            # fixed duplicated-entry-in-enum
+      code:
+        type: integer
+        enum: [100, 200]                    # fixed typed-enum
+
+  ArrayNoItems:
+    type: array                               # array-items → warn (no items keyword)
+
+  DiscriminatorBad:
+    type: object
+    discriminator: kind                       # oas2-discriminator → warn (not in required)
+    properties:
+      kind:
+        type: string
+
+  BadSchemaExample:
+    type: object
+    properties:
+      name:
+        type: string
+    example:
+      name: 123                               # oas2-valid-schema-example → warn
+
+  UnusedDefinition:
+    type: object                              # oas2-unused-definition → warn
+    properties: {}

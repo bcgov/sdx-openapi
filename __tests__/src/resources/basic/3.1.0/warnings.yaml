@@ -1,0 +1,193 @@
+openapi: 3.1.0
+info:
+  title: OAS 3.1.0 Violation Demo - Errors Fixed, All Warnings Restored
+  version: 1.0.0
+  description: ''  # warn: info-description
+tags:
+  - name: Z
+  - name: A
+  - name: dup
+  - name: dup  # warn: openapi-tags-uniqueness + openapi-tags-alphabetical
+servers:
+  - url: https://example.com/  # warn: oas3-server-not-example.com + oas3-server-trailing-slash
+  - url: https://{var}.com
+    variables:
+      var:
+        default: api  # Fixed server variable
+      unused:
+        default: test  # warn: oas3-server-variables (unused variable)
+paths:
+  '/path':
+    get:
+      responses:
+        '200':
+          description: ok
+  '/path/{id}':
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  '/path/trailing/':
+    get:
+      responses:
+        '200':
+          description: ok  # warn: path-keys-no-trailing-slash
+  '/path/{id}/fixed':
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  '/path/fixed-unused':
+    get:
+      responses:
+        '200':
+          description: ok
+  '/unique-params':
+    get:
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  '/no-description':
+    get:
+      responses:
+        '200':
+          description: ok  # warn: operation-description
+  '/no-operationId':
+    get:
+      responses:
+        '200':
+          description: ok  # warn: operation-operationId
+  '/no-success':
+    get:
+      responses:
+        '400':
+          description: bad  # warn: operation-success-response (no 2xx/3xx response)
+  '/sameId1':
+    get:
+      operationId: sameId1
+      responses:
+        '200':
+          description: ok
+  '/sameId2':
+    get:
+      operationId: sameId2
+      responses:
+        '200':
+          description: ok
+  '/validId':
+    get:
+      operationId: valid-id-with-safe-chars
+      responses:
+        '200':
+          description: ok
+  '/eval-md':
+    get:
+      description: "Use eval() in JS"  # warn: no-eval-in-markdown
+      responses:
+        '200':
+          description: ok
+  '/script-md':
+    get:
+      description: "<script>alert()</script>"  # warn: no-script-tags-in-markdown
+      responses:
+        '200':
+          description: ok
+  '/nested-cb':
+    get:
+      callbacks:
+        cb1:
+          '{$request.body#/cb}':
+            post:
+              callbacks:
+                cb2:
+                  '{$request.body#/cb}':
+                    post:
+                      responses:
+                        '200':
+                          description: ok
+      responses:
+        '200':
+          description: ok  # warn: oas3-callbacks-in-callbacks
+  '/valid-security':
+    get:
+      security: []
+      responses:
+        '200':
+          description: ok
+  '/invalid-media-ex':
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: number
+              example: "not number"  # warn: oas3-valid-media-example (type mismatch)
+  '/valid-example':
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                ex1:
+                  value: 1
+webhooks:
+  webhook1:
+    post:
+      callbacks:
+        cb:
+          '{$request.body#/cb}':
+            post:
+              responses:
+                '200':
+                  description: ok  # warn: oas3_1-callbacks-in-webhook
+      responses:
+        '200':
+          description: ok
+  webhook2:
+    post:
+      servers:
+        - url: http://test  # warn: oas3_1-servers-in-webhook
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    UniqueEnum:
+      type: number
+      enum:
+        - 1
+        - 2
+    TypedEnum:
+      type: string
+      enum:
+        - "string"
+        - "another"
+    ArrayNoItems:
+      type: array  # warn: array-items (missing items keyword)
+    UnusedComponent:
+      type: string  # warn: oas3-unused-component
+    InvalidSchemaEx:
+      type: number
+      example: "string"  # warn: oas3-valid-schema-example (type mismatch)
+    RefSibling:
+      $ref: '#/components/schemas/UnusedComponent'
+      description: sibling

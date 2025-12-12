@@ -1,0 +1,143 @@
+openapi: 3.0.3
+info:
+  title: Spectral Warnings-Only — 100% Warning Coverage
+  version: 1.0.0
+  description: ""                                          # info-description: warn
+
+servers:
+  - url: https://example.com/                              # oas3-server-not-example.com + oas3-server-trailing-slash: warn
+  - url: https://{env}.api.example.com/v1
+    variables:
+      env:
+        default: prod
+      unusedVar:                                             # ← unused variable → oas3-server-variables: warn
+        default: ""
+      badDefault:                                            # ← non-string default → oas3-server-variables: warn
+        default: 123
+
+tags:
+  - name: Zebra
+  - name: Banana
+  - name: Apple
+  - name: Apple                                            # openapi-tags-uniqueness + openapi-tags-alphabetical: warn
+
+paths:
+  /trailing/:                                               # path-keys-no-trailing-slash: warn
+    get:
+      operationId: listWithTrailing
+      responses:
+        "200":
+          description: OK
+
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getUser
+      responses:
+        "200":
+          description: OK
+
+  /status:
+    post:
+      operationId: setStatus
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              enum: [active, inactive, pending]                # clean — no duplicates, correct types
+      responses:
+        "201":
+          description: Created
+
+  /markdown:
+    get:
+      description: |
+        eval("code"); <script>alert('hi')</script>           # no-eval-in-markdown + no-script-tags-in-markdown: warn
+      operationId: markdownEndpoint
+      responses:
+        "200":
+          description: OK
+
+  /no-meta:
+    get:                                                       # operation-description + operation-operationId + operation-success-response: warn
+      responses:
+        "400":
+          description: Bad request
+
+  /examples:
+    get:
+      operationId: getExamples
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Price'
+              example: "not a number"                            # oas3-valid-schema-example: warn
+              examples:
+                badMediaExample:
+                  value: "definitely not a number"               # oas3-valid-media-example: warn (string instead of number)
+
+  /nested-callbacks:
+    post:
+      operationId: triggerCallbacks
+      callbacks:
+        outer:
+          '{$request.body#/url}':
+            post:
+              callbacks:
+                inner:                                           # oas3-callbacks-in-callbacks: warn
+                  '{$request.body#/innerUrl}':
+                    post:
+                      responses:
+                        "200":
+                          description: Nested
+              responses:
+                "200":
+                  description: Outer
+      responses:
+        "202":
+          description: Accepted
+
+  /array:
+    get:
+      operationId: getArray
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayNoItems'        # array-items: warn
+
+components:
+  schemas:
+    Price:
+      type: number
+      example: "one hundred"                                    # oas3-valid-schema-example: warn
+
+    ArrayNoItems:
+      type: array                                               # array-items + oas3-unused-component: warn
+      # no "items" keyword
+
+    UnusedSchema1:                                              # oas3-unused-component: warn
+      type: object
+    UnusedSchema2:
+      type: string
+
+  examples:
+    StandaloneUnusedExample:                                    # oas3-unused-component: warn
+      value:
+        hello: world
+
+  securitySchemes:
+    unusedAuth:                                                 # oas3-unused-component: warn
+      type: apiKey
+      in: header
+      name: X-Unused

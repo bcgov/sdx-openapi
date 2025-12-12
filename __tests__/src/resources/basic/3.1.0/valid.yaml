@@ -1,0 +1,255 @@
+openapi: 3.1.0
+info:
+  title: OAS 3.1.0 Violation Demo - Fully Compliant
+  version: 1.0.0
+  description: A comprehensive demo API used to test Spectral rule validation. All structural errors and stylistic warnings have been resolved while preserving full functionality.
+tags:
+  - name: A
+  - name: demo
+  - name: test  # Fixed: alphabetical order
+  - name: Z
+servers:
+  - url: https://api.demo.com
+  - url: https://{var}.demo.com
+    variables:
+      var:
+        default: production
+paths:
+  '/path':
+    get:
+      description: Basic GET endpoint demonstrating a clean path.
+      operationId: getPath
+      responses:
+        '200':
+          description: Success response
+  '/path/{id}':
+    get:
+      description: GET endpoint with a required path parameter.
+      operationId: getPathById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success response
+  '/path/trailing':
+    get:
+      description: Endpoint that previously had a trailing slash in the path key.
+      operationId: getPathTrailing
+      responses:
+        '200':
+          description: Success response
+  '/path/{id}/fixed':
+    get:
+      description: Demonstrates correct definition and usage of path parameters.
+      operationId: getFixedPathById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success response
+  '/path/fixed-unused':
+    get:
+      description: Endpoint that previously declared an unused path parameter.
+      operationId: getFixedUnused
+      responses:
+        '200':
+          description: Success response
+  '/unique-params':
+    get:
+      description: Endpoint with unique query parameters.
+      operationId: getUniqueParams
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success response
+  '/no-description':
+    get:
+      description: This operation previously lacked a description.
+      operationId: getNoDescription
+      responses:
+        '200':
+          description: Success response
+  '/no-operationId':
+    get:
+      description: This operation previously lacked an operationId.
+      operationId: getNoOperationIdExample
+      responses:
+        '200':
+          description: Success response
+  '/no-success':
+    get:
+      description: This operation previously returned only error responses to trigger a warning.
+      operationId: getNoSuccess
+      responses:
+        '200':
+          description: Success response
+        '400':
+          description: Bad request (preserved for original demo intent)
+  '/sameId1':
+    get:
+      description: First operation with unique operationId.
+      operationId: sameId1
+      responses:
+        '200':
+          description: Success response
+  '/sameId2':
+    get:
+      description: Second operation with unique operationId.
+      operationId: sameId2
+      responses:
+        '200':
+          description: Success response
+  '/validId':
+    get:
+      description: Operation demonstrating a URL-safe operationId.
+      operationId: valid-id-with-safe-chars
+      responses:
+        '200':
+          description: Success response
+  '/eval-md':
+    get:
+      description: This operation previously contained forbidden markdown content. Now uses safe wording (e.g., "execute code dynamically").
+      operationId: getEvalMd
+      responses:
+        '200':
+          description: Success response
+  '/script-md':
+    get:
+      description: This operation previously contained HTML script tags. Now uses safe placeholder text.
+      operationId: getScriptMd
+      responses:
+        '200':
+          description: Success response
+  '/nested-cb':
+    get:
+      description: Demonstrates callback functionality without deep nesting.
+      operationId: getNestedCb
+      callbacks:
+        cb1:
+          '{$request.body#/callbackUrl}':
+            post:
+              responses:
+                '200':
+                  description: Callback received
+      responses:
+        '200':
+          description: Success response
+  '/valid-security':
+    get:
+      description: Endpoint with explicitly no security requirements.
+      operationId: getValidSecurity
+      security: []
+      responses:
+        '200':
+          description: Success response
+  '/invalid-media-ex':
+    get:
+      description: Demonstrates a valid media-type example matching the schema.
+      operationId: getInvalidMediaEx
+      responses:
+        '200':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                type: number
+              example: 42
+  '/valid-example':
+    get:
+      description: Demonstrates proper use of examples object.
+      operationId: getValidExample
+      responses:
+        '200':
+          description: Success response
+          content:
+            application/json:
+              examples:
+                ex1:
+                  value: 1
+webhooks:
+  webhook1:
+    post:
+      description: Demo webhook (callbacks removed to comply with warning rule).
+      operationId: webhook1
+      responses:
+        '200':
+          description: Webhook acknowledged
+  webhook2:
+    post:
+      description: Demo webhook (servers removed to comply with warning rule).
+      operationId: webhook2
+      responses:
+        '200':
+          description: Webhook acknowledged
+components:
+  schemas:
+    UniqueEnum:
+      type: number
+      enum:
+        - 1
+        - 2
+      description: Enum with unique values – now referenced below
+    TypedEnum:
+      type: string
+      enum:
+        - "string"
+        - "another"
+      description: Enum with type-matched values – now referenced
+    ArrayNoItems:
+      type: array
+      items:
+        type: string
+      description: An array schema with proper items definition – now referenced
+    UnusedComponent:
+      $ref: '#/components/schemas/ArrayNoItems'  # Keeps chain alive
+    InvalidSchemaEx:
+      type: number
+      example: 42
+      description: Valid schema-level example – now referenced
+    RefSibling:
+      $ref: '#/components/schemas/UnusedComponent'
+      description: Example of $ref with siblings (allowed in 3.1.0) – now referenced
+  responses:
+    # References to eliminate oas3-unused-component warnings
+    UniqueEnumResponse:
+      description: Response using UniqueEnum
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UniqueEnum'
+    TypedEnumResponse:
+      description: Response using TypedEnum
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TypedEnum'
+    ArrayResponse:
+      description: Response using ArrayNoItems
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrayNoItems'
+    InvalidSchemaExResponse:
+      description: Response using InvalidSchemaEx
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidSchemaEx'
+    RefSiblingResponse:
+      description: Response using RefSibling
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RefSibling'

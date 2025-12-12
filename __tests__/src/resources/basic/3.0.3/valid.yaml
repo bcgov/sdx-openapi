@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Clean & Production-Ready API
+  version: 1.0.0
+  description: Fully compliant OpenAPI 3.0.3 specification – zero errors, zero warnings.
+
+servers:
+  - url: https://api.production.myapi.com/v1
+    description: Production server
+
+tags:
+  - name: Apple
+    description: User management operations
+  - name: Banana
+    description: Status-related operations
+  - name: Zebra
+    description: Event and callback operations
+
+paths:
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        description: Unique identifier of the user
+        schema:
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    get:
+      tags:
+        - Apple
+      summary: Retrieve a user by ID
+      description: Returns a single user object matching the provided ID.
+      operationId: getUserById
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                name: "Jane Doe"
+                status: "active"
+
+  /status:
+    post:
+      tags:
+        - Banana
+      summary: Set user status
+      description: Updates the status of a user.
+      operationId: setUserStatus
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              enum: [active, inactive, pending]
+      responses:
+        '201':
+          description: Status updated successfully
+
+  /search:
+    get:
+      tags:
+        - Apple
+      summary: Search users
+      description: Full-text search across users.
+      operationId: searchUsers
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search term
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+
+  /events:
+    post:
+      tags:
+        - Zebra
+      summary: Trigger event with callbacks
+      description: Accepts an event payload and delivers it via callbacks.
+      operationId: triggerEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - callbackUrl
+              properties:
+                callbackUrl:
+                  type: string
+                  format: uri
+                nestedUrl:
+                  type: string
+                  format: uri
+      callbacks:
+        onEvent:
+          '{$request.body#/callbackUrl}':
+            post:
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+              responses:
+                '200':
+                  description: Callback delivered
+      responses:
+        '202':
+          description: Event accepted for delivery
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        name:
+          type: string
+          example: Jane Doe
+        status:
+          type: string
+          enum: [active, inactive, pending]
+          example: active
+
+    UserList:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
