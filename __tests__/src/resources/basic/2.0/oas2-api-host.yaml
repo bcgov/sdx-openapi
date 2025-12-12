@@ -1,0 +1,377 @@
+swagger: '2.0'
+
+info:
+  title: 100% Exhaustive & Perfectly Valid OpenAPI 2.0 Specification
+  description: Demonstrates every legal OpenAPI 2.0 feature exactly once.
+  version: 10.0.0
+  termsOfService: https://example.com/terms
+  contact:
+    name: API Team
+    url: https://example.com/contact
+    email: api@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+# oas2-api-host
+# host: api.exhaustive.local
+basePath: /v1
+
+schemes:
+  - https
+  - http
+  - ws
+  - wss
+
+consumes:
+  - application/json
+  - application/xml
+  - multipart/form-data
+
+produces:
+  - application/json
+  - application/xml
+  - application/octet-stream
+
+responses:
+  NotFound:
+    description: Resource not found
+    schema:
+      $ref: '#/definitions/Error'
+  Unauthorized:
+    description: Authentication required
+    schema:
+      $ref: '#/definitions/Error'
+
+parameters:
+  skipParam:
+    name: skip
+    in: query
+    type: integer
+    format: int32
+    minimum: 0
+  limitParam:
+    name: limit
+    in: query
+    type: integer
+    format: int32
+    maximum: 100
+    default: 20
+
+securityDefinitions:
+  oauth_implicit:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: https://auth.example.com/oauth/authorize
+    scopes:
+      read: read access
+      write: write access
+  oauth_password:
+    type: oauth2
+    flow: password
+    tokenUrl: https://auth.example.com/oauth/token
+    scopes: {}
+  oauth_application:
+    type: oauth2
+    flow: application
+    tokenUrl: https://auth.example.com/oauth/token
+    scopes:
+      admin: admin scope
+  oauth_accessCode:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://auth.example.com/oauth/authorize
+    tokenUrl: https://auth.example.com/oauth/token
+    scopes:
+      full: full access
+  api_key:
+    type: apiKey
+    name: X-API-Key
+    in: header
+  basic:
+    type: basic
+
+security:
+  - oauth_implicit:
+      - read
+      - write
+  - api_key: []
+  - basic: []
+
+tags:
+  - name: demo
+    description: All features
+    externalDocs:
+      url: https://example.com/docs
+      description: Docs
+
+externalDocs:
+  url: https://example.com/full-docs
+  description: Full reference
+
+paths:
+  /pets:
+    parameters:
+      - name: X-Client-Version
+        in: header
+        type: string
+        required: true
+      - name: X-Features
+        in: header
+        type: array
+        items:
+          type: string
+        collectionFormat: pipes
+
+    get:
+      tags: [demo]
+      summary: Full GET with every collectionFormat and overrides
+      description: Demonstrates all query collection formats and operation overrides
+      operationId: listPets
+      deprecated: true
+      schemes: [ws, wss]
+      consumes: []
+      produces: [application/json]
+      security: []
+      parameters:
+        - name: csv
+          in: query
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+        - name: ssv
+          in: query
+          type: array
+          items:
+            type: string
+          collectionFormat: ssv
+        - name: tsv
+          in: query
+          type: array
+          items:
+            type: string
+          collectionFormat: tsv
+        - name: pipes
+          in: query
+          type: array
+          items:
+            type: string
+          collectionFormat: pipes
+        - name: multi
+          in: query
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+          allowEmptyValue: true
+        - name: pattern
+          in: query
+          type: string
+          pattern: "^[A-Z0-9]{8,}$"
+          minLength: 8
+          maxLength: 64
+        - $ref: '#/parameters/skipParam'
+        - $ref: '#/parameters/limitParam'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/PetArray'
+          headers:
+            X-Rate-Limit:
+              type: integer
+              format: int32
+            X-Tags:
+              type: array
+              items:
+                type: string
+              collectionFormat: csv
+            X-Expires:
+              type: string
+              format: date-time
+          examples:
+            application/json:
+              - id: 1
+                name: "Rex"
+        '404':
+          $ref: '#/responses/NotFound'
+
+    post:
+      summary: Create pet with file upload
+      description: Demonstrates formData and file parameters
+      operationId: createPet
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          type: string
+          required: true
+          minLength: 1
+        - name: photo
+          in: formData
+          type: file
+      responses:
+        '201':
+          description: Pet created
+          schema:
+            $ref: '#/definitions/Pet'
+
+  /pets/{petId}:
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        type: integer
+        format: int64
+        minimum: 1
+
+    get:
+      summary: Get pet by ID
+      description: Returns a single pet
+      operationId: getPetById
+      security:
+        - api_key: []
+        - basic: []
+      responses:
+        '200':
+          description: Pet found
+          schema:
+            $ref: '#/definitions/Pet'
+        '401':
+          $ref: '#/responses/Unauthorized'
+
+  /download:
+    get:
+      summary: Download binary file
+      description: Returns a file stream
+      operationId: downloadFile
+      produces:
+        - application/octet-stream
+      responses:
+        '200':
+          description: File stream
+          schema:
+            type: file
+
+  /login:
+    get:
+      summary: Login and set cookie
+      description: Sets session cookie
+      operationId: loginUser
+      responses:
+        '200':
+          description: Login successful — cookie set
+          headers:
+            Set-Cookie:
+              type: string
+              description: Session cookie
+
+  /extensions:
+    get:
+      summary: Vendor extensions demo
+      description: Returns model with vendor extensions
+      operationId: getWithExtensions
+      responses:
+        '200':
+          description: Example with x- fields
+          schema:
+            $ref: '#/definitions/Extended'
+
+definitions:
+  Pet:
+    type: object
+    title: Pet
+    description: Every schema feature used
+    example:
+      id: 42
+      name: "Fluffy"
+      score: 9.5                     # complies with maximum/exclusiveMaximum
+    externalDocs:
+      url: https://example.com/pet-docs
+    required: [id, name]
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+        minimum: 1
+      name:
+        type: string
+        minLength: 1
+        maxLength: 100
+        pattern: "^[a-zA-Z ]+$"
+      status:
+        type: string
+        enum: [available, pending, sold]
+        default: available
+      level:
+        type: integer
+        format: int32
+        enum: [1, 2, 3]
+      alive:
+        type: boolean
+        enum: [true, false]
+      score:
+        type: number
+        format: float
+        minimum: 0
+        maximum: 10                  # added — required when exclusiveMaximum is true
+        exclusiveMaximum: true
+        multipleOf: 0.5
+      weight:
+        type: number
+        format: double
+      tags:
+        type: array
+        items:
+          type: string
+          minLength: 1
+        minItems: 0
+        maxItems: 20
+        uniqueItems: true
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+      binaryData:
+        type: string
+        format: byte
+      raw:
+        type: string
+        format: binary
+      photoUrls:
+        type: array
+        items:
+          type: string
+          format: uri
+        xml:
+          wrapped: true
+    xml:
+      name: Pet
+
+  PetArray:
+    type: array
+    items:
+      $ref: '#/definitions/Pet'
+
+  Error:
+    type: object
+    required: [code, message]
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+
+  Extended:
+    type: object
+    x-framework: java
+    x-internal: true
+    x-demo: true
+    properties:
+      value:
+        type: string
+        x-deprecated-reason: migrated

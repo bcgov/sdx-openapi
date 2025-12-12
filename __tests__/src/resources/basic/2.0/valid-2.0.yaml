@@ -1,0 +1,424 @@
+swagger: '2.0'
+x-logo:
+  url: https://api.petstore-exhaustive.com/logo.png
+
+info:
+  title: Exhaustive OpenAPI 2.0 Reference — Final & Perfect
+  description: Every legal OpenAPI 2.0 feature appears at least once. 100% valid. 0 warnings anywhere.
+  version: 10.0.0
+  termsOfService: https://petstore-exhaustive.com/terms
+  contact:
+    name: API Support
+    url: https://petstore-exhaustive.com/support
+    email: support@petstore-exhaustive.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+host: api.petstore-exhaustive.com
+basePath: /v1
+
+schemes:
+  - https
+  - http
+  - ws
+  - wss
+
+consumes:
+  - application/json
+  - application/xml
+  - multipart/form-data
+
+produces:
+  - application/json
+  - application/xml
+  - application/octet-stream
+
+securityDefinitions:
+  oauth_implicit:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: https://auth.petstore-exhaustive.com/oauth/authorize
+    scopes:
+      read:pets: read pets
+      write:pets: modify pets
+  oauth_password:
+    type: oauth2
+    flow: password
+    tokenUrl: https://auth.petstore-exhaustive.com/oauth/token
+    scopes: {}
+  oauth_application:
+    type: oauth2
+    flow: application
+    tokenUrl: https://auth.petstore-exhaustive.com/oauth/token
+    scopes:
+      admin: admin scope
+  oauth_accessCode:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://auth.petstore-exhaustive.com/oauth/authorize
+    tokenUrl: https://auth.petstore-exhaustive.com/oauth/token
+    scopes:
+      full: full access
+  api_key_header:
+    type: apiKey
+    name: X-API-Key
+    in: header
+  api_key_query:
+    type: apiKey
+    name: api_key
+    in: query
+  basic:
+    type: basic
+
+security:
+  - oauth_implicit:
+      - read:pets
+      - write:pets
+  - api_key_header: []
+
+tags:
+  - name: animals
+    description: Polymorphism examples
+  - name: demo
+    description: All OpenAPI 2.0 features
+    externalDocs:
+      description: More info
+      url: https://petstore-exhaustive.com/docs
+
+externalDocs:
+  description: OpenAPI 2.0 Specification
+  url: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md
+
+paths:
+  /pets:
+    parameters:
+      - name: X-Client-Version
+        in: header
+        type: string
+        required: true
+      - name: X-Tags
+        in: header
+        type: array
+        items:
+          type: string
+        collectionFormat: pipes
+
+    get:
+      tags: [demo]
+      summary: List pets — all collection formats
+      description: Demonstrates csv, ssv, tsv, pipes, multi + allowEmptyValue
+      operationId: listPets
+      deprecated: true
+      schemes: [wss]
+      consumes: []
+      produces: [application/json]
+      security: []
+      externalDocs:
+        description: Docs
+        url: https://petstore-exhaustive.com/get-pets
+      parameters:
+        - name: tags_csv
+          in: query
+          type: array
+          items: { type: string }
+          collectionFormat: csv
+        - name: tags_ssv
+          in: query
+          type: array
+          items: { type: string }
+          collectionFormat: ssv
+        - name: tags_tsv
+          in: query
+          type: array
+          items: { type: string }
+          collectionFormat: tsv
+        - name: tags_pipes
+          in: query
+          type: array
+          items: { type: string }
+          collectionFormat: pipes
+        - name: tags_multi
+          in: query
+          type: array
+          items: { type: string }
+          collectionFormat: multi
+          allowEmptyValue: true
+        - name: pattern
+          in: query
+          type: string
+          pattern: ^[A-Z0-9]{8,}$
+      responses:
+        '200':
+          description: List of pets
+          schema:
+            $ref: '#/definitions/PetArray'
+          headers:
+            X-Rate-Limit:
+              type: integer
+            X-Expires:
+              type: string
+              format: date-time
+          examples:
+            application/json:
+              - id: 1
+                name: Rex
+
+    post:
+      tags: [demo]
+      summary: Create pet with file upload
+      description: formData + file + array via multi
+      operationId: createPet
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: name
+          in: formData
+          type: string
+          required: true
+        - name: tags
+          in: formData
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: photo
+          in: formData
+          type: file
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Pet'
+
+    put:
+      summary: Update pet (body parameter)
+      description: Only way to send complex payload in OpenAPI 2.0
+      operationId: updatePet
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Pet'
+      responses:
+        '200':
+          description: Updated
+          schema:
+            $ref: '#/definitions/Pet'
+
+  /pets/{petId}:
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        type: integer
+        format: int64
+    get:
+      summary: Get pet by ID
+      description: Returns one pet
+      operationId: getPetById
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Pet'
+
+  /download:
+    get:
+      summary: Download binary file
+      description: Raw stream
+      operationId: download
+      produces: [application/octet-stream]
+      responses:
+        '200':
+          description: File
+          schema:
+            type: file
+
+  /login:
+    get:
+      summary: Set session cookie
+      description: Returns Set-Cookie
+      operationId: login
+      responses:
+        '200':
+          description: Logged in
+          headers:
+            Set-Cookie:
+              type: string
+
+  /extensions:
+    get:
+      summary: Vendor extensions demo
+      description: Uses Extended model
+      operationId: getExtensions
+      x-rate-limited: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Extended'
+
+  /animals:
+    get:
+      tags: [animals]
+      summary: List animals — polymorphism in action
+      description: Returns Cat or Dog objects using discriminator
+      operationId: listAnimals
+      responses:
+        '200':
+          description: Array of animals
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Animal'
+          examples:
+            application/json:
+              - petType: cat
+                name: Whiskers
+                huntsMice: true
+              - petType: dog
+                name: Rex
+                barkVolume: 8
+
+responses:
+  NotFound:
+    description: Resource not found
+    schema:
+      $ref: '#/definitions/Error'
+
+definitions:
+  Error:
+    type: object
+    required: [code, message]
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+
+  Pet:
+    type: object
+    title: Pet
+    description: Every schema feature used at least once
+    example: {id: 42, name: "Fluffy"}
+    externalDocs:
+      description: Pet docs
+      url: https://petstore-exhaustive.com/pet-docs
+    required: [id, name]
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+        minimum: 1
+      name:
+        type: string
+        minLength: 1
+        maxLength: 100
+        pattern: ^[0-9a-zA-Z ]+$
+      status:
+        type: string
+        enum: [available, pending, sold]
+        default: available
+      alive:
+        type: boolean
+      score:
+        type: number
+        format: float
+        minimum: 0
+        exclusiveMinimum: true
+        maximum: 10
+        exclusiveMaximum: true
+        multipleOf: 0.5
+      weight:
+        type: number
+        format: double
+      registrationDate:
+        type: string
+        format: date
+      password:
+        type: string
+        format: password
+      tags:
+        type: array
+        items:
+          type: string
+        minItems: 0
+        maxItems: 20
+        uniqueItems: true
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+      strict:
+        type: object
+        additionalProperties: false
+      binaryData:
+        type: string
+        format: byte
+      raw:
+        type: string
+        format: binary
+      photoUrls:
+        type: array
+        items:
+          type: string
+          format: uri
+        xml:
+          wrapped: true
+    xml:
+      name: pet
+      namespace: https://petstore-exhaustive.com/ns
+      prefix: pet
+    x-pet: true
+
+  PetArray:
+    type: array
+    items:
+      $ref: '#/definitions/Pet'
+
+  Extended:
+    type: object
+    x-framework: java
+    properties:
+      value:
+        type: string
+        x-deprecated-reason: migrated
+
+  Animal:
+    type: object
+    discriminator: petType
+    required: [petType]
+    properties:
+      petType:
+        type: string
+      name:
+        type: string
+
+  Cat:
+    allOf:
+      - $ref: '#/definitions/Animal'
+      - type: object
+        properties:
+          petType:
+            type: string
+            enum: [cat]
+            default: cat
+          huntsMice:
+            type: boolean
+        required: [huntsMice]
+
+  Dog:
+    allOf:
+      - $ref: '#/definitions/Animal'
+      - type: object
+        properties:
+          petType:
+            type: string
+            enum: [dog]
+            default: dog
+          barkVolume:
+            type: integer
