@@ -91,6 +91,7 @@ describe('Spectral Validation Rules', () => {
       ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1users~1'],
       ['path-param-camel-case', Severity.Warning, 'Path parameter names should be camelCase', '/paths/~1users~1{user-id}/get/parameters/0/name'],
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1exampleMedia'],
+      ['query-param-camel-case', Severity.Warning, 'Query parameter names should be camelCase', '/paths/~1items/parameters/3/name'],
     ];
 
     logActualResults(results);
@@ -184,6 +185,7 @@ describe('Spectral Validation Rules', () => {
       ['operation-success-response', Severity.Warning, 'Operation must have at least one "2xx" or "3xx" response.', '/paths/~1users~1/get/responses'],
       ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1users~1'],
       ['path-param-camel-case', Severity.Warning, 'Path parameter names should be camelCase', '/paths/~1users~1{user-id}/parameters/0/name'],
+      ['query-param-camel-case', Severity.Warning, 'Query parameter names should be camelCase', '/paths/~1items/parameters/1/name'],
     ];
 
     logActualResults(results);

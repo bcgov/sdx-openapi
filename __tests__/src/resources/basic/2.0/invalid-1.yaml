@@ -75,6 +75,9 @@ paths:
       - name: limit            # operation-parameters: duplicate name + in → error
         in: query
         type: integer
+      - name: item-id
+        in: query
+        type: string
     get:
       operationId: listItems
       responses:

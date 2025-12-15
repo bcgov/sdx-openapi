@@ -77,6 +77,10 @@ paths:
           description: Search term
           schema:
             type: string
+        - name: itemId
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: Search results

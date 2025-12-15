@@ -103,6 +103,7 @@ describe('Spectral Validation Rules', () => {
       ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1{}~1'],
       ['path-param-camel-case', Severity.Warning, 'Path parameter names should be camelCase', '/paths/~1path~1{usedButNotDeclared}/parameters/0/name'],
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1invalidExamples'],
+      ['query-param-camel-case', Severity.Warning, 'Query parameter names should be camelCase', '/paths/~1dup-param/get/parameters/2/name'],
     ];
 
     logActualResults(results);

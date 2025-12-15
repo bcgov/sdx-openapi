@@ -108,6 +108,7 @@ describe('Spectral Validation Rules', () => {
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1sameId1'],
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1sameId2'],
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1invalidId'],
+      ['query-param-camel-case', Severity.Warning, 'Query parameter names should be camelCase', '/paths/~1duplicate-params/get/parameters/2/name'],
     ];
 
     logActualResults(results);

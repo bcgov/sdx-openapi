@@ -66,6 +66,9 @@ paths:
       - name: limit
         in: query
         type: integer
+      - name: item-id
+        in: query
+        type: string
     get:
       operationId: listItems
       responses:

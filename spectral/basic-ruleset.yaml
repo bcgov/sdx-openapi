@@ -193,14 +193,14 @@ rules:
   # # Query parameters: camelCase
   # # Consistency with path parameters, operationId, and payload properties is key for developer
   # # experience. camelCase is the dominant choice in modern JavaScript/TypeScript ecosystems.
-  # query-param-camel-case:
-  #   description: Query parameter names should be camelCase
-  #   severity: warn
-  #   given: $.paths..parameters[?(@.in == 'query')].name
-  #   then:
-  #     function: pattern
-  #     functionOptions:
-  #       match: ^[a-z][a-zA-Z0-9]*$
+  query-param-camel-case:
+    description: Query parameter names should be camelCase
+    severity: warn
+    given: $.paths..parameters[?(@.in == 'query')].name
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z][a-zA-Z0-9]*$
 
   # # Schema properties (JSON payload fields): camelCase
   # # JSON payload field names become object properties in generated SDKs and client code.

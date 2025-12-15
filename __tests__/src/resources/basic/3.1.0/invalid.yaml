@@ -59,6 +59,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: param-one
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: ok  # Triggers operation-parameters: error
