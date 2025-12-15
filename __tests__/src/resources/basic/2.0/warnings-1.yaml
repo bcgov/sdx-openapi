@@ -138,7 +138,7 @@ definitions:
   EnumBad:
     type: object
     properties:
-      status:
+      current-status:
         type: string
         enum: [active, inactive]            # fixed duplicated-entry-in-enum
       code:

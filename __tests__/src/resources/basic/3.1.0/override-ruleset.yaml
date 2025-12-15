@@ -25,3 +25,8 @@ overrides:
       - "**#/components/responses/RefSiblingResponse"
     rules:
       oas3-unused-component: off
+
+  - files: 
+      - "**#/components/schemas/User"
+    rules:
+      oas3-unused-component: off

@@ -60,6 +60,7 @@ describe('Spectral Validation Rules', () => {
       ['oas3-server-trailing-slash', Severity.Warning, 'Server URL must not have trailing slash.', '/servers/0/url'],
       ['oas3-server-variables', Severity.Warning, 'Server Variable "var" has a missing default.', '/servers/1/variables/var'],
       ['oas3-server-variables', Severity.Warning, 'Server\'s "variables" object has unused defined "unused" url variable.', '/servers/1/variables/unused'],
+      ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/schemas/User'],
       ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/schemas/DupeEnum'],
       ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/schemas/TypedEnum'],
       ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/schemas/ArrayNoItems'],
@@ -109,6 +110,7 @@ describe('Spectral Validation Rules', () => {
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1sameId2'],
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1invalidId'],
       ['query-param-camel-case', Severity.Warning, 'Query parameter names should be camelCase', '/paths/~1duplicate-params/get/parameters/2/name'],
+      ['schema-property-camel-case', Severity.Warning, 'Schema property names in request/response bodies should be camelCase', '/components/schemas/User/properties/user-name'],
     ];
 
     logActualResults(results);
@@ -219,11 +221,12 @@ describe('Spectral Validation Rules', () => {
     const results = await spectral.run(document);
 
     const expectedResults = [
-        ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/UniqueEnumResponse'],
-        ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/TypedEnumResponse'],
-        ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/ArrayResponse'],
-        ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/InvalidSchemaExResponse'],
-        ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/RefSiblingResponse'],
+      ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/schemas/User'],
+      ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/UniqueEnumResponse'],
+      ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/TypedEnumResponse'],
+      ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/ArrayResponse'],
+      ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/InvalidSchemaExResponse'],
+      ['oas3-unused-component', Severity.Warning, 'Potentially unused component has been detected.', '/components/responses/RefSiblingResponse'],
     ];
 
     logActualResults(results);

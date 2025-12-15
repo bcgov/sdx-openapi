@@ -139,12 +139,13 @@ definitions:
   EnumBad:
     type: object
     properties:
-      status:
+      current-status:
         type: string
         enum: ["active", "active"]   # duplicated-entry-in-enum → error
       code:
         type: integer
         enum: ["one", "two"]         # typed-enum: string instead of integer → error
+      
 
   ArrayNoItems:
     type: array                     # array-items: missing items keyword → warn

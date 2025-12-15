@@ -199,6 +199,23 @@ webhooks:
           description: Webhook acknowledged
 components:
   schemas:
+    User:
+      type: object
+      required:
+        - id
+        - username
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        username:
+          type: string
+          example: Jane Doe
+        status:
+          type: string
+          enum: [active, inactive, pending]
+          example: active
     UniqueEnum:
       type: number
       enum:

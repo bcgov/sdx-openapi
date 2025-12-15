@@ -175,6 +175,11 @@ webhooks:
           description: ok
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        user-name:
+          type: string
     DupeEnum:
       type: number
       enum:

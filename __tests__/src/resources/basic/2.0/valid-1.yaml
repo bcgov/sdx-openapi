@@ -229,7 +229,7 @@ definitions:
   NamedEntity:
     type: object
     properties:
-      name:
+      entityName:
         type: string
     example:
       name: "Jane Smith"

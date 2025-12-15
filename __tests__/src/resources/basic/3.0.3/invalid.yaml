@@ -190,7 +190,7 @@ components:
     User:
       type: object
       properties:
-        name:
+        user-name:
           type: string
 
     Price:

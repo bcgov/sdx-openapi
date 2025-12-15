@@ -33,12 +33,12 @@ describe('Spectral Validation Rules', () => {
     const results = await spectral.run(document);
 
     const expectedResults = [
-      ['duplicated-entry-in-enum', Severity.Error, '"enum" property must not have duplicate items (items ## 0 and 1 are identical)', '/definitions/EnumBad/properties/status/enum'],
+      ['duplicated-entry-in-enum', Severity.Error, '"enum" property must not have duplicate items (items ## 0 and 1 are identical)', '/definitions/EnumBad/properties/current-status/enum'],
       ['invalid-ref', Severity.Error, '\'#/definitions/User\' does not exist', '/paths/~1users~1{id}/get/responses/200/schema/$ref'],
       ['no-$ref-siblings', Severity.Error, '$ref must not be placed next to any other properties', '/paths/~1users~1{id}/get/responses/200/schema/type'],
       ['oas2-anyOf', Severity.Error, '"anyOf" keyword must not be used in OpenAPI v2 document.', '/definitions/AnyOfInV2/anyOf'],
       ['oas2-oneOf', Severity.Error, '"oneOf" keyword must not be used in OpenAPI v2 document.', '/definitions/OneOfInV2/oneOf'],
-      ['oas2-schema', Severity.Error, '"enum" property must not have duplicate items (items ## 0 and 1 are identical).', '/definitions/EnumBad/properties/status/enum'],
+      ['oas2-schema', Severity.Error, '"enum" property must not have duplicate items (items ## 0 and 1 are identical).', '/definitions/EnumBad/properties/current-status/enum'],
       ['oas2-schema', Severity.Error, '"parameters" property must not have duplicate items (items ## 1 and 2 are identical).', '/paths/~1items/parameters'],
       ['oas2-schema', Severity.Error, '"post" property must have required property "responses".', '/paths/~1users~1{user-id}/post'],
       ['oas2-schema', Severity.Error, '"tags" property must not have duplicate items (items ## 1 and 2 are identical).', '/tags'],
@@ -92,6 +92,7 @@ describe('Spectral Validation Rules', () => {
       ['path-param-camel-case', Severity.Warning, 'Path parameter names should be camelCase', '/paths/~1users~1{user-id}/get/parameters/0/name'],
       ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1exampleMedia'],
       ['query-param-camel-case', Severity.Warning, 'Query parameter names should be camelCase', '/paths/~1items/parameters/3/name'],
+      ['schema-property-camel-case', Severity.Warning, 'Schema property names in request/response bodies should be camelCase', '/definitions/EnumBad/properties/current-status'],
     ];
 
     logActualResults(results);
@@ -186,6 +187,7 @@ describe('Spectral Validation Rules', () => {
       ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1users~1'],
       ['path-param-camel-case', Severity.Warning, 'Path parameter names should be camelCase', '/paths/~1users~1{user-id}/parameters/0/name'],
       ['query-param-camel-case', Severity.Warning, 'Query parameter names should be camelCase', '/paths/~1items/parameters/1/name'],
+      ['schema-property-camel-case', Severity.Warning, 'Schema property names in request/response bodies should be camelCase', '/definitions/EnumBad/properties/current-status'],
     ];
 
     logActualResults(results);

@@ -202,17 +202,20 @@ rules:
       functionOptions:
         match: ^[a-z][a-zA-Z0-9]*$
 
-  # # Schema properties (JSON payload fields): camelCase
-  # # JSON payload field names become object properties in generated SDKs and client code.
-  # # camelCase is the most common convention in public APIs and avoids issues with languages that
-  # # don't support hyphens or underscores in identifiers.
-  # schema-property-camel-case:
-  #   description: Schema property names in request/response bodies should be camelCase
-  #   severity: warn
-  #   given: $..properties.*
-  #   then:
-  #     field: "@key"
-  #     function: pattern
-  #     functionOptions:
-  #       match: ^[a-z][a-zA-Z0-9]*$
+  # Schema properties (JSON payload fields): camelCase
+  # JSON payload field names become object properties in generated SDKs and client code.
+  # camelCase is the most common convention in public APIs and avoids issues with languages that
+  # don't support hyphens or underscores in identifiers.
+  schema-property-camel-case:
+      description: Schema property names in request/response bodies should be camelCase
+      severity: warn
+      given:
+        - $.definitions..properties
+        - $.components.schemas..properties
+        - $..properties   # This catches ALL properties maps, including inline schemas
+      then:
+        field: "@key"
+        function: pattern
+        functionOptions:
+          match: ^[a-z][a-zA-Z0-9]*$
   
