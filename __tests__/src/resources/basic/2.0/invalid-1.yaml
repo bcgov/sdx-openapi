@@ -113,7 +113,7 @@ paths:
         "200":
           description: OK
 
-  /example-media:
+  /exampleMedia:
     get:
       responses:
         "200":

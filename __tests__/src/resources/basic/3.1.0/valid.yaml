@@ -81,7 +81,7 @@ paths:
       responses:
         '200':
           description: Success response
-  '/no-operationId':
+  '/no-operation-id':
     get:
       description: This operation previously lacked an operationId.
       operationId: getNoOperationIdExample
@@ -97,21 +97,21 @@ paths:
           description: Success response
         '400':
           description: Bad request (preserved for original demo intent)
-  '/sameId1':
+  '/same-id1':
     get:
       description: First operation with unique operationId.
       operationId: sameId1
       responses:
         '200':
           description: Success response
-  '/sameId2':
+  '/same-id2':
     get:
       description: Second operation with unique operationId.
       operationId: sameId2
       responses:
         '200':
           description: Success response
-  '/validId':
+  '/valid-id':
     get:
       description: Operation demonstrating a URL-safe operationId.
       operationId: validIdWithSafeChars

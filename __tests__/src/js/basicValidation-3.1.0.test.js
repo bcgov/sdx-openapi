@@ -184,6 +184,10 @@ describe('Spectral Validation Rules', () => {
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1valid-example/get'],
       ['operation-success-response', Severity.Warning, 'Operation must have at least one "2xx" or "3xx" response.', '/paths/~1no-success/get/responses'],
       ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1path~1trailing~1'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1no-operationId'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1sameId1'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1sameId2'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1validId'],
     ];
 
     logActualResults(results);

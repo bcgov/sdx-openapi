@@ -30,7 +30,7 @@ paths:
         '200':
           description: OK
 
-  /query{?q}:                    # path-not-include-query: error
+  /query?q:                    # path-not-include-query: error
     get:
       operationId: ok
       responses:
@@ -169,7 +169,7 @@ paths:
         '200':
           description: OK
 
-  /invalid-examples:
+  /invalidExamples:
     get:
       responses:
         '200':

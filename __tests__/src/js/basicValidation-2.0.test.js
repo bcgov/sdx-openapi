@@ -70,7 +70,7 @@ describe('Spectral Validation Rules', () => {
       ['oas2-unused-definition', Severity.Warning, 'Potentially unused definition has been detected.', '/definitions/OneOfInV2'],
       ['oas2-unused-definition', Severity.Warning, 'Potentially unused definition has been detected.', '/definitions/BadSchemaExample'],
       ['oas2-unused-definition', Severity.Warning, 'Potentially unused definition has been detected.', '/definitions/UnusedDefinition'],
-      ['oas2-valid-media-example', Severity.Warning, '"name" property type must be string', '/paths/~1example-media/get/responses/200/examples/application~1json/name'],
+      ['oas2-valid-media-example', Severity.Warning, '"name" property type must be string', '/paths/~1exampleMedia/get/responses/200/examples/application~1json/name'],
       ['oas2-valid-schema-example', Severity.Warning, '"name" property type must be string', '/definitions/BadSchemaExample/example/name'],
       ['openapi-tags-alphabetical', Severity.Warning, 'OpenAPI object must have alphabetical "tags".', '/tags'],
       ['openapi-tags-uniqueness', Severity.Warning, '"tags" object contains duplicate tag name "alpha".', '/tags/2/name'],
@@ -82,14 +82,15 @@ describe('Spectral Validation Rules', () => {
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1form-body-mix/post'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1double-body/put'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1secure/get'],
-      ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1example-media/get'],
+      ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1exampleMedia/get'],
       ['operation-id-camel-case', Severity.Warning, 'operationId should be camelCase (starts with lowercase letter, no separators)', '/paths/~1users~1{id}/get/operationId'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1users~1/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1form-body-mix/post'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1double-body/put'],
-      ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1example-media/get'],
+      ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1exampleMedia/get'],
       ['operation-success-response', Severity.Warning, 'Operation must have at least one "2xx" or "3xx" response.', '/paths/~1users~1/get/responses'],
       ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1users~1'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1exampleMedia'],
     ];
 
     logActualResults(results);
