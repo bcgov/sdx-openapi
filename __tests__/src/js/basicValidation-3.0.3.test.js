@@ -89,6 +89,7 @@ describe('Spectral Validation Rules', () => {
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1security/get'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1nested-callbacks/post'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1invalid-examples/get'],
+      ['operation-id-camel-case', Severity.Warning, 'operationId should be camelCase (starts with lowercase letter, no separators)', '/paths/~1bad-opid/get/operationId'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1no-meta/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1markdown/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1enum/post'],
@@ -229,7 +230,7 @@ describe('Spectral Validation Rules', () => {
       return a.message.localeCompare(b.message); 
     });
 
-    let actualResults = "const actualResults = [\n";
+    let actualResults = expect.getState().currentTestName + "\nconst actualResults = [\n";
     for (const result of results) {
 
       const message = result.message

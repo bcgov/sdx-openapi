@@ -85,6 +85,7 @@ describe('Spectral Validation Rules', () => {
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1invalid-security/get'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1invalid-media-ex/get'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1both-example/get'],
+      ['operation-id-camel-case', Severity.Warning, 'operationId should be camelCase (starts with lowercase letter, no separators)', '/paths/~1invalidId/get/operationId'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1path?query=value/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1path~1{}/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1path~1trailing~1/get'],
@@ -165,6 +166,7 @@ describe('Spectral Validation Rules', () => {
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1valid-security/get'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1invalid-media-ex/get'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1valid-example/get'],
+      ['operation-id-camel-case', Severity.Warning, 'operationId should be camelCase (starts with lowercase letter, no separators)', '/paths/~1validId/get/operationId'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1path/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1path~1{id}/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1path~1trailing~1/get'],
@@ -294,7 +296,7 @@ describe('Spectral Validation Rules', () => {
       return a.message.localeCompare(b.message); 
     });
 
-    let actualResults = "const actualResults = [\n";
+    let actualResults = expect.getState().currentTestName + "\nconst actualResults = [\n";
     for (const result of results) {
 
       const message = result.message

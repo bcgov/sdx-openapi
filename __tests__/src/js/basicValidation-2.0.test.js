@@ -83,12 +83,13 @@ describe('Spectral Validation Rules', () => {
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1double-body/put'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1secure/get'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1example-media/get'],
+      ['operation-id-camel-case', Severity.Warning, 'operationId should be camelCase (starts with lowercase letter, no separators)', '/paths/~1users~1{id}/get/operationId'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1users~1/get'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1form-body-mix/post'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1double-body/put'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1example-media/get'],
       ['operation-success-response', Severity.Warning, 'Operation must have at least one "2xx" or "3xx" response.', '/paths/~1users~1/get/responses'],
-      ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1users~1'], 
+      ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1users~1'],
     ];
 
     logActualResults(results);
@@ -122,6 +123,7 @@ describe('Spectral Validation Rules', () => {
       ['oas2-operation-formData-consume-check', Severity.Warning, 'Operations with "in: formData" parameter must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property.', '/paths/~1upload/post'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1/get'],
       ['operation-description', Severity.Warning, 'Operation "description" must be present and non-empty string.', '/paths/~1upload/post'],
+      ['operation-id-camel-case', Severity.Warning, 'operationId should be camelCase (starts with lowercase letter, no separators)', '/paths/~1/get/operationId'],
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1upload/post'],
     ];
 
@@ -307,7 +309,7 @@ describe('Spectral Validation Rules', () => {
       return a.message.localeCompare(b.message); 
     });
 
-    let actualResults = "const actualResults = [\n";
+    let actualResults = expect.getState().currentTestName + "\nconst actualResults = [\n";
     for (const result of results) {
 
       const message = result.message

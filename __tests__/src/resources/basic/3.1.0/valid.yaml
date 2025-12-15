@@ -114,7 +114,7 @@ paths:
   '/validId':
     get:
       description: Operation demonstrating a URL-safe operationId.
-      operationId: valid-id-with-safe-chars
+      operationId: validIdWithSafeChars
       responses:
         '200':
           description: Success response
