@@ -40,7 +40,7 @@ paths:
   '/path/unused':
     get:
       parameters:
-        - name: unusedId
+        - name: unused-id
           in: path
           required: true
           schema:

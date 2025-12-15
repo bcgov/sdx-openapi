@@ -33,10 +33,15 @@ paths:
             $ref: "#/definitions/User"
             type: object            # no-$ref-siblings: sibling next to $ref → error (Spectral enforces this even in 2.0)
 
-  /users/{userId}:
+  /users/{user-id}:
     get:
       operationId: getUser        # operation-operationId-unique: duplicate (see below) → error
       description: "<script>alert('xss')</script>"  # no-script-tags-in-markdown → warn
+      parameters:
+      - name: user-id
+        in: path
+        required: true
+        type: string
       responses:
         "200":
           description: OK

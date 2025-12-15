@@ -20,9 +20,9 @@ paths:
           description: Bad request
           # operation-success-response missing 2xx → warn
 
-  /users/{userId}:      # merged the two almost-identical paths to avoid path-params equivalent-paths error
+  /users/{user-id}:      # merged the two almost-identical paths to avoid path-params equivalent-paths error
     parameters:
-      - name: userId
+      - name: user-id
         in: path
         required: true
         type: string

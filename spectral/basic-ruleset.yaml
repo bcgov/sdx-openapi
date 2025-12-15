@@ -150,12 +150,13 @@ rules:
   # Path segments: kebab-case (lowercase with hyphens)
   # Industry consensus (Google, Microsoft, Zalando, etc.) strongly recommends lowercase
   # hyphenated paths for readability, SEO-friendliness, and to avoid case-sensitivity issues.
-  # Path parameters in {} are excluded from this check as they typically use camelCase.
-  # This version allows:
+  # This rule ONLY checks static path segments (outside of {}).
+  # Path parameters ({...}) are completely ignored — any content (including empty {}, hyphens,
+  # uppercase, underscores, special chars) is allowed inside braces.
+  # Also allows:
   # - root path "/"
   # - optional trailing slash
   # - optional query string at the end
-  # - empty path parameters {} (e.g., /users/{})
   path-segments-kebab-case:
     description: Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)
     severity: warn
@@ -164,30 +165,30 @@ rules:
       field: "@key"
       function: pattern
       functionOptions:
-        # Explanation of the regex:
-        # ^/                                           → starts with /
-        # (                                            → begin alternatives
-        #   $                                          → OR: end of string (allows bare "/")
-        #   |                                          → OR
-        #   ([a-z0-9-]+|{[a-zA-Z0-9_]*})                → first segment: kebab or {param} (empty {} allowed)
-        #   (/([a-z0-9-]+|{[a-zA-Z0-9_]*}))*           → zero or more additional segments
-        # )                                            → end alternatives
+        # Explanation:
+        # ^/                                           → starts with root slash
+        # (?:                                          → non-capturing group for alternatives
+        #   $                                          → OR: root path "/" only
+        #   |                                          → OR: path with segments
+        #   ({[^}]*}|[a-z0-9-]+)                       → first item: either {anything} or kebab segment
+        #   (/(?:{[^}]*}|[a-z0-9-]+))*                 → zero or more additional / + {anything} or kebab
+        # )
         # /?                                           → optional trailing slash
         # (\?.*)?                                      → optional query string
         # $
-        match: ^/(?:$|([a-z0-9-]+|{[a-zA-Z0-9_]*})(/([a-z0-9-]+|{[a-zA-Z0-9_]*}))*\/?(\?.*)?)$
+        match: ^/(?:$|({[^}]*}|[a-z0-9-]+)(/(?:{[^}]*}|[a-z0-9-]+))*\/?(\?.*)?)$
 
-  # # Path parameters: camelCase
-  # # Path parameter names appear in generated client code and URLs. camelCase aligns with
-  # # JSON payload properties and operationId, providing consistency across the API surface.
-  # path-param-camel-case:
-  #   description: Path parameter names should be camelCase
-  #   severity: warn
-  #   given: $.paths..parameters[?(@.in == 'path')].name
-  #   then:
-  #     function: pattern
-  #     functionOptions:
-  #       match: ^[a-z][a-zA-Z0-9]*$
+  # Path parameters: camelCase
+  # Path parameter names appear in generated client code and URLs. camelCase aligns with
+  # JSON payload properties and operationId, providing consistency across the API surface.
+  path-param-camel-case:
+    description: Path parameter names should be camelCase
+    severity: warn
+    given: $.paths..parameters[?(@.in == 'path')].name
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z][a-zA-Z0-9]*$
 
   # # Query parameters: camelCase
   # # Consistency with path parameters, operationId, and payload properties is key for developer

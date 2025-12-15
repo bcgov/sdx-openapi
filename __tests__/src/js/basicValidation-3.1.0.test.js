@@ -47,7 +47,7 @@ describe('Spectral Validation Rules', () => {
       ['path-declarations-must-exist', Severity.Error, 'Path parameter declarations must not be empty, ex."/given/{}" is invalid.', '/paths/~1path~1{}'],
       ['path-not-include-query', Severity.Error, 'Path must not include query string.', '/paths/~1path?query=value'],
       ['path-params', Severity.Error, 'Operation must define parameter "{id}" as expected by path "/path/{id}".', '/paths/~1path~1{id}/get'],
-      ['path-params', Severity.Error, 'Parameter "unusedId" must be used in path "/path/unused".', '/paths/~1path~1unused/get/parameters/0'],
+      ['path-params', Severity.Error, 'Parameter "unused-id" must be used in path "/path/unused".', '/paths/~1path~1unused/get/parameters/0'],
       ['typed-enum', Severity.Error, 'Enum value "string" must be "number".', '/components/schemas/TypedEnum/enum/0'],
       ['array-items', Severity.Warning, 'Schemas with "type: array", require a sibling "items" field', '/components/schemas/ArrayNoItems'],
       ['info-description', Severity.Warning, 'Info "description" must be present and non-empty string.', '/info/description'],
@@ -103,6 +103,11 @@ describe('Spectral Validation Rules', () => {
       ['operation-operationId', Severity.Warning, 'Operation must have "operationId".', '/paths/~1both-example/get'],
       ['operation-success-response', Severity.Warning, 'Operation must have at least one "2xx" or "3xx" response.', '/paths/~1no-success/get/responses'],
       ['path-keys-no-trailing-slash', Severity.Warning, 'Path must not end with slash.', '/paths/~1path~1trailing~1'],
+      ['path-param-camel-case', Severity.Warning, 'Path parameter names should be camelCase', '/paths/~1path~1unused/get/parameters/0/name'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1no-operationId'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1sameId1'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1sameId2'],
+      ['path-segments-kebab-case', Severity.Warning, 'Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)', '/paths/~1invalidId'],
     ];
 
     logActualResults(results);

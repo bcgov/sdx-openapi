@@ -44,9 +44,9 @@ paths:
         '200':
           description: OK
 
-  /path/{usedButNotDeclared}/{declaredButUnused}:
+  /path/{usedButNotDeclared}:
     parameters:
-      - name: declaredButUnused  # path-params: error
+      - name: declared-but-unused  # path-params: error
         in: path
         required: true
         schema:
