@@ -28,6 +28,16 @@ rules:
   typed-enum: error
   # OpenAPI v3 keyword anyOf detected in OpenAPI v2 document.
   oas2-anyOf: error
+  # OpenAPI v3 keyword oneOf detected in OpenAPI v2 document.
+  oas2-oneOf: error
+  # Validate structure of OpenAPI v2 specification.
+  oas2-schema: error
+  # Examples for requestBody or response examples can have an externalValue or a value, but they cannot have both.
+  oas3-examples-value-or-externalValue: error
+  # Operation security values must match a scheme defined in the components.securitySchemes object.
+  oas3-operation-security-defined: error
+  # Validate structure of OpenAPI v3 specification.
+  oas3-schema: error
   
 # Required Content
 
@@ -56,45 +66,16 @@ rules:
   oas2-api-host: warn
   # OpenAPI host schemes must be present and non-empty array.
   oas2-api-schemes: warn
-
-# Optional Content
-  # A contact object is required, including name, url, and email.
-  contact-properties: off
-  # Info object should contain contact object.
-  info-contact: off
-  # The info object should have a license key.
-  info-license: off 
-  # Mentioning a license is only useful if people know what the license means, so add a link to the full text for those who need it.
-  license-url: off 
-  # OpenAPI object should have non-empty tags array.
-  openapi-tags: off 
-  # Use just one tag for an operation
-  operation-singular-tag: off 
-  # Operation should have non-empty tags array.
-  operation-tag-defined: off 
-  # Operation tags should be defined in global tags.
-  operation-tags: off 
-  # A tag should have a description.
-  tag-description: off
-
-  # Unclassified
-  
   # The discriminator property MUST be defined at this schema and it MUST be in the required property list.
   oas2-discriminator: warn
   # Server URL should not point to example.com.
   oas2-host-not-example: warn
   # Server URL should not have a trailing slash.
   oas2-host-trailing-slash: warn
-  # OpenAPI v3 keyword oneOf detected in OpenAPI v2 document.
-  oas2-oneOf: error
   # Operations with an in: formData parameter must include application/x-www-form-urlencoded or multipart/form-data in their consumes property.
   oas2-operation-formData-consume-check: warn
   # Operation security values must match a scheme defined in the securityDefinitions object.
   oas2-operation-security-defined: warn
-  # Parameter objects should have a description.
-  oas2-parameter-description: off
-  # Validate structure of OpenAPI v2 specification.
-  oas2-schema: error
   # Potential unused reusable definition entry has been detected.
   oas2-unused-definition: warn
   # Examples must be valid against their defined schema.  This rule is applied to Media Type objects.
@@ -104,19 +85,8 @@ rules:
   oas2-valid-media-example: warn
   # Examples must be valid against their defined schema. This rule is applied to Schema objects.
   oas2-valid-schema-example: warn
-
-  # OpenAPI servers must be present and non-empty array.
-  oas3-api-servers: off
   # A callback should not be defined within another callback.
   oas3-callbacks-in-callbacks: warn
-  # Examples for requestBody or response examples can have an externalValue or a value, but they cannot have both.
-  oas3-examples-value-or-externalValue: error
-  # Operation security values must match a scheme defined in the components.securitySchemes object.
-  oas3-operation-security-defined: error
-  # Parameter objects should have a description.
-  oas3-parameter-description: off
-  # Validate structure of OpenAPI v3 specification.
-  oas3-schema: error
   # Server URL should not point to example.com.
   oas3-server-not-example.com: warn
   # Server URL should not have a trailing slash.
@@ -133,7 +103,7 @@ rules:
   oas3_1-callbacks-in-webhook: warn
   # Servers should not be defined in a webhook.
   oas3_1-servers-in-webhook: warn
-  
+
   # operationId: camelCase
   # CamelCase is the most widely adopted convention for operationId across major API providers
   # and SDK generators. It maps naturally to method names in JavaScript/TypeScript, Java, C#, etc.
@@ -219,3 +189,29 @@ rules:
         functionOptions:
           match: ^[a-z][a-zA-Z0-9]*$
   
+
+# Optional Content
+  # A contact object is required, including name, url, and email.
+  contact-properties: off
+  # Info object should contain contact object.
+  info-contact: off
+  # The info object should have a license key.
+  info-license: off 
+  # Mentioning a license is only useful if people know what the license means, so add a link to the full text for those who need it.
+  license-url: off 
+  # OpenAPI object should have non-empty tags array.
+  openapi-tags: off 
+  # Use just one tag for an operation
+  operation-singular-tag: off 
+  # Operation should have non-empty tags array.
+  operation-tag-defined: off 
+  # Operation tags should be defined in global tags.
+  operation-tags: off 
+  # A tag should have a description.
+  tag-description: off
+  # Parameter objects should have a description.
+  oas2-parameter-description: off
+  # OpenAPI servers must be present and non-empty array.
+  oas3-api-servers: off
+  # Parameter objects should have a description.
+  oas3-parameter-description: off
