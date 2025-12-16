@@ -3,111 +3,989 @@ extends: spectral:oas
 rules:
 # Well-formedness rules
   # Each value of an enum must be different from one another.
+  # Valid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     Status:
+  #       type: string
+  #       enum: [active, inactive, pending]
+  # ```
+  # Invalid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     Status:
+  #       type: string
+  #       enum: [active, inactive, active]
+  # ```
   duplicated-entry-in-enum: error
   # $ref siblings are ignored before 3.1.0
+  # Valid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     User:
+  #       $ref: '#/components/schemas/UserRef'
+  # ```
+  # Invalid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     User:
+  #       $ref: '#/components/schemas/UserRef'
+  #       type: object
+  # ```
   no-$ref-siblings: error
   # Every operation must have a unique operationId.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: listUsers
+  #   /admins:
+  #     get:
+  #       operationId: listAdmins
+  # ```
+  # Invalid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: listUsers
+  #   /admins:
+  #     get:
+  #       operationId: listUsers
+  # ```
   operation-operationId-unique: error
   # Operation ID must avoid non-URL-safe characters
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: listUsers_v2
+  # ```
+  # Invalid example (space):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: list Users
+  # ```
+  # Invalid example (bracket):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: list<Users
+  # ```
   operation-operationId-valid-in-url: error
   # Operation parameters are unique and non-repeating
   # 1. Operation must have unique name + in parameters.
   # 2. Operation cannot have both in: body and in: formData parameters. (OpenAPI v2.0)
   # 3. Operation must have only one in: body parameter. (OpenAPI v2.0)
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users/{id}:
+  #     get:
+  #       parameters:
+  #         - name: id
+  #           in: path
+  #           required: true
+  #           schema:
+  #             type: string
+  # ```
+  # Invalid example (duplicate):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       parameters:
+  #         - name: page
+  #           in: query
+  #         - name: page
+  #           in: query
+  # ```
+  # Invalid example (body and formData in OAS2):
+  # ```yaml
+  # swagger: '2.0'
+  # paths:
+  #   /users:
+  #     post:
+  #       parameters:
+  #         - name: payload
+  #           in: body
+  #           schema:
+  #             type: object
+  #         - name: file
+  #           in: formData
+  #           type: file
+  # ```
   operation-parameters: error
   # Path parameter declarations cannot be empty, ex./given/{} is invalid.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users/{userId}:
+  #     get:
+  #       operationId: getUser
+  # ```
+  # Invalid example:
+  # ```yaml
+  # paths:
+  #   /users/{}:
+  #     get:
+  #       operationId: getUser
+  # ```
   path-declarations-must-exist: error
   # Don't put query string items in the path, they belong in parameters.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       parameters:
+  #         - name: active
+  #           in: query
+  #           schema:
+  #             type: boolean
+  # ```
+  # Invalid example:
+  # ```yaml
+  # paths:
+  #   /users?active=true:
+  #     get:
+  #       operationId: listActiveUsers
+  # ```
   path-not-include-query: error
   # Path parameters are correct and valid.
   # 1. For every parameter referenced in the path string (i.e: /users/{userId}), the parameter must be defined in either path.parameters, 
   #    or operation.parameters objects (non-standard HTTP operations will be silently ignored.)
   # 2. Every path.parameters and operation.parameters parameter must be used in the path string.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users/{userId}:
+  #     parameters:
+  #       - name: userId
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     get:
+  #       operationId: getUser
+  # ```
+  # Invalid example (not defined):
+  # ```yaml
+  # paths:
+  #   /users/{userId}:
+  #     get:
+  #       operationId: getUser
+  # ```
+  # Invalid example (not used):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     parameters:
+  #       - name: userId
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     get:
+  #       operationId: getUser
+  # ```
   path-params: error
   # Enum values should respect the type specifier.
+  # Valid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     Size:
+  #       type: string
+  #       enum: [small, medium, large]
+  # ```
+  # Invalid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     Code:
+  #       type: string
+  #       enum: [200, 404, 500]
+  # ```
   typed-enum: error
   # OpenAPI v3 keyword anyOf detected in OpenAPI v2 document.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # info:
+  #   title: API
+  #   version: 1.0.0
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # components:
+  #   schemas:
+  #     Pet:
+  #       anyOf:
+  #         - $ref: '#/components/schemas/Cat'
+  # ```
   oas2-anyOf: error
   # OpenAPI v3 keyword oneOf detected in OpenAPI v2 document.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # info:
+  #   title: API
+  #   version: 1.0.0
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # components:
+  #   schemas:
+  #     Response:
+  #       oneOf:
+  #         - $ref: '#/components/schemas/Success'
+  # ```
   oas2-oneOf: error
   # Validate structure of OpenAPI v2 specification.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # info:
+  #   title: Test
+  #   version: '1.0'
+  # paths: {}
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # info:
+  #   version: '1.0'
+  # paths: {}
+  # ```
   oas2-schema: error
   # Examples for requestBody or response examples can have an externalValue or a value, but they cannot have both.
+  # Valid example:
+  # ```yaml
+  # components:
+  #   responses:
+  #     UserResponse:
+  #       content:
+  #         application/json:
+  #           example:
+  #             value:
+  #               id: 123
+  # ```
+  # Invalid example:
+  # ```yaml
+  # components:
+  #   responses:
+  #     UserResponse:
+  #       content:
+  #         application/json:
+  #           example:
+  #             value:
+  #               id: 123
+  #             externalValue: 'https://example.com/example.json'
+  # ```
   oas3-examples-value-or-externalValue: error
   # Operation security values must match a scheme defined in the components.securitySchemes object.
+  # Valid example:
+  # ```yaml
+  # components:
+  #   securitySchemes:
+  #     bearerAuth:
+  #       type: http
+  #       scheme: bearer
+  # paths:
+  #   /admin:
+  #     get:
+  #       security:
+  #         - bearerAuth: []
+  # ```
+  # Invalid example:
+  # ```yaml
+  # components:
+  #   securitySchemes:
+  #     apiKey:
+  #       type: apiKey
+  # paths:
+  #   /admin:
+  #     get:
+  #       security:
+  #         - bearerAuth: []
+  # ```
   oas3-operation-security-defined: error
   # Validate structure of OpenAPI v3 specification.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.3
+  # info:
+  #   title: Test API
+  #   version: 1.0.0
+  # paths: {}
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.0.3
+  # info:
+  #   version: 1.0.0
+  # paths: {}
+  # ```
   oas3-schema: error
   
 # Required Content
 
 # Recommended Content
   # OpenAPI object info description must be present and non-empty string.
+  # Valid example:
+  # ```yaml
+  # info:
+  #   title: My API
+  #   description: A description of my API
+  #   version: 1.0.0
+  # ```
+  # Invalid example:
+  # ```yaml
+  # info:
+  #   title: My API
+  #   version: 1.0.0
+  # ```
+  # Invalid example (empty):
+  # ```yaml
+  # info:
+  #   title: My API
+  #   description: ""
+  #   version: 1.0.0
+  # ```
   info-description: warn 
   # No injecting eval() JavaScript statements
+  # Valid example:
+  # ```yaml
+  # info:
+  #   description: Safe text.
+  # ```
+  # Invalid example:
+  # ```yaml
+  # info:
+  #   description: "Use eval(`dangerous`)."
+  # ```
   no-eval-in-markdown: warn 
   # No injecting script tags
+  # Valid example:
+  # ```yaml
+  # info:
+  #   description: Regular text.
+  # ```
+  # Invalid example:
+  # ```yaml
+  # info:
+  #   description: <script>alert()</script>
+  # ```
   no-script-tags-in-markdown: warn 
   # OpenAPI object should have alphabetical tags. 
+  # Valid example:
+  # ```yaml
+  # tags:
+  #   - name: admins
+  #   - name: users
+  # ```
+  # Invalid example:
+  # ```yaml
+  # tags:
+  #   - name: users
+  #   - name: admins
+  # ```
   openapi-tags-alphabetical: warn
   # OpenAPI object must not have duplicated tag names (identifiers).
+  # Valid example:
+  # ```yaml
+  # tags:
+  #   - name: users
+  #   - name: admins
+  # ```
+  # Invalid example:
+  # ```yaml
+  # tags:
+  #   - name: users
+  #   - name: users
+  # ```
   openapi-tags-uniqueness: warn
   # Operation must have a description
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       description: List all users
+  # ```
+  # Invalid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       summary: List users
+  # ```
+  # Invalid example (empty):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       description: ""
+  # ```
   operation-description: warn 
   # Operation must have an operationId
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: listUsers
+  # ```
+  # Invalid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       summary: List users
+  # ```
   operation-operationId: warn 
   # Operation must have at least one 2xx or 3xx response.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       responses:
+  #         '200':
+  #           description: OK
+  # ```
+  # Invalid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       responses:
+  #         '400':
+  #           description: Bad Request
+  # ```
   operation-success-response: warn 
   # Keep trailing slashes off of paths, as it can causes ambiguity.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: listUsers
+  # ```
+  # Invalid example:
+  # ```yaml
+  # paths:
+  #   /users/:
+  #     get:
+  #       operationId: listUsers
+  # ```
   path-keys-no-trailing-slash: warn
   # Schemas with type: array, require a sibling items field.
+  # Valid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     UserList:
+  #       type: array
+  #       items:
+  #         type: string
+  # ```
+  # Invalid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     UserList:
+  #       type: array
+  # ```
   array-items: warn
   # OpenAPI host must be present and non-empty string.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # host: example.com
+  # ```
+  # Invalid example (missing):
+  # ```yaml
+  # swagger: '2.0'
+  # ```
+  # Invalid example (empty):
+  # ```yaml
+  # swagger: '2.0'
+  # host: ""
+  # ```
   oas2-api-host: warn
   # OpenAPI host schemes must be present and non-empty array.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # schemes:
+  #   - https
+  # ```
+  # Invalid example (missing):
+  # ```yaml
+  # swagger: '2.0'
+  # ```
+  # Invalid example (empty):
+  # ```yaml
+  # swagger: '2.0'
+  # schemes: []
+  # ```
   oas2-api-schemes: warn
   # The discriminator property MUST be defined at this schema and it MUST be in the required property list.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # definitions:
+  #   Pet:
+  #     discriminator: petType
+  #     properties:
+  #       petType:
+  #         type: string
+  #     required:
+  #       - petType
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # definitions:
+  #   Pet:
+  #     discriminator: petType
+  #     properties:
+  #       petType:
+  #         type: string
+  # ```
   oas2-discriminator: warn
   # Server URL should not point to example.com.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # host: api.com
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # host: example.com
+  # ```
   oas2-host-not-example: warn
   # Server URL should not have a trailing slash.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # host: api.com
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # host: api.com/
+  # ```
   oas2-host-trailing-slash: warn
   # Operations with an in: formData parameter must include application/x-www-form-urlencoded or multipart/form-data in their consumes property.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # paths:
+  #   /upload:
+  #     post:
+  #       consumes:
+  #         - multipart/form-data
+  #       parameters:
+  #         - name: file
+  #           in: formData
+  #           type: file
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # paths:
+  #   /upload:
+  #     post:
+  #       parameters:
+  #         - name: file
+  #           in: formData
+  #           type: file
+  # ```
   oas2-operation-formData-consume-check: warn
   # Operation security values must match a scheme defined in the securityDefinitions object.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # securityDefinitions:
+  #   bearerAuth:
+  #     type: basic
+  # paths:
+  #   /admin:
+  #     get:
+  #       security:
+  #         - bearerAuth: []
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # securityDefinitions:
+  #   apiKey:
+  #     type: apiKey
+  # paths:
+  #   /admin:
+  #     get:
+  #       security:
+  #         - bearerAuth: []
+  # ```
   oas2-operation-security-defined: warn
   # Potential unused reusable definition entry has been detected.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # definitions:
+  #   User:
+  #     type: object
+  # paths:
+  #   /users:
+  #     get:
+  #       responses:
+  #         '200':
+  #           schema:
+  #             $ref: '#/definitions/User'
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # definitions:
+  #   User:
+  #     type: object
+  # ```
   oas2-unused-definition: warn
   # Examples must be valid against their defined schema.  This rule is applied to Media Type objects.
   # Common reasons you may see errors are:
   # The value used for property examples is not the same type indicated in the schema (string vs. integer, for example).
   # Examples contain properties not included in the schema.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # paths:
+  #   /users:
+  #     get:
+  #       produces:
+  #         - application/json
+  #       responses:
+  #         '200':
+  #           schema:
+  #             type: object
+  #             properties:
+  #               id:
+  #                 type: integer
+  #           examples:
+  #             application/json:
+  #               id: 1
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # paths:
+  #   /users:
+  #     get:
+  #       produces:
+  #         - application/json
+  #       responses:
+  #         '200':
+  #           schema:
+  #             type: object
+  #             properties:
+  #               id:
+  #                 type: integer
+  #           examples:
+  #             application/json:
+  #               id: "one"
+  # ```
   oas2-valid-media-example: warn
   # Examples must be valid against their defined schema. This rule is applied to Schema objects.
+  # Valid example:
+  # ```yaml
+  # swagger: '2.0'
+  # definitions:
+  #   User:
+  #     type: object
+  #     properties:
+  #       id:
+  #         type: integer
+  #     example:
+  #       id: 1
+  # ```
+  # Invalid example:
+  # ```yaml
+  # swagger: '2.0'
+  # definitions:
+  #   User:
+  #     type: object
+  #     properties:
+  #       id:
+  #         type: integer
+  #     example:
+  #       id: "one"
+  # ```
   oas2-valid-schema-example: warn
   # A callback should not be defined within another callback.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # paths:
+  #   /webhook:
+  #     post:
+  #       callbacks:
+  #         onData:
+  #           '{$request.body#/callbackUrl}':
+  #             post:
+  #               responses:
+  #                 '200':
+  #                   description: OK
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # paths:
+  #   /webhook:
+  #     post:
+  #       callbacks:
+  #         onData:
+  #           '{$request.body#/callbackUrl}':
+  #             post:
+  #               callbacks:
+  #                 nested:
+  #                   '{$request.body#/nestedUrl}':
+  #                     post:
+  #                       responses:
+  #                         '200':
+  #                           description: OK
+  # ```
   oas3-callbacks-in-callbacks: warn
   # Server URL should not point to example.com.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # servers:
+  #   - url: https://api.com
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # servers:
+  #   - url: https://example.com
+  # ```
   oas3-server-not-example.com: warn
   # Server URL should not have a trailing slash.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # servers:
+  #   - url: https://api.com
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # servers:
+  #   - url: https://api.com/
+  # ```
   oas3-server-trailing-slash: warn
   # This rule ensures that server variables defined in OpenAPI Specification 3 (OAS3) and 3.1 are valid, not unused, and result in a valid URL. 
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # servers:
+  #   - url: https://{subdomain}.api.com
+  #     variables:
+  #       subdomain:
+  #         default: demo
+  # ```
+  # Invalid example (unused variable):
+  # ```yaml
+  # openapi: 3.0.0
+  # servers:
+  #   - url: https://api.com
+  #     variables:
+  #       subdomain:
+  #         default: demo
+  # ```
   oas3-server-variables: warn
   # Potential unused reusable components entry has been detected.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # components:
+  #   schemas:
+  #     User:
+  #       type: object
+  # paths:
+  #   /users:
+  #     get:
+  #       responses:
+  #         '200':
+  #           content:
+  #             application/json:
+  #               schema:
+  #                 $ref: '#/components/schemas/User'
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # components:
+  #   schemas:
+  #     User:
+  #       type: object
+  # ```
   oas3-unused-component: warn
   # Examples must be valid against their defined schema. This rule is applied to Media Type objects.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # paths:
+  #   /users:
+  #     get:
+  #       responses:
+  #         '200':
+  #           content:
+  #             application/json:
+  #               schema:
+  #                 type: object
+  #                 properties:
+  #                   id:
+  #                     type: integer
+  #               example:
+  #                 id: 1
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # paths:
+  #   /users:
+  #     get:
+  #       responses:
+  #         '200':
+  #           content:
+  #             application/json:
+  #               schema:
+  #                 type: object
+  #                 properties:
+  #                   id:
+  #                     type: integer
+  #               example:
+  #                 id: "one"
+  # ```
   oas3-valid-media-example: warn
   # Examples must be valid against their defined schema. This rule is applied to Schema objects.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # components:
+  #   schemas:
+  #     User:
+  #       type: object
+  #       properties:
+  #         id:
+  #           type: integer
+  #       example:
+  #         id: 1
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.0.0
+  # components:
+  #   schemas:
+  #     User:
+  #       type: object
+  #       properties:
+  #         id:
+  #           type: integer
+  #       example:
+  #         id: "one"
+  # ```
   oas3-valid-schema-example: warn
   # Callbacks should not be defined in a webhook.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.1.0
+  # webhooks:
+  #   newPet:
+  #     post:
+  #       responses:
+  #         '200':
+  #           description: OK
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.1.0
+  # webhooks:
+  #   newPet:
+  #     post:
+  #       callbacks:
+  #         onData:
+  #           '{$request.body#/callbackUrl}':
+  #             post:
+  #               responses:
+  #                 '200':
+  #                   description: OK
+  # ```
   oas3_1-callbacks-in-webhook: warn
   # Servers should not be defined in a webhook.
+  # Valid example:
+  # ```yaml
+  # openapi: 3.1.0
+  # webhooks:
+  #   newPet:
+  #     post:
+  #       responses:
+  #         '200':
+  #           description: OK
+  # ```
+  # Invalid example:
+  # ```yaml
+  # openapi: 3.1.0
+  # webhooks:
+  #   newPet:
+  #     post:
+  #       servers:
+  #         - url: https://api.com
+  #       responses:
+  #         '200':
+  #           description: OK
+  # ```
   oas3_1-servers-in-webhook: warn
 
   # operationId: camelCase
   # CamelCase is the most widely adopted convention for operationId across major API providers
   # and SDK generators. It maps naturally to method names in JavaScript/TypeScript, Java, C#, etc.
   # Starting with a lowercase letter avoids conflicts and follows the official OpenAPI Petstore examples.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: listUsers
+  # ```
+  # Invalid example (uppercase start):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: ListUsers
+  # ```
+  # Invalid example (hyphen):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       operationId: list-users
+  # ```
   operation-id-camel-case:
     description: operationId should be camelCase (starts with lowercase letter, no separators)
     severity: warn
@@ -127,6 +1005,27 @@ rules:
   # - root path "/"
   # - optional trailing slash
   # - optional query string at the end
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /user-profiles/{userId}:
+  #     get:
+  #       operationId: getUserProfile
+  # ```
+  # Invalid example (uppercase):
+  # ```yaml
+  # paths:
+  #   /UserProfiles/{userId}:
+  #     get:
+  #       operationId: getUserProfile
+  # ```
+  # Invalid example (underscore):
+  # ```yaml
+  # paths:
+  #   /user_profiles/{userId}:
+  #     get:
+  #       operationId: getUserProfile
+  # ```
   path-segments-kebab-case:
     description: Static path segments should be kebab-case (lowercase letters, numbers, hyphens only)
     severity: warn
@@ -151,6 +1050,30 @@ rules:
   # Path parameters: camelCase
   # Path parameter names appear in generated client code and URLs. camelCase aligns with
   # JSON payload properties and operationId, providing consistency across the API surface.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users/{userId}:
+  #     parameters:
+  #       - name: userId
+  #         in: path
+  # ```
+  # Invalid example (hyphen):
+  # ```yaml
+  # paths:
+  #   /users/{user-id}:
+  #     parameters:
+  #       - name: user-id
+  #         in: path
+  # ```
+  # Invalid example (uppercase start):
+  # ```yaml
+  # paths:
+  #   /users/{UserId}:
+  #     parameters:
+  #       - name: UserId
+  #         in: path
+  # ```
   path-param-camel-case:
     description: Path parameter names should be camelCase
     severity: warn
@@ -160,9 +1083,36 @@ rules:
       functionOptions:
         match: ^[a-z][a-zA-Z0-9]*$
 
-  # # Query parameters: camelCase
-  # # Consistency with path parameters, operationId, and payload properties is key for developer
-  # # experience. camelCase is the dominant choice in modern JavaScript/TypeScript ecosystems.
+  # Query parameters: camelCase
+  # Consistency with path parameters, operationId, and payload properties is key for developer
+  # experience. camelCase is the dominant choice in modern JavaScript/TypeScript ecosystems.
+  # Valid example:
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       parameters:
+  #         - name: pageNumber
+  #           in: query
+  # ```
+  # Invalid example (snake_case):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       parameters:
+  #         - name: page_number
+  #           in: query
+  # ```
+  # Invalid example (uppercase start):
+  # ```yaml
+  # paths:
+  #   /users:
+  #     get:
+  #       parameters:
+  #         - name: PageNumber
+  #           in: query
+  # ```
   query-param-camel-case:
     description: Query parameter names should be camelCase
     severity: warn
@@ -176,6 +1126,33 @@ rules:
   # JSON payload field names become object properties in generated SDKs and client code.
   # camelCase is the most common convention in public APIs and avoids issues with languages that
   # don't support hyphens or underscores in identifiers.
+  # Valid example:
+  # ```yaml
+  # components:
+  #   schemas:
+  #     User:
+  #       type: object
+  #       properties:
+  #         userId: { type: string }
+  # ```
+  # Invalid example (snake_case):
+  # ```yaml
+  # components:
+  #   schemas:
+  #     User:
+  #       type: object
+  #       properties:
+  #         user_id: { type: string }
+  # ```
+  # Invalid example (uppercase start):
+  # ```yaml
+  # components:
+  #   schemas:
+  #     User:
+  #       type: object
+  #       properties:
+  #         UserId: { type: string }
+  # ```
   schema-property-camel-case:
       description: Schema property names in request/response bodies should be camelCase
       severity: warn
