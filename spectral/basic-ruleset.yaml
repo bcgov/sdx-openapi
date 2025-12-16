@@ -1,7 +1,11 @@
+# Title: OpenAPI Style Guide
+# This is the description for the document.
 extends: spectral:oas
 
 rules:
-# Well-formedness rules
+  # Section: Well-formedness rules
+  # This is the description for the section.
+
   # Each value of an enum must be different from one another.
   # Valid example:
   # ```yaml
@@ -339,10 +343,11 @@ rules:
   # paths: {}
   # ```
   oas3-schema: error
-  
-# Required Content
 
-# Recommended Content
+  # Section: Required Content
+
+  # Section: Recommended Content
+
   # OpenAPI object info description must be present and non-empty string.
   # Valid example:
   # ```yaml
@@ -1167,7 +1172,8 @@ rules:
           match: ^[a-z][a-zA-Z0-9]*$
   
 
-# Optional Content
+  # Section: Optional Content
+  
   # A contact object is required, including name, url, and email.
   contact-properties: off
   # Info object should contain contact object.
