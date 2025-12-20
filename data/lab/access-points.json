@@ -1,13 +1,5 @@
 [
   {
-    "id": "puppykitten",
-    "host": "ministryofpuppiesandkittens.xyz",
-    "member_id": "ministry-of-puppies-and-kittens",
-    "dn": "CN=ministryofpuppiesandkittens-xyz.clients.sdx",
-    "endpoint": "ministryofpuppiesandkittens.xyz",
-    "internal_endpoint": "ministryofpuppiesandkittens.xyz"
-  },
-  {
     "id": "sdxgov",
     "host": "sdx.gov.bc.ca",
     "member_id": "ministry-of-citizens-services",
@@ -15,6 +7,14 @@
     "endpoint": "sdx.gov.bc.ca",
     "internal_endpoint": "sdx.gov.bc.ca"
   },
+  {
+    "id": "pukiedge",
+    "host": "puki.min.servers.sdx",
+    "member_id": "ministry-of-puppies-and-kittens",
+    "dn": "CN=puki.min.servers.sdx",
+    "endpoint": "142.34.229.4:443",
+    "internal_endpoint": "sdx-edge-pukiedge.b8840c-tools.svc.cluster.local"
+  },  
   {
     "id": "sdpredge",
     "host": "sdpr.min.servers.sdx",
