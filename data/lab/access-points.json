@@ -3,7 +3,7 @@
     "id": "sdxgov",
     "host": "sdx.gov.bc.ca",
     "member_id": "ministry-of-citizens-services",
-    "dn": "CN=sdxgov.edge.sdx",
+    "dn": "CN=sdxgov.servers.sdx",
     "endpoint": "sdx.gov.bc.ca",
     "internal_endpoint": "sdx.gov.bc.ca"
   },
