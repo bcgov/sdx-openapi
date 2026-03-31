@@ -1,0 +1,34 @@
+replicaCount: 1
+rollingUpdate:
+  maxUnavailable: 100%
+  maxSurge: 100%
+
+fullnameOverride: data-usage-mock
+
+image:
+  repository: denoland/deno
+  tag: 2.7.10
+  pullPolicy: IfNotPresent
+
+persistence:
+  deno-dir:
+    mountPath: /deno-dir
+  data:
+    size: 5Mi
+    mountPath: /data
+    storageAccessMode: ReadWriteOnce
+    storageClassName: netapp-file-standard
+
+config:
+  - filename: main.ts
+    mountPath: /app/main.ts
+
+command:
+  - deno
+
+args:
+  - run
+  - --allow-net=:8000,deno.land
+  - --allow-read
+  - --allow-write
+  - /app/main.ts

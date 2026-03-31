@@ -16,3 +16,4 @@ python-cg/
 resolved.yaml
 src/
 LOCAL.md
+sqlite.db
