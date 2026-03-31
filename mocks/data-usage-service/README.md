@@ -24,6 +24,7 @@
 
 ```sh
 helm upgrade --install data-usage-mock \
+ --set fullnameOverride=data-usage-mock \
  -f chart.yaml \
  --set-file "config[0].contents=main.ts" \
 bcgov/generic-api

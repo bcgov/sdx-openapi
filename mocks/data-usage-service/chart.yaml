@@ -1,9 +1,8 @@
 replicaCount: 1
+
 rollingUpdate:
   maxUnavailable: 100%
   maxSurge: 100%
-
-fullnameOverride: data-usage-mock
 
 image:
   repository: denoland/deno
