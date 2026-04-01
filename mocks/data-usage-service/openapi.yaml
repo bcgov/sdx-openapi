@@ -1,0 +1,123 @@
+openapi: 3.1.0
+info:
+  title: Data Usage Service
+  version: 1.0.0
+  summary: API for managing and tracking user's activity
+  description: Data usage service API allows clients to retrieve user activity events with optional filtering by date range and services accessed. This API is designed to help users understand their data usage patterns and manage their activity effectively.
+  contact:
+    name: API Support
+    email: aidan.cope@gov.bc.ca
+servers:
+  - url: /
+    description: Relative path to the service endpoint
+paths:
+  /activities:
+    summary: Retrieve user activity
+    put:
+      summary: Takes a yaml file with an array of activity events and imports them into the database as a full replacement. This endpoint is intended for testing purposes to populate the database with sample data.
+      description: "Import user activity events from a yaml file. This operation will replace all existing activity data in the database with the new data provided in the yaml file. The yaml file should contain an array of activity events, each with the following structure: subject (string), eventTimeStamp (ISO-8601 string), message (string), and context (object). This endpoint is intended for testing purposes to populate the database with sample data."
+      operationId: importUserActivity
+      tags: ["Activity"]
+      requestBody:
+        description: YAML file containing an array of activity events to be imported into the database
+        required: true
+        content:
+          application/x-yaml:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  subject:
+                    type: string
+                  eventTimeStamp:
+                    type: string
+                    format: date-time
+                  message:
+                    type: string
+                  context:
+                    type: object
+                    additionalProperties: true
+              examples:
+                - summary: Example YAML file with two activity events
+                  value: |
+                    - subject: "1"
+                      eventTimeStamp: "2026-06-01T12:00:00Z"
+                      message: "User logged in"
+                      context:
+                        ipAddress: "192.168.1.1"
+    get:
+      summary: Retrieve user activity
+      description: Get a list of user activity events with optional filtering
+      operationId: getUserActivity
+      tags: ["Activity"]
+      parameters:
+        - name: subject
+          description: The unique identifier of the user whose activity is being retrieved
+          in: query
+          required: false
+          schema:
+            type: string
+            examples: ["123e4567-e89b-12d3-a456-426614174000"]
+        - name: date
+          description: The date range for which to retrieve user activity
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [today, yesterday, this_month, last_month]
+            examples: ["today", "yesterday", "this_month", "last_month"]
+
+      responses:
+        "200":
+          description: List of user activity events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Activity"
+                examples:
+                  - summary: Example response with two activity events
+                    value:
+                      data:
+                        - eventId: "event1"
+                          eventTimeStamp: "2024-06-01T12:00:00Z"
+                          message: "User logged in"
+                          context:
+                            ipAddress: "192.168.1.1"
+
+tags:
+  - name: Activity
+    description: Endpoints related to user activity tracking and data usage management
+components:
+  schemas:
+    Activity:
+      type: object
+      description: Represents a user activity event with details about the event and its context
+      properties:
+        eventId:
+          type: string
+        eventTimeStamp:
+          type: string
+          format: date-time
+        message:
+          type: string
+        context:
+          type: object
+          additionalProperties: true
+      required:
+        - eventId
+        - eventTimeStamp
+        - message
+      examples:
+        - summary: Example activity event
+          value:
+            eventId: "event1"
+            eventTimeStamp: "2024-06-01T12:00:00Z"
+            message: "User logged in"
+            context:
+              ipAddress: "192.168.1.1"

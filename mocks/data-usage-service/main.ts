@@ -3,13 +3,12 @@
  * Run with: deno run --allow-net --allow-read --allow-write main.ts
  *
  * Endpoints:
- *   GET /activities             - List all activities (supports ?limit=&offset=&subject=&date=)
+ *   GET /activities             - List activities (supports ?subject=&date=)
  *   PUT /activities             - Full replacement import via YAML (replaces ALL data)
  *
  * YAML format:
- *   - eventId: abc-1
+ *   - subject: abc-1
  *     eventTimeStamp: 2024-01-01T00:00:00Z
- *     subject: sample-subject
  *     message: Hello
  *     context:
  *       key: value
@@ -23,18 +22,17 @@ import { parse as parseYaml } from "jsr:@std/yaml";
 // ---------------------------------------------------------------------------
 
 interface ActivityContext {
-  [key: string]: string;
+  [key: string]: unknown;
 }
 
-interface Activity {
+interface ActivityRow {
   eventId: string;
-  eventTimeStamp: string; // ISO-8601
+  eventTimeStamp: string;
   subject: string;
   message: string;
   context: ActivityContext;
 }
 
-type ActivityRow = [string, string, string, string, string]; // eventId, eventTimeStamp, subject, message, context_json
 type DateFilter = "today" | "yesterday" | "this_month" | "last_month";
 
 // ---------------------------------------------------------------------------
@@ -44,7 +42,6 @@ type DateFilter = "today" | "yesterday" | "this_month" | "last_month";
 const DB_PATH = "./data/sqlite.db";
 
 function openDb(): DB {
-  // Ensure /data directory exists
   try {
     Deno.mkdirSync("data", { recursive: true });
   } catch {
@@ -69,30 +66,11 @@ function openDb(): DB {
 // Repository
 // ---------------------------------------------------------------------------
 
-function rowToActivity([
-  eventId,
-  eventTimeStamp,
-  subject,
-  message,
-  contextJson,
-]: ActivityRow): Activity {
-  return {
-    eventId,
-    eventTimeStamp,
-    subject,
-    message,
-    context: JSON.parse(contextJson) as ActivityContext,
-  };
-}
-
 function toIsoNoMillis(date: Date): string {
   return date.toISOString().replace(".000Z", "Z");
 }
 
-function dateRangeForFilter(filter: DateFilter): {
-  start: string;
-  end: string;
-} {
+function dateRangeForFilter(filter: DateFilter): { start: string; end: string } {
   const now = new Date();
   const startOfTodayUtc = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
@@ -113,31 +91,22 @@ function dateRangeForFilter(filter: DateFilter): {
   }
 
   if (filter === "this_month") {
-    const start = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
-    );
-    const end = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1),
-    );
+    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+    const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
     return { start: toIsoNoMillis(start), end: toIsoNoMillis(end) };
   }
 
-  if (filter === "last_month") {
-    const start = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1),
-    );
-    const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
-    return { start: toIsoNoMillis(start), end: toIsoNoMillis(end) };
-  }
+  // last_month
+  const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  return { start: toIsoNoMillis(start), end: toIsoNoMillis(end) };
 }
 
 function listActivities(
   db: DB,
-  limit = 100,
-  offset = 0,
   subject?: string,
   date?: DateFilter,
-): Activity[] {
+): ActivityRow[] {
   const whereClauses: string[] = [];
   const params: Array<string | number> = [];
 
@@ -152,42 +121,23 @@ function listActivities(
     params.push(range.start, range.end);
   }
 
-  const whereSql =
-    whereClauses.length > 0 ? `WHERE ${whereClauses.join(" AND ")}` : "";
+  const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(" AND ")}` : "";
 
-  const rows = db.query<ActivityRow>(
+  const rows = db.query<[string, string, string, string, string]>(
     `SELECT eventId, eventTimeStamp, subject, message, context
      FROM activities
      ${whereSql}
-     ORDER BY eventTimeStamp DESC
-     LIMIT ? OFFSET ?`,
-    [...params, limit, offset],
-  );
-  return rows.map(rowToActivity);
-}
-
-function countActivities(db: DB, subject?: string, date?: DateFilter): number {
-  const whereClauses: string[] = [];
-  const params: string[] = [];
-
-  if (subject) {
-    whereClauses.push("subject = ?");
-    params.push(subject);
-  }
-
-  if (date) {
-    const range = dateRangeForFilter(date);
-    whereClauses.push("eventTimeStamp >= ? AND eventTimeStamp < ?");
-    params.push(range.start, range.end);
-  }
-
-  const whereSql =
-    whereClauses.length > 0 ? `WHERE ${whereClauses.join(" AND ")}` : "";
-  const rows = db.query<[number]>(
-    `SELECT COUNT(*) FROM activities ${whereSql}`,
+     ORDER BY eventTimeStamp DESC`,
     params,
   );
-  return rows[0][0];
+
+  return rows.map(([eventId, eventTimeStamp, subject, message, contextJson]) => ({
+    eventId,
+    eventTimeStamp,
+    subject,
+    message,
+    context: JSON.parse(contextJson) as ActivityContext,
+  }));
 }
 
 /**
@@ -196,7 +146,10 @@ function countActivities(db: DB, subject?: string, date?: DateFilter): number {
  *   2. Insert the new dataset
  * Returns the number of records inserted.
  */
-function replaceAllActivities(db: DB, activities: Activity[]): number {
+function replaceAllActivities(
+  db: DB,
+  activities: Array<{ subject: string; eventTimeStamp: string; message: string; context: ActivityContext }>,
+): number {
   db.execute("BEGIN");
   try {
     db.execute("DELETE FROM activities");
@@ -206,7 +159,7 @@ function replaceAllActivities(db: DB, activities: Activity[]): number {
         `INSERT INTO activities (eventId, eventTimeStamp, subject, message, context)
          VALUES (?, ?, ?, ?, ?)`,
         [
-          a.eventId,
+          crypto.randomUUID(),
           a.eventTimeStamp,
           a.subject,
           a.message,
@@ -227,7 +180,7 @@ function replaceAllActivities(db: DB, activities: Activity[]): number {
 // YAML parsing & validation
 // ---------------------------------------------------------------------------
 
-type ParseOk = { valid: true; data: Activity[] };
+type ParseOk = { valid: true; data: Array<{ subject: string; eventTimeStamp: string; message: string; context: ActivityContext }> };
 type ParseErr = { valid: false; error: string };
 
 function parseYamlActivities(yamlText: string): ParseOk | ParseErr {
@@ -251,7 +204,7 @@ function parseYamlActivities(yamlText: string): ParseOk | ParseErr {
     return { valid: true, data: [] };
   }
 
-  const validated: Activity[] = [];
+  const validated: Array<{ subject: string; eventTimeStamp: string; message: string; context: ActivityContext }> = [];
 
   for (let r = 0; r < parsed.length; r++) {
     const row = parsed[r];
@@ -263,76 +216,32 @@ function parseYamlActivities(yamlText: string): ParseOk | ParseErr {
 
     const obj = row as Record<string, unknown>;
 
-    let eventId = typeof obj.eventId === "string" ? obj.eventId.trim() : "";
-    if (!eventId) {
-      eventId = crypto.randomUUID();
-    }
-
-    const eventTimeStamp =
-      typeof obj.eventTimeStamp === "string" ? obj.eventTimeStamp.trim() : "";
+    const eventTimeStamp = typeof obj.eventTimeStamp === "string" ? obj.eventTimeStamp.trim() : "";
     if (!eventTimeStamp) {
-      return {
-        valid: false,
-        error: `${prefix}: 'eventTimeStamp' must not be empty`,
-      };
+      return { valid: false, error: `${prefix}: 'eventTimeStamp' must not be empty` };
     }
 
     if (typeof obj.subject !== "string" || obj.subject.trim() === "") {
-      return {
-        valid: false,
-        error: `${prefix}: 'subject' must be a non-empty string`,
-      };
+      return { valid: false, error: `${prefix}: 'subject' must be a non-empty string` };
     }
     const subject = obj.subject.trim();
 
     if (typeof obj.message !== "string") {
-      return {
-        valid: false,
-        error: `${prefix}: 'message' must be a string`,
-      };
+      return { valid: false, error: `${prefix}: 'message' must be a string` };
     }
     const message = obj.message;
 
     const contextValue = obj.context ?? {};
-    if (
-      typeof contextValue !== "object" ||
-      Array.isArray(contextValue) ||
-      contextValue === null
-    ) {
-      return {
-        valid: false,
-        error: `${prefix}: 'context' must be an object`,
-      };
-    }
-
-    for (const [k, v] of Object.entries(
-      contextValue as Record<string, unknown>,
-    )) {
-      if (typeof v !== "string") {
-        return {
-          valid: false,
-          error: `${prefix}: context key '${k}' must have a string value`,
-        };
-      }
+    if (typeof contextValue !== "object" || Array.isArray(contextValue) || contextValue === null) {
+      return { valid: false, error: `${prefix}: 'context' must be an object` };
     }
 
     validated.push({
-      eventId,
-      eventTimeStamp,
       subject,
+      eventTimeStamp,
       message,
       context: contextValue as ActivityContext,
     });
-  }
-
-  // Catch duplicate eventIds within the payload
-  const ids = validated.map((a) => a.eventId);
-  const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
-  if (duplicates.length > 0) {
-    return {
-      valid: false,
-      error: `Duplicate eventIds in YAML: ${[...new Set(duplicates)].join(", ")}`,
-    };
   }
 
   return { valid: true, data: validated };
@@ -368,14 +277,9 @@ async function handleRequest(req: Request, db: DB): Promise<Response> {
 
   // ── GET /activities ──────────────────────────────────────────────────────
   if (method === "GET" && path === "/activities") {
-    const limit = Math.min(
-      Math.max(parseInt(url.searchParams.get("limit") ?? "100"), 1),
-      1000,
-    );
-    const offset = Math.max(parseInt(url.searchParams.get("offset") ?? "0"), 0);
     const subjectParam = url.searchParams.get("subject")?.trim();
-    const subject =
-      subjectParam && subjectParam !== "" ? subjectParam : undefined;
+    const subject = subjectParam && subjectParam !== "" ? subjectParam : undefined;
+
     const dateParamRaw = url.searchParams.get("date")?.trim().toLowerCase();
     let dateFilter: DateFilter | undefined;
     if (dateParamRaw && dateParamRaw !== "") {
@@ -386,27 +290,15 @@ async function handleRequest(req: Request, db: DB): Promise<Response> {
         dateParamRaw !== "last_month"
       ) {
         return json(
-          {
-            error:
-              "Invalid 'date' filter. Allowed values: 'today', 'yesterday', 'this_month', 'last_month'",
-          },
+          { error: "Invalid 'date' filter. Allowed values: 'today', 'yesterday', 'this_month', 'last_month'" },
           400,
         );
       }
       dateFilter = dateParamRaw;
     }
 
-    const data = listActivities(
-      db,
-      isNaN(limit) ? 100 : limit,
-      isNaN(offset) ? 0 : offset,
-      subject,
-      dateFilter,
-    );
-    const total = countActivities(db, subject, dateFilter);
-    return json({
-      data,
-    });
+    const activities = listActivities(db, subject, dateFilter);
+    return json({ data: activities });
   }
 
   // ── PUT /activities ──────────────────────────────────────────────────────
@@ -440,13 +332,12 @@ console.log(`Database : ${DB_PATH}`);
 console.log(`Listening: http://localhost:${PORT}`);
 console.log(`
 Endpoints:
-  GET /activities              List all activities  (?limit=100&offset=0&subject=foo&date=today)
+  GET /activities              List activities  (?subject=foo&date=today)
   PUT /activities              Full replacement import via YAML (replaces ALL existing data)
 
-YAML format (Content-Type: text/yaml or application/x-yaml):
-  - eventId: abc-1
+YAML format (Content-Type: application/x-yaml):
+  - subject: user-123
     eventTimeStamp: 2024-01-01T00:00:00Z
-    subject: sample-subject
     message: Hello
     context:
       key: value

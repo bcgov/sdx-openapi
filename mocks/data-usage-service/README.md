@@ -2,9 +2,10 @@
 
 ## Building
 
-### AI Guidance
+### AI Prompt
 
-- all code in a single `main.ts` typescript file
+- only look for files in current directory
+- all code must be in a single `main.ts` typescript file
 - use Deno
 - use sqlite database
 - use `jsr:@std/yaml` for yaml handling
@@ -12,13 +13,9 @@
 - do not use any environment variables
 - serve on port 8000
 - put database at `./data/sqlite.db`
-- always create two operations - one for getting a list of entities, the other to import a full replacement in yaml format
-
-### Requirements
-
-- Build an API for an "Activity" entity, where the entity has: subject, eventId, eventTimeStamp, message and context (context has key value pairs)
-- Filter by "subject"
-- Filter by "date" where values are: today, yesterday and this_month
+- use the `openapi.yaml` OpenAPI spec for details about the operations and the entity
+- build the API rest endpoints, and the corresponding interaction with the database
+- only look at the files: openapi.yaml and main.ts (if it exists)
 
 ## Deployment
 
