@@ -1,0 +1,18 @@
+{
+  "entries": [
+    {
+      "url": "https://httpbun.com/any",
+      "topics": [
+        "tenant_data"
+      ],
+      "dst_path": "/acl/tenant1"
+    },
+    {
+      "url": "https://httpbun.com/ip",
+      "topics": [
+        "tenant_data"
+      ],
+      "dst_path": "/acl/tenant2"
+    }
+  ]
+}
