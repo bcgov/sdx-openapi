@@ -1,0 +1,128 @@
+openapi: 3.1.0
+info:
+  title: BC PHN Lookup Mock API
+  version: 1.0.0
+  description: Mock service to exchange HDID (JWT 'sub' claim) for PHN.
+  contact:
+    name: API Support
+    email: russell.vinegar@gov.bc.ca
+servers:
+  - url: /
+    description: Relative path to the service endpoint
+
+paths:
+  /patient:
+    put:
+      summary: Import patient data (testing only)
+      operationId: importPatientData
+      tags: [Patient]
+      description: Debug only - Full replacement import of HDID-to-PHN mappings. Deletes all existing records before inserting new sample data.
+      security:
+        - bearer_auth: []
+      requestBody:
+        required: true
+        content:
+          application/x-yaml:
+            schema:
+              type: array
+              items:
+                type: object
+                required: [hdid, phn]
+                properties:
+                  hdid:
+                    type: string
+                  phn:
+                    type: string
+                    pattern: '^\d{10}$'
+            example: |
+              - hdid: "P6FFO433A5WPMVTGM7T4ZVWBKCSVNAYGTWTU3J2LWMGUMERKI72A"
+                phn: "9123456789"
+              - hdid: "R3GG2B4A5XQNVWRFM8S6YPDHEJCUIOLTK91ZA7MFVBRQWU24N3C"
+                phn: "9876543210"
+      responses:
+        '200':
+          description: Import complete.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message, imported]
+                properties:
+                  message:
+                    type: string
+                  imported:
+                    type: integer
+              example:
+                message: "Full replacement complete. 2 record(s) imported."
+                imported: 2
+        '400':
+          description: Missing body, malformed YAML, or invalid records.
+        '401':
+          description: Missing or invalid Bearer token.
+        '500':
+          description: Internal server error.
+
+    get:
+      summary: Resolve patient PHN from token
+      operationId: getPatient
+      tags: [Patient]
+      description: |
+        Returns the PHN and HDID for the caller. Identity is derived from the JWT 'sub' claim,
+        which this service treats directly as the HDID.
+
+        `?hdid=` overrides token extraction for debug purposes only.
+      security:
+        - bearer_auth: []
+      parameters:
+        - name: hdid
+          in: query
+          required: false
+          description: Debug only - overrides the HDID from the token's 'sub' claim.
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Patient identity resolved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/patient_identity'
+              example:
+                phn: "9123456789"
+                hdid: "P6FFO433A5WPMVTGM7T4ZVWBKCSVNAYGTWTU3J2LWMGUMERKI72A"
+        '400':
+          description: Token present but malformed, or 'sub' claim is missing.
+        '401':
+          description: Missing or invalid Bearer token.
+        '404':
+          description: No patient found for the HDID in the token's 'sub' claim.
+        '500':
+          description: Internal server error.
+
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT whose 'sub' claim is the caller's HDID.
+
+  schemas:
+    patient_identity:
+      type: object
+      required: [phn, hdid]
+      properties:
+        phn:
+          type: string
+          pattern: '^\d{10}$'
+          description: The 10-digit British Columbia Personal Health Number.
+          examples:
+            - "9123456789"
+        hdid:
+          type: string
+          description: |
+            The Health Data Identifier derived from the token's 'sub' claim.
+            Issued by IDIM; approximately 50 characters, base32-encoded.
+          examples:
+            - "P6FFO433A5WPMVTGM7T4ZVWBKCSVNAYGTWTU3J2LWMGUMERKI72A"

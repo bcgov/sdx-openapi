@@ -17,3 +17,4 @@ resolved.yaml
 src/
 LOCAL.md
 sqlite.db
+deno.lock
