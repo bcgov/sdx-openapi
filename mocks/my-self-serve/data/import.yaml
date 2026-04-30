@@ -1,0 +1,949 @@
+accounts:
+  - client_name: Jane Client
+    user_id: client-001
+    email: jane.client@example.com
+    phone_numbers:
+      - phone_number: "2505550101"
+        phone_type: CELL
+    case_number: CASE-100001
+    case_status: OPEN
+    case_members:
+      - name: Jane Client
+        relationship: Self
+      - name: Elliot Client
+        relationship: Spouse
+      - name: Sophie Client
+        relationship: Child
+
+  - client_name: Alex Client
+    user_id: client-002
+    email: alex.client@example.com
+    phone_numbers:
+      - phone_number: "2505550102"
+        phone_type: CELL
+      - phone_number: "2505551102"
+        phone_type: HOME
+    case_number: CASE-100002
+    case_status: OPEN
+    case_members:
+      - name: Alex Client
+        relationship: Self
+      - name: Maria Client
+        relationship: Spouse
+
+  - client_name: Morgan Client
+    user_id: client-003
+    email: morgan.client@example.com
+    phone_numbers:
+      - phone_number: "2505550103"
+        phone_type: CELL
+    case_number: CASE-100003
+    case_status: ACTIVE
+    case_members:
+      - name: Morgan Client
+        relationship: Self
+
+  - client_name: Priya Client
+    user_id: client-004
+    email: priya.client@example.com
+    phone_numbers:
+      - phone_number: "2505550104"
+        phone_type: CELL
+    case_number: CASE-100004
+    case_status: OPEN
+    case_members:
+      - name: Priya Client
+        relationship: Self
+      - name: Nikhil Client
+        relationship: Spouse
+      - name: Mina Client
+        relationship: Child
+
+  - client_name: Sam Client
+    user_id: client-005
+    email: sam.client@example.com
+    phone_numbers:
+      - phone_number: "2505550105"
+        phone_type: CELL
+    case_number: CASE-100005
+    case_status: ACTIVE
+    case_members:
+      - name: Sam Client
+        relationship: Self
+
+  - client_name: Lee Client
+    user_id: client-006
+    email: lee.client@example.com
+    phone_numbers:
+      - phone_number: "2505550106"
+        phone_type: CELL
+      - phone_number: "2505551106"
+        phone_type: MESSAGE
+    case_number: CASE-100006
+    case_status: OPEN
+    case_members:
+      - name: Lee Client
+        relationship: Self
+      - name: Robin Dependent
+        relationship: Child
+
+  - client_name: Taylor Client
+    user_id: client-007
+    email: taylor.client@example.com
+    phone_numbers:
+      - phone_number: "2505550107"
+        phone_type: CELL
+    case_number: CASE-100007
+    case_status: REVIEW
+    case_members:
+      - name: Taylor Client
+        relationship: Self
+
+  - client_name: Chris Client
+    user_id: client-008
+    email: chris.client@example.com
+    phone_numbers:
+      - phone_number: "2505550108"
+        phone_type: CELL
+    case_number: CASE-100008
+    case_status: ACTIVE
+    case_members:
+      - name: Chris Client
+        relationship: Self
+      - name: Dana Spouse
+        relationship: Spouse
+
+  - client_name: Jordan Client
+    user_id: client-009
+    email: jordan.client@example.com
+    phone_numbers:
+      - phone_number: "2505550109"
+        phone_type: CELL
+    case_number: CASE-100009
+    case_status: OPEN
+    case_members:
+      - name: Jordan Client
+        relationship: Self
+
+  - client_name: Casey Client
+    user_id: client-010
+    email: casey.client@example.com
+    phone_numbers:
+      - phone_number: "2505550110"
+        phone_type: CELL
+    case_number: CASE-100010
+    case_status: ACTIVE
+    case_members:
+      - name: Casey Client
+        relationship: Self
+      - name: Avery Dependent
+        relationship: Child
+
+  - client_name: Riley Client
+    user_id: client-011
+    email: riley.client@example.com
+    phone_numbers:
+      - phone_number: "2505550111"
+        phone_type: CELL
+    case_number: CASE-100011
+    case_status: SUSPENDED
+    case_members:
+      - name: Riley Client
+        relationship: Self
+
+  - client_name: Avery Client
+    user_id: client-012
+    email: avery.client@example.com
+    phone_numbers:
+      - phone_number: "2505550112"
+        phone_type: CELL
+    case_number: CASE-100012
+    case_status: OPEN
+    case_members:
+      - name: Avery Client
+        relationship: Self
+      - name: Quinn Dependent
+        relationship: Child
+
+  - client_name: Quinn Client
+    user_id: client-013
+    email: quinn.client@example.com
+    phone_numbers:
+      - phone_number: "2505550113"
+        phone_type: CELL
+      - phone_number: "2505551113"
+        phone_type: WORK
+    case_number: CASE-100013
+    case_status: ACTIVE
+    case_members:
+      - name: Quinn Client
+        relationship: Self
+
+  # Accounts with no Service Request data
+  - client_name: Harper Client
+    user_id: client-014
+    email: harper.client@example.com
+    phone_numbers:
+      - phone_number: "2505550114"
+        phone_type: CELL
+    case_number: CASE-100014
+    case_status: OPEN
+    case_members:
+      - name: Harper Client
+        relationship: Self
+
+  - client_name: Devon Client
+    user_id: client-015
+    email: devon.client@example.com
+    phone_numbers:
+      - phone_number: "2505550115"
+        phone_type: CELL
+    case_number: CASE-100015
+    case_status: CLOSED
+    case_members:
+      - name: Devon Client
+        relationship: Self
+
+  - client_name: Rowan Client
+    user_id: client-016
+    email: rowan.client@example.com
+    phone_numbers:
+      - phone_number: "2505550116"
+        phone_type: CELL
+    case_number: CASE-100016
+    case_status: PENDING
+    case_members:
+      - name: Rowan Client
+        relationship: Self
+      - name: Jamie Spouse
+        relationship: Spouse
+
+service_requests:
+  - sr_id: sr-001
+    sr_type: ASSIST
+    sr_number: SR-100001
+    status: Draft
+    client_name: Jane Client
+    created_at: "2026-04-01T16:00:00Z"
+    updated_at: "2026-04-01T16:10:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        description: Request for general assistance with monthly support.
+    answers_json:
+      description: Request for general assistance with monthly support.
+    attachments: []
+
+  - sr_id: sr-002
+    sr_type: ASSIST
+    sr_number: SR-100002
+    status: Submitted
+    client_name: Alex Client
+    created_at: "2026-04-02T16:00:00Z"
+    updated_at: "2026-04-02T16:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Follow-up assistance request after change in household expenses.
+    answers_json:
+      description: Follow-up assistance request after change in household expenses.
+    attachments:
+      - assist-note-001
+    submitted_at: "2026-04-02T16:30:00Z"
+
+  - sr_id: sr-003
+    sr_type: RREINSTATE
+    sr_number: SR-100003
+    status: In Progress
+    client_name: Morgan Client
+    created_at: "2026-04-03T16:00:00Z"
+    updated_at: "2026-04-03T17:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Request to reinstate benefits after a missed monthly report.
+    answers_json:
+      description: Request to reinstate benefits after a missed monthly report.
+    attachments: []
+
+  - sr_id: sr-004
+    sr_type: RREINSTATE
+    sr_number: SR-100004
+    status: Completed
+    client_name: Priya Client
+    created_at: "2026-04-04T16:00:00Z"
+    updated_at: "2026-04-04T19:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Reinstatement request completed after missing documents were received.
+    answers_json:
+      description: Reinstatement request completed after missing documents were received.
+    attachments:
+      - reinstatement-doc-001
+    submitted_at: "2026-04-04T16:45:00Z"
+
+  - sr_id: sr-005
+    sr_type: CRISIS_FOOD
+    sr_number: SR-100005
+    status: Draft
+    client_name: Sam Client
+    created_at: "2026-04-05T16:00:00Z"
+    updated_at: "2026-04-05T16:15:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        amount_requested: 150
+        crisis_description: Food spoiled after a power outage and replacement groceries are needed.
+    answers_json:
+      amount_requested: 150
+      crisis_description: Food spoiled after a power outage and replacement groceries are needed.
+    attachments:
+      - grocery-receipt-001
+
+  - sr_id: sr-006
+    sr_type: CRISIS_FOOD
+    sr_number: SR-100006
+    status: Approved
+    client_name: Lee Client
+    created_at: "2026-04-06T16:00:00Z"
+    updated_at: "2026-04-06T18:15:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 125
+        crisis_description: Emergency food support needed before next benefit payment.
+    answers_json:
+      amount_requested: 125
+      crisis_description: Emergency food support needed before next benefit payment.
+    attachments: []
+    submitted_at: "2026-04-06T16:45:00Z"
+
+  - sr_id: sr-007
+    sr_type: CRISIS_SHELTER
+    sr_number: SR-100007
+    status: Pending Review
+    client_name: Taylor Client
+    created_at: "2026-04-07T16:00:00Z"
+    updated_at: "2026-04-07T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 500
+        crisis_description: Emergency shelter support is needed due to unexpected housing costs.
+    answers_json:
+      amount_requested: 500
+      crisis_description: Emergency shelter support is needed due to unexpected housing costs.
+    attachments:
+      - shelter-notice-001
+    submitted_at: "2026-04-07T16:45:00Z"
+
+  - sr_id: sr-008
+    sr_type: CRISIS_SHELTER
+    sr_number: SR-100008
+    status: Declined
+    client_name: Chris Client
+    created_at: "2026-04-08T16:00:00Z"
+    updated_at: "2026-04-08T18:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 700
+        crisis_description: Request for shelter support due to rent shortfall.
+    answers_json:
+      amount_requested: 700
+      crisis_description: Request for shelter support due to rent shortfall.
+    attachments:
+      - rent-notice-001
+    submitted_at: "2026-04-08T16:50:00Z"
+
+  - sr_id: sr-009
+    sr_type: CRISIS_CLOTHING
+    sr_number: SR-100009
+    status: Submitted
+    client_name: Jordan Client
+    created_at: "2026-04-09T16:00:00Z"
+    updated_at: "2026-04-09T16:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 200
+        crisis_description: Clothing is needed after personal belongings were damaged.
+    answers_json:
+      amount_requested: 200
+      crisis_description: Clothing is needed after personal belongings were damaged.
+    attachments: []
+    submitted_at: "2026-04-09T16:30:00Z"
+
+  - sr_id: sr-010
+    sr_type: CRISIS_CLOTHING
+    sr_number: SR-100010
+    status: More Information Required
+    client_name: Casey Client
+    created_at: "2026-04-10T16:00:00Z"
+    updated_at: "2026-04-10T18:45:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 175
+        crisis_description: Winter clothing needed after relocation.
+    answers_json:
+      amount_requested: 175
+      crisis_description: Winter clothing needed after relocation.
+    attachments:
+      - clothing-estimate-001
+    submitted_at: "2026-04-10T16:40:00Z"
+
+  - sr_id: sr-011
+    sr_type: CRISIS_UTILITIES
+    sr_number: SR-100011
+    status: Pending Documents
+    client_name: Riley Client
+    created_at: "2026-04-11T16:00:00Z"
+    updated_at: "2026-04-11T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 275
+        crisis_description: Utility bill support is needed to prevent disconnection.
+    answers_json:
+      amount_requested: 275
+      crisis_description: Utility bill support is needed to prevent disconnection.
+    attachments: []
+    submitted_at: "2026-04-11T16:50:00Z"
+
+  - sr_id: sr-012
+    sr_type: CRISIS_UTILITIES
+    sr_number: SR-100012
+    status: Completed
+    client_name: Avery Client
+    created_at: "2026-04-12T16:00:00Z"
+    updated_at: "2026-04-12T19:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 320
+        crisis_description: Hydro arrears support requested.
+    answers_json:
+      amount_requested: 320
+      crisis_description: Hydro arrears support requested.
+    attachments:
+      - utility-bill-001
+    submitted_at: "2026-04-12T16:35:00Z"
+
+  - sr_id: sr-013
+    sr_type: CRISIS_MED_TRANSPORT
+    sr_number: SR-100013
+    status: Draft
+    client_name: Quinn Client
+    created_at: "2026-04-13T16:00:00Z"
+    updated_at: "2026-04-13T16:10:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        amount_requested: 80
+        crisis_description: Emergency transportation is needed for a medical appointment.
+    answers_json:
+      amount_requested: 80
+      crisis_description: Emergency transportation is needed for a medical appointment.
+    attachments:
+      - appointment-letter-001
+
+  - sr_id: sr-014
+    sr_type: CRISIS_MED_TRANSPORT
+    sr_number: SR-100014
+    status: Approved
+    client_name: Jane Client
+    created_at: "2026-04-14T16:00:00Z"
+    updated_at: "2026-04-14T18:10:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 95
+        crisis_description: Urgent medical transportation required for same-week specialist appointment.
+    answers_json:
+      amount_requested: 95
+      crisis_description: Urgent medical transportation required for same-week specialist appointment.
+    attachments:
+      - specialist-appointment-001
+    submitted_at: "2026-04-14T16:45:00Z"
+
+  - sr_id: sr-015
+    sr_type: DIRECT_DEPOSIT
+    sr_number: SR-100015
+    status: Draft
+    client_name: Alex Client
+    created_at: "2026-04-15T16:00:00Z"
+    updated_at: "2026-04-15T16:05:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        institution_number: "001"
+        transit_number: "12345"
+        account_number_last4: "6789"
+    answers_json:
+      institution_number: "001"
+      transit_number: "12345"
+      account_number_last4: "6789"
+    attachments:
+      - void-cheque-001
+
+  - sr_id: sr-016
+    sr_type: DIRECT_DEPOSIT
+    sr_number: SR-100016
+    status: Submitted
+    client_name: Morgan Client
+    created_at: "2026-04-16T16:00:00Z"
+    updated_at: "2026-04-16T16:45:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        institution_number: "809"
+        transit_number: "45678"
+        account_number_last4: "4321"
+    answers_json:
+      institution_number: "809"
+      transit_number: "45678"
+      account_number_last4: "4321"
+    attachments:
+      - direct-deposit-form-001
+    submitted_at: "2026-04-16T16:45:00Z"
+
+  - sr_id: sr-017
+    sr_type: DIET
+    sr_number: SR-100017
+    status: In Progress
+    client_name: Priya Client
+    created_at: "2026-04-17T16:00:00Z"
+    updated_at: "2026-04-17T17:15:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        description: Request for a diet supplement due to a medical dietary requirement.
+    answers_json:
+      description: Request for a diet supplement due to a medical dietary requirement.
+    attachments:
+      - medical-note-001
+
+  - sr_id: sr-018
+    sr_type: DIET
+    sr_number: SR-100018
+    status: Withdrawn
+    client_name: Sam Client
+    created_at: "2026-04-18T16:00:00Z"
+    updated_at: "2026-04-18T17:00:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        description: Request started in error.
+    answers_json:
+      description: Request started in error.
+    attachments: []
+    withdrawn_at: "2026-04-18T17:00:00Z"
+
+  - sr_id: sr-019
+    sr_type: NATAL
+    sr_number: SR-100019
+    status: Submitted
+    client_name: Lee Client
+    created_at: "2026-04-19T16:00:00Z"
+    updated_at: "2026-04-19T16:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Request for natal supplement support.
+    answers_json:
+      description: Request for natal supplement support.
+    attachments:
+      - doctor-confirmation-001
+    submitted_at: "2026-04-19T16:30:00Z"
+
+  - sr_id: sr-020
+    sr_type: NATAL
+    sr_number: SR-100020
+    status: Completed
+    client_name: Taylor Client
+    created_at: "2026-04-20T16:00:00Z"
+    updated_at: "2026-04-20T18:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Natal supplement request completed.
+    answers_json:
+      description: Natal supplement request completed.
+    attachments:
+      - natal-confirmation-001
+    submitted_at: "2026-04-20T16:35:00Z"
+
+  - sr_id: sr-021
+    sr_type: MED_TRANSPORT_LOCAL
+    sr_number: SR-100021
+    status: Pending Documents
+    client_name: Chris Client
+    created_at: "2026-04-21T16:00:00Z"
+    updated_at: "2026-04-21T17:45:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        description: Transportation needed for local medical appointment.
+    answers_json:
+      description: Transportation needed for local medical appointment.
+    attachments: []
+    submitted_at: "2026-04-21T16:40:00Z"
+
+  - sr_id: sr-022
+    sr_type: MED_TRANSPORT_LOCAL
+    sr_number: SR-100022
+    status: Approved
+    client_name: Jordan Client
+    created_at: "2026-04-22T16:00:00Z"
+    updated_at: "2026-04-22T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Local medical transportation approved for clinic appointment.
+    answers_json:
+      description: Local medical transportation approved for clinic appointment.
+    attachments:
+      - appointment-letter-002
+    submitted_at: "2026-04-22T16:30:00Z"
+
+  - sr_id: sr-023
+    sr_type: MED_TRANSPORT_NON_LOCAL
+    sr_number: SR-100023
+    status: Draft
+    client_name: Casey Client
+    created_at: "2026-04-23T16:00:00Z"
+    updated_at: "2026-04-23T16:05:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        description: Transportation needed for out-of-town specialist appointment.
+    answers_json:
+      description: Transportation needed for out-of-town specialist appointment.
+    attachments:
+      - specialist-referral-001
+
+  - sr_id: sr-024
+    sr_type: MED_TRANSPORT_NON_LOCAL
+    sr_number: SR-100024
+    status: Cancelled
+    client_name: Riley Client
+    created_at: "2026-04-24T16:00:00Z"
+    updated_at: "2026-04-24T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Non-local medical transportation request cancelled after appointment was rescheduled.
+    answers_json:
+      description: Non-local medical transportation request cancelled after appointment was rescheduled.
+    attachments:
+      - specialist-referral-002
+    submitted_at: "2026-04-24T16:30:00Z"
+
+  - sr_id: sr-025
+    sr_type: RECONSIDERATION
+    sr_number: SR-100025
+    status: Draft
+    client_name: Avery Client
+    created_at: "2026-04-25T16:00:00Z"
+    updated_at: "2026-04-25T16:10:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        description: Request for reconsideration of a ministry decision.
+    answers_json:
+      description: Request for reconsideration of a ministry decision.
+    attachments:
+      - decision-letter-001
+
+  - sr_id: sr-026
+    sr_type: RECONSIDERATION
+    sr_number: SR-100026
+    status: Pending Review
+    client_name: Quinn Client
+    created_at: "2026-04-26T16:00:00Z"
+    updated_at: "2026-04-26T17:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Reconsideration submitted with supporting explanation.
+    answers_json:
+      description: Reconsideration submitted with supporting explanation.
+    attachments:
+      - reconsideration-letter-001
+    submitted_at: "2026-04-26T16:45:00Z"
+
+  - sr_id: sr-027
+    sr_type: RECON_SUPPLEMENT
+    sr_number: SR-100027
+    status: Submitted
+    client_name: Jane Client
+    created_at: "2026-04-27T16:00:00Z"
+    updated_at: "2026-04-27T16:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Request for reconsideration related to a supplement decision.
+    answers_json:
+      description: Request for reconsideration related to a supplement decision.
+    attachments:
+      - supplement-decision-letter-001
+    submitted_at: "2026-04-27T16:30:00Z"
+
+  - sr_id: sr-028
+    sr_type: RECON_SUPPLEMENT
+    sr_number: SR-100028
+    status: Declined
+    client_name: Alex Client
+    created_at: "2026-04-28T16:00:00Z"
+    updated_at: "2026-04-28T18:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Supplement reconsideration declined after review.
+    answers_json:
+      description: Supplement reconsideration declined after review.
+    attachments:
+      - supplement-review-001
+    submitted_at: "2026-04-28T16:45:00Z"
+
+  - sr_id: sr-029
+    sr_type: RECON_EXTENSION
+    sr_number: SR-100029
+    status: Approved
+    client_name: Morgan Client
+    created_at: "2026-04-29T16:00:00Z"
+    updated_at: "2026-04-29T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Request for extension to submit reconsideration information.
+    answers_json:
+      description: Request for extension to submit reconsideration information.
+    attachments: []
+    submitted_at: "2026-04-29T16:35:00Z"
+
+  - sr_id: sr-030
+    sr_type: RECON_EXTENSION
+    sr_number: SR-100030
+    status: More Information Required
+    client_name: Priya Client
+    created_at: "2026-04-30T16:00:00Z"
+    updated_at: "2026-04-30T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Extension request requires additional explanation.
+    answers_json:
+      description: Extension request requires additional explanation.
+    attachments: []
+    submitted_at: "2026-04-30T16:45:00Z"
+
+  - sr_id: sr-031
+    sr_type: STREAMLINED
+    sr_number: SR-100031
+    status: In Progress
+    client_name: Sam Client
+    created_at: "2026-05-01T16:00:00Z"
+    updated_at: "2026-05-01T17:00:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        description: Streamlined application service request.
+    answers_json:
+      description: Streamlined application service request.
+    attachments: []
+
+  - sr_id: sr-032
+    sr_type: STREAMLINED
+    sr_number: SR-100032
+    status: Completed
+    client_name: Lee Client
+    created_at: "2026-05-02T16:00:00Z"
+    updated_at: "2026-05-02T19:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Streamlined application completed.
+    answers_json:
+      description: Streamlined application completed.
+    attachments:
+      - streamlined-doc-001
+    submitted_at: "2026-05-02T16:30:00Z"
+
+  - sr_id: sr-033
+    sr_type: BUS_PASS
+    sr_number: SR-100033
+    status: Draft
+    client_name: Taylor Client
+    created_at: "2026-05-03T16:00:00Z"
+    updated_at: "2026-05-03T16:10:00Z"
+    draft_json:
+      page_index: 0
+      answers:
+        needs_bus_pass: true
+        reason: Need transit to attend medical appointments and grocery shopping.
+    answers_json:
+      needs_bus_pass: true
+      reason: Need transit to attend medical appointments and grocery shopping.
+    attachments: []
+
+  - sr_id: sr-034
+    sr_type: BUS_PASS
+    sr_number: SR-100034
+    status: Withdrawn
+    client_name: Chris Client
+    created_at: "2026-05-04T16:00:00Z"
+    updated_at: "2026-05-04T17:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        needs_bus_pass: true
+        reason: Request withdrawn because transportation need changed.
+    answers_json:
+      needs_bus_pass: true
+      reason: Request withdrawn because transportation need changed.
+    attachments: []
+    withdrawn_at: "2026-05-04T17:00:00Z"
+
+  - sr_id: sr-035
+    sr_type: PWD_DESIGNATION
+    sr_number: SR-100035
+    status: Pending Review
+    client_name: Jordan Client
+    created_at: "2026-05-05T16:00:00Z"
+    updated_at: "2026-05-05T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Request related to PWD designation application.
+    answers_json:
+      description: Request related to PWD designation application.
+    attachments:
+      - pwd-application-001
+    submitted_at: "2026-05-05T16:45:00Z"
+
+  - sr_id: sr-036
+    sr_type: PWD_DESIGNATION
+    sr_number: SR-100036
+    status: Completed
+    client_name: Casey Client
+    created_at: "2026-05-06T16:00:00Z"
+    updated_at: "2026-05-06T19:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: PWD designation support request completed.
+    answers_json:
+      description: PWD designation support request completed.
+    attachments:
+      - pwd-medical-form-001
+    submitted_at: "2026-05-06T16:40:00Z"
+
+  - sr_id: sr-037
+    sr_type: PPMB
+    sr_number: SR-100037
+    status: Submitted
+    client_name: Riley Client
+    created_at: "2026-05-07T16:00:00Z"
+    updated_at: "2026-05-07T16:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Request related to PPMB designation or support.
+    answers_json:
+      description: Request related to PPMB designation or support.
+    attachments:
+      - ppmb-medical-form-001
+    submitted_at: "2026-05-07T16:30:00Z"
+
+  - sr_id: sr-038
+    sr_type: PPMB
+    sr_number: SR-100038
+    status: More Information Required
+    client_name: Avery Client
+    created_at: "2026-05-08T16:00:00Z"
+    updated_at: "2026-05-08T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: PPMB request needs additional medical information.
+    answers_json:
+      description: PPMB request needs additional medical information.
+    attachments:
+      - ppmb-note-001
+    submitted_at: "2026-05-08T16:45:00Z"
+
+  - sr_id: sr-039
+    sr_type: CRISIS_FOOD
+    sr_number: SR-100039
+    status: Cancelled
+    client_name: Quinn Client
+    created_at: "2026-05-09T16:00:00Z"
+    updated_at: "2026-05-09T17:30:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        amount_requested: 100
+        crisis_description: Food crisis request cancelled because other support was received.
+    answers_json:
+      amount_requested: 100
+      crisis_description: Food crisis request cancelled because other support was received.
+    attachments: []
+    submitted_at: "2026-05-09T16:35:00Z"
+
+  - sr_id: sr-040
+    sr_type: DIRECT_DEPOSIT
+    sr_number: SR-100040
+    status: Completed
+    client_name: Quinn Client
+    created_at: "2026-05-10T16:00:00Z"
+    updated_at: "2026-05-10T18:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        institution_number: "010"
+        transit_number: "98765"
+        account_number_last4: "2468"
+    answers_json:
+      institution_number: "010"
+      transit_number: "98765"
+      account_number_last4: "2468"
+    attachments:
+      - direct-deposit-form-002
+    submitted_at: "2026-05-10T16:40:00Z"
+
+  - sr_id: sr-041
+    sr_type: MED_TRANSPORT_LOCAL
+    sr_number: SR-100041
+    status: Declined
+    client_name: Jane Client
+    created_at: "2026-05-11T16:00:00Z"
+    updated_at: "2026-05-11T18:15:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Local medical transportation declined after review.
+    answers_json:
+      description: Local medical transportation declined after review.
+    attachments:
+      - appointment-letter-003
+    submitted_at: "2026-05-11T16:45:00Z"
+
+  - sr_id: sr-042
+    sr_type: RECONSIDERATION
+    sr_number: SR-100042
+    status: Completed
+    client_name: Taylor Client
+    created_at: "2026-05-12T16:00:00Z"
+    updated_at: "2026-05-12T19:00:00Z"
+    draft_json:
+      page_index: 1
+      answers:
+        description: Reconsideration completed after review.
+    answers_json:
+      description: Reconsideration completed after review.
+    attachments:
+      - reconsideration-outcome-001
+    submitted_at: "2026-05-12T16:45:00Z"
