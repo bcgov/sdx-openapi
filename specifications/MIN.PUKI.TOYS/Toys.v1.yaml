@@ -4,9 +4,9 @@ info:
   title: Toys
   version: "1.0"
   summary: |-
-    This is a prototype API for the Toys service. It is intended for testing and development purposes only.
+    This is a prototype API for the Toys service.
   description: |-
-    Description about the service and its purpose.
+    Some info about toys would be good to have in a description about the service and its purpose.
 
   license:
     name: Apache 2.0
@@ -17,30 +17,31 @@ info:
     url: https://chat.developer.gov.bc.ca/channel/aps-ops
 
 servers:
-  - url: "/DEV/MIN/PUKI/TOYS"
+  - url: "/"
     description: DEV environment
 
 tags:
   - name: Toys
     description: |-
-      All about Toys
+      All about Toys and what they provide to the world
 
 paths:
   /v1/toys:
+    summary: Get a list of toys
     get:
       tags:
         - Toys
       summary: Get a list of toys
-      operationId: toys_list
+      operationId: toysList
       security:
-        - bearer_auth:
-          - 'openid'
+        - OAuth2:
+            - "puki:Toys:read"
 
       description: |-
-        This endpoint retrieves a list of toys.
+        This endpoint retrieves a list of toys for a user.
       responses:
         '200':
-          description: Successful response
+          description: Successful response returning toys
           content:
             application/json:
               schema:
@@ -57,7 +58,7 @@ paths:
                     category:
                       type: string
                       example: "Interactive"
-                    pet_type:
+                    petType:
                       type: string
                       example: "Dog"
                     price:
@@ -67,6 +68,16 @@ paths:
                     material:
                       type: string
                       example: "Natural Rubber"
+                examples: [
+                  {
+                    "id": "PT001",
+                    "name": "Squeaky Rubber Ball",
+                    "category": "Interactive",
+                    "petType": "Dog",
+                    "price": 12.99,
+                    "material": "Natural Rubber"
+                  }
+                ]
 
         '401':
           $ref: 'shared/responses/unauthorized.yml'
@@ -82,6 +93,14 @@ paths:
 
 components:
   securitySchemes:
-    bearer_auth:
-      type: http
-      scheme: bearer
+    OAuth2:
+      type: oauth2
+      description: |-
+        OpenID Connect authentication is used to secure the API. Clients must obtain an access token from the OpenID Connect provider and include it in the Authorization header of their requests.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.developer.gov.bc.ca/authorize
+          tokenUrl: https://auth.developer.gov.bc.ca/token
+          scopes:
+            "puki:Toys:read": Read information about a user's Toys
+            "puki:Toys:admin": Administer user's Toys
