@@ -1,2 +1,1 @@
-extends:
-  - ./spectral/ruleset.yml
+extends: []
