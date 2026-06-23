@@ -1,0 +1,4 @@
+keycloak_url      = "http://localhost:8080"
+keycloak_username = "admin"
+keycloak_password = "admin"
+realm_name        = "poc-realm"
