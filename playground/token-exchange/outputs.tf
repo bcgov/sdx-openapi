@@ -25,13 +25,13 @@ output "kong_gw_secret" {
   sensitive   = true
 }
 
-output "client_b_id" {
-  description = "Client ID for client-b"
-  value       = keycloak_openid_client.client_b.client_id
-}
+# output "client_b_id" {
+#   description = "Client ID for client-b"
+#   value       = keycloak_openid_client.client_b.client_id
+# }
 
-output "client_b_secret" {
-  description = "Client secret for client-b"
-  value       = keycloak_openid_client.client_b.client_secret
-  sensitive   = true
-}
+# output "client_b_secret" {
+#   description = "Client secret for client-b"
+#   value       = keycloak_openid_client.client_b.client_secret
+#   sensitive   = true
+# }
