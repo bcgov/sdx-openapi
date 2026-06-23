@@ -1,6 +1,6 @@
 # Token Exchange POC — Keycloak + Terraform
 
-This directory contains a Terraform configuration that provisions a Keycloak realm with three OIDC clients (`client-a`, `kong-gw`, `client-b`) and a `Dockerfile` to run Keycloak locally.
+This directory contains a Terraform configuration that provisions a Keycloak realm with two OIDC clients (`client-a`, `kong-gw`) and a `Dockerfile` to run Keycloak locally.
 
 ## Prerequisites
 
