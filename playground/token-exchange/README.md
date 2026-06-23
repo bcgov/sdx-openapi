@@ -98,7 +98,7 @@ The access token has:
 
 #### Emulate Kong API Gateway token exchange
 
-Token exchange will:
+Token exchange will do the following before sending to the API provider (resource server):
 
 - downscope to just `fin:finance:read fin:finance:write`
 - change the `sub`
