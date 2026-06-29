@@ -34,7 +34,7 @@ resource "keycloak_openid_client_scope" "read_health" {
 
 resource "keycloak_openid_client_scope" "phn_lookup" {
   realm_id               = keycloak_realm.poc.id
-  name                   = "hth:patient:phn:lookup"
+  name                   = "hth:patient:phn:read"
   description            = "Grants access to the PHN lookup API"
   include_in_token_scope = true
   consent_screen_text    = "Grants read access to your PHN"

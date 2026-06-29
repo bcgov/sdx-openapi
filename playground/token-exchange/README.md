@@ -59,14 +59,14 @@ terraform apply
 
 Terraform will create:
 
-| Resource                                                                                               | Description                                                                                                                                                                        |
-| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `poc-realm`                                                                                            | Keycloak realm (`access_token_lifespan = 5m`)                                                                                                                                      |
-| `fin:finance:read`, `fin:finance:write`, `hth:patient:read`, `hth:patient:phn:lookup`, `hth:superuser` | Domain client scopes (included in token scope)                                                                                                                                     |
-| `ppid_sector_a`, `ppid_sector_b`                                                                       | PPID client scopes, each with a SHA-256 pairwise subject (`sub`) mapper for its sector                                                                                             |
-| `client-a`                                                                                             | Confidential client; standard flow + service accounts enabled. Default scopes: `ppid_sector_a`; optional scopes: the four `fin:`/`hth:` domain scopes; audience mapper → `kong-gw` |
-| `kong-gw`                                                                                              | Confidential service-account client with standard token exchange enabled. Optional scopes: all domain scopes + `ppid_sector_a` + `ppid_sector_b`                                   |
-| `testuser`                                                                                             | Test realm user (password `secret`)                                                                                                                                                |
+| Resource                                                                                             | Description                                                                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `poc-realm`                                                                                          | Keycloak realm (`access_token_lifespan = 5m`)                                                                                                                                      |
+| `fin:finance:read`, `fin:finance:write`, `hth:patient:read`, `hth:patient:phn:read`, `hth:superuser` | Domain client scopes (included in token scope)                                                                                                                                     |
+| `ppid_sector_a`, `ppid_sector_b`                                                                     | PPID client scopes, each with a SHA-256 pairwise subject (`sub`) mapper for its sector                                                                                             |
+| `client-a`                                                                                           | Confidential client; standard flow + service accounts enabled. Default scopes: `ppid_sector_a`; optional scopes: the four `fin:`/`hth:` domain scopes; audience mapper → `kong-gw` |
+| `kong-gw`                                                                                            | Confidential service-account client with standard token exchange enabled. Optional scopes: all domain scopes + `ppid_sector_a` + `ppid_sector_b`                                   |
+| `testuser`                                                                                           | Test realm user (password `secret`)                                                                                                                                                |
 
 ---
 
@@ -85,7 +85,7 @@ oauth2c "http://localhost:8080/realms/poc-realm/.well-known/openid-configuration
   --response-mode query \
   --auth-method client_secret_basic \
   --grant-type authorization_code \
-  --scopes "fin:finance:read fin:finance:write hth:patient:read hth:patient:phn:lookup" \
+  --scopes "fin:finance:read fin:finance:write hth:patient:read hth:patient:phn:read" \
   | jq -r .access_token
 
 export TOK="<access token>"
@@ -94,7 +94,7 @@ export TOK="<access token>"
 The access token has:
 
 - `aud` is "kong-gw"
-- `scope` is "hth:patient:phn:lookup hth:patient:read fin:finance:write ppid_sector_a fin:finance:read"
+- `scope` is "hth:patient:phn:read hth:patient:read fin:finance:write ppid_sector_a fin:finance:read"
 
 #### Emulate Kong API Gateway token exchange
 
