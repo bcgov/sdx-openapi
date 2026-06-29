@@ -116,7 +116,7 @@ oauth2c "http://localhost:8080/realms/poc-realm/.well-known/openid-configuration
   --subject-token $TOK \
   --audience "" \
   --subject-token-type urn:ietf:params:oauth:token-type:access_token \
-  --scopes fin:finance:read,fin:finance:write \
+  --scopes ppid_sector_b,fin:finance:read,fin:finance:write \
   | jq -r .access_token
 ```
 

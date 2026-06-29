@@ -13,6 +13,7 @@ resource "keycloak_openid_client" "client_a" {
   standard_flow_enabled        = true
   implicit_flow_enabled        = false
   direct_access_grants_enabled = false
+  consent_required             = true
 
   valid_redirect_uris = ["https://oauth.usebruno.com/callback", "http://*"]
 }
